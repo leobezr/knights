@@ -1,10 +1,11 @@
 # Knights Project
 
-### Install
+### Installation
 ```
 $ yarn
 ```
 ### Run
+Runs on port 8080
 ```
 $ yarn dev
 ```
