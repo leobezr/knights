@@ -1,5 +1,5 @@
 <template>
-   <div id="knight-builder">
+   <div id="character">
       <div class="landscape" :darken="darkBackground" :style="backgroundImage">
          <div class="knight-menu">
             <TabOptions />
@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import bgImage from "@/shared/img/background.jpg";
+import bgImage from "@/shared/img/blacksmith.jpg";
 import TabOptions from "@/views/KnightBuilder/components/TabOptions.vue";
-import "@/views/KnightBuilder/scss/_knightBuilder.scss";
+import "./scss/_character.scss";
 
 export default {
    name: "KnightBuilder",
