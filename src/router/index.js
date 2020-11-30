@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+import Authenticated from "@/views/Authenticated.vue";
+
 import KnightBuilder from "@/views/KnightBuilder/KnightBuilder.vue";
+import Character from "@/views/Character/Character.vue";
 
 Vue.use(VueRouter);
 
@@ -11,6 +14,23 @@ const routes = [
       name: 'KnightBuilder',
       component: KnightBuilder,
    },
+   {
+      path: "/app/",
+      name: "Authenticated",
+      component: Authenticated,
+      children: [
+         {
+            path: "character/:id",
+            name: "Character",
+            component: Character
+         },
+         {
+            path: "hall-of-fame/",
+            name: "Hall",
+            component: Character
+         },
+      ]
+   }
 ];
 
 const router = new VueRouter({
