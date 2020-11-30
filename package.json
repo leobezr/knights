@@ -1,7 +1,8 @@
 {
-  "name": "front",
-  "version": "0.1.0",
-  "private": true,
+  "name": "Knights",
+  "version": "v0.1.0",
+  "private": false,
+  "author": "leobezr",
   "scripts": {
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
