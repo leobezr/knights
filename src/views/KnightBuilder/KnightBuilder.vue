@@ -1,14 +1,17 @@
 <template>
    <div id="knight-builder">
-      <div class="landscape" :style="backgroundImage" :darken="darkBackground">
-         Knight
+      <div class="landscape" :darken="darkBackground" :style="backgroundImage">
+         <div class="knight-menu">
+            <TabOptions />
+         </div>
       </div>
    </div>
 </template>
 
 <script>
-import "@/views/KnightBuilder/scss/_knightBuilder.scss";
 import bgImage from "@/shared/img/background.jpg";
+import TabOptions from "@/views/KnightBuilder/components/TabOptions.vue";
+import "@/views/KnightBuilder/scss/_knightBuilder.scss";
 
 export default {
    name: "KnightBuilder",
@@ -24,6 +27,9 @@ export default {
       darkBackground() {
          return this.darkenLandscape;
       },
+   },
+   components: {
+      TabOptions,
    },
    methods: {
       darkenBackground() {
