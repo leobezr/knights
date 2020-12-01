@@ -1,7 +1,7 @@
 module.exports = {
   transpileDependencies: ["vuetify"],
   pwa: {
-    name: 'Knight\ App',
+    name: 'Knight App',
     themeColor: '#3aa9ff',
     msTileColor: '#3aa9ff',
     appleMobileWebAppCapable: 'yes',
