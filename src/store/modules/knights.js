@@ -11,7 +11,7 @@ export default {
             Session.startNewSession(req.data.id);
             return req.data;
          } catch (err) {
-            throw console.error(err);
+            throw new Error(err);
          }
 
       },
