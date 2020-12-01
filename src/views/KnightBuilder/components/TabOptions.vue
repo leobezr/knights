@@ -135,7 +135,7 @@ export default {
                      .catch((e) => {})
                )
                .catch((e) => {
-                  debugger;
+                  throw new Error(e);
                })
                .finally(() => (this.loading = false));
          }
