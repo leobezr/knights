@@ -1,17 +1,24 @@
 <template>
    <div id="auth">
+      <div class="sidebar">
+         <Sidebar />
+      </div>
       <router-view></router-view>
    </div>
 </template>
 
 <script>
 import Session from "@/session/localSession.js";
+import Sidebar from "@/shared/components/AD/molecules/Sidebar.vue";
 
 export default {
    data() {
       return {
          sessionId: null,
       };
+   },
+   components: {
+      Sidebar,
    },
    computed: {
       shouldRedirect() {
