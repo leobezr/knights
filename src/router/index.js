@@ -22,12 +22,18 @@ const routes = [
          {
             path: "character/:id",
             name: "Character",
-            component: Character
+            component: Character,
+            meta: {
+               child: true
+            }
          },
          {
             path: "hall-of-fame/",
             name: "Hall",
-            component: Character
+            component: Character,
+            meta: {
+               child: true
+            }
          },
       ]
    }
