@@ -11,10 +11,11 @@
          display: block;
          width: 100%;
          height: 100%;
-         background: #000;
+         background: rgb(17, 20, 29);
+         background: linear-gradient(90deg, rgba(17, 20, 29, 1) 0%, rgba(32, 40, 62, 1) 100%);
          position: absolute;
          opacity: 0.3;
-         transition: all 300ms ease-in;
+         transition: all 220ms ease-in;
       }
 
       & > div:last-child {
@@ -24,7 +25,7 @@
 
       &[darken] {
          &:before {
-            opacity: 0.6;
+            opacity: 0.98;
          }
       }
 
@@ -35,7 +36,7 @@
          align-items: center;
          justify-content: center;
          height: 100%;
-         max-width: 800px;
+         max-width: 1660px;
          margin: 0 auto;
       }
 
