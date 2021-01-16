@@ -1,0 +1,50 @@
+#sprite {
+    figure {
+        display: flex;
+        position: relative;
+        overflow: hidden;
+
+        img {
+            position: absolute;
+        }
+
+        &[size="small"] {
+            width: 100px;
+            height: 100px;
+
+            img {
+                left: -50%;
+                top: -50%;
+                height: 250px;
+                width: auto;
+                transform: translate(-10%, -12%);
+            }
+        }
+
+        &[size="medium"] {
+            width: 200px;
+            height: 200px;
+
+            img {
+                left: -10%;
+                top: -10%;
+                height: 350px;
+                width: auto;
+                transform: translate(-15%, -16%);
+            }
+        }
+
+        &[size="large"] {
+            width: 350px;
+            height: 350px;
+
+            img {
+                left: -10%;
+                top: -10%;
+                height: 600px;
+                width: auto;
+                transform: translate(-15%, -16%);
+            }
+        }
+    }
+}

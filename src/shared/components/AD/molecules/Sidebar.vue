@@ -51,7 +51,7 @@ export default {
 
       characterName() {
          if (this.persona) {
-            return this.persona.name;
+            return this.persona.nickname;
          } else {
             return "Unknown user";
          }
