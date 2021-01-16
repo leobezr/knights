@@ -1,0 +1,141 @@
+@import "@/shared/scss/variable.scss";
+
+#character {
+   .landscape {
+      height: 100vh;
+
+      &:before {
+         content: "";
+         display: block;
+         width: 100%;
+         height: 100%;
+         background: rgb(17, 20, 29);
+         background: linear-gradient(90deg, rgba(17, 20, 29, 1) 0%, rgba(32, 40, 62, 1) 100%);
+         position: absolute;
+         opacity: 0.98;
+         transition: all 220ms ease-in;
+      }
+
+      & > div:last-child {
+         position: relative;
+         z-index: 1;
+      }
+
+      .knight-menu {
+         display: grid;
+         grid-template-columns: 1fr;
+         align-items: flex-start;
+         justify-content: flex-start;
+         height: 100%;
+         max-width: 1660px;
+         margin: 0 auto;
+         padding: 10px 0;
+      }
+
+      .tabs {
+         background: #1b2327;
+         border-radius: 8px;
+         overflow: hidden;
+
+         .character-block {
+            h3 {
+               font-weight: 300;
+               font-size: 25px;
+               margin: 0;
+               line-height: 1em;
+               letter-spacing: 0.0035em;
+               color: $primary;
+               text-align: center;
+            }
+
+            img {
+               margin-top: -60px;
+            }
+         }
+         .wrapCard {
+            background: #1b2327;
+            padding: 1px;
+            min-height: 502px;
+         }
+         .tabsController {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px 7px 10px;
+         }
+
+         form {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+         }
+      }
+   }
+
+   #profileData {
+      height: 100%;
+      justify-content: flex-start;
+      align-items: flex-start;
+      color: #fff;
+
+      .grid-container {
+         display: grid;
+         grid-template-columns: 200px 1fr;
+         justify-content: center;
+         align-items: center;
+
+         .characterInfo {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+
+            #profileInfo {
+               width: 100%;
+               display: flex;
+               flex-direction: column;
+
+               & > * {
+                  width: 100%;
+               }
+
+               .gender-and-age {
+                  display: flex;
+                  justify-content: flex-start;
+                  align-items: center;
+                  flex-direction: row;
+                  grid-gap: 10px;
+               }
+            }
+
+            #characterStatus {
+               display: flex;
+               flex-direction: column;
+               width: 100%;
+
+               .table-stats {
+                  display: flex;
+                  flex-direction: column;
+                  border: solid 1px $input-border-color;
+                  padding: 5px 10px;
+                  border-radius: 5px;
+
+                  .line {
+                     display: flex;
+                     flex-direction: row;
+                     justify-content: space-between;
+                  }
+               }
+
+               .table-grid {
+                  display: grid;
+                  grid-template-columns: 1fr 1fr;
+                  grid-gap: 10px;
+               }
+            }
+         }
+      }
+   }
+}

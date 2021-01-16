@@ -1,60 +1,72 @@
 <template>
-   <div id="character">
-      <div class="landscape" :darken="darkBackground" :style="backgroundImage">
-         <div class="knight-menu">
-            Hello
-         </div>
+  <div id="character">
+    <div class="landscape" :style="backgroundImage">
+      <div
+        class="pageLoader d-flex justify-center align-center"
+        style="height: 100%"
+        v-if="fetchingProfileData"
+      >
+        <v-progress-circular indeterminate color="primary" />
       </div>
-   </div>
+      <div class="knight-menu" v-else>
+        <div class="profile">
+          <ProfileData />
+        </div>
+        <div class="gear">
+          <KnightGear />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import bgImage from "@/shared/img/blacksmith.jpg";
 import TabOptions from "@/views/KnightBuilder/components/TabOptions.vue";
-import "./scss/_character.scss";
-import { mapActions } from "vuex";
+import ProfileData from "@/views/Character/shared/AD/organisms/ProfileData.vue";
+import KnightGear from "@/views/Character/shared/AD/organisms/KnightGear.vue";
+import "@/views/Character/shared/scss/_character.scss";
 
 export default {
-   name: "KnightBuilder",
-   data() {
-      return {
-         darkenLandscape: false,
-      };
-   },
-   computed: {
-      backgroundImage() {
-         return `background-image: url(${bgImage});`;
-      },
-      darkBackground() {
-         return this.darkenLandscape;
-      },
-   },
-   components: {
-      TabOptions,
-   },
-   methods: {
-      ...mapActions(["me"]),
+  name: "CharacterProfile",
+  data() {
+    return {
+      fetchingProfileData: false,
+    };
+  },
+  computed: {
+    backgroundImage() {
+      return `background-image: url(${bgImage});`;
+    },
+  },
+  components: {
+    TabOptions,
+    ProfileData,
+    KnightGear
+  },
+  methods: {
+    ...mapActions(["me"]),
 
-      darkenBackground() {
-         setTimeout(() => (this.darkenLandscape = true), 1000);
-      },
-      init() {
-         this.setSession();
-         this.me();
-      },
-      setSession() {
-         const ROUTE = this.$route;
+    init() {
+      this.fetchingProfileData = true;
 
-         if (ROUTE?.params?.id) {
-            localStorage.sessionId = ROUTE.params.id;
-         }
-      },
-   },
-   mounted() {
-      this.darkenBackground();
-   },
-   created() {
-      this.init();
-   },
+      this.setSession();
+
+      setTimeout(() => {
+        this.me().finally(() => (this.fetchingProfileData = false));
+      }, 1000);
+    },
+    setSession() {
+      const ROUTE = this.$route;
+
+      if (ROUTE?.params?.id) {
+        localStorage.sessionId = ROUTE.params.id;
+      }
+    },
+  },
+  created() {
+    this.init();
+  },
 };
 </script>
