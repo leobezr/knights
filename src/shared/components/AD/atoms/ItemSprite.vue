@@ -1,6 +1,6 @@
 <template>
   <div id="itemSprite">
-    <v-tooltip top color="indigo darken-4">
+    <v-tooltip top color="deep-purple accent-4" transition="slide-y-reverse-transition">
       <template v-slot:activator="{ on, attrs }">
         <figure v-bind="attrs" v-on="on" :tier="sprite.tier">
           <img :src="spriteLink" :alt="sprite.name" />
