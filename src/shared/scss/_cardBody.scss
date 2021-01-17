@@ -1,0 +1,18 @@
+@import "src/shared/scss/variable.scss";
+
+#cardBody {
+    background: $card-body-background;
+    border: solid 1px $card-body-border-color;
+    border-radius: 3px;
+    box-shadow: 1px 1px 14px -9px $card-body-shadow;
+    color: #fff;
+    margin: 10px;
+    
+    .card-header {
+        padding: 10px;
+        border-bottom: solid 1px #2e3442;
+    }
+    .card-content {
+        padding: 10px;
+    }
+}
