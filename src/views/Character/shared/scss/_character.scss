@@ -22,14 +22,21 @@
       }
 
       .knight-menu {
-         display: grid;
+         display: flex;
          grid-template-columns: 1fr;
+         flex-direction: column;
+         width: 100%;
          align-items: flex-start;
          justify-content: flex-start;
          height: 100%;
-         max-width: 1660px;
+         width: 100%;
          margin: 0 auto;
          padding: 10px 0;
+
+         & > * {
+            display: block;
+            width: 100%;
+         }
       }
 
       .tabs {
@@ -69,6 +76,48 @@
             flex-direction: row;
             width: 100%;
          }
+      }
+      .wrapGrid {
+         padding: 0 12px 0 0;
+         height: 100%;
+         display: flex;
+         flex-direction: column;
+         justify-content: space-between;
+
+         .itens.characterSprite {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+
+            .controller {
+               display: flex;
+               width: 100%;
+               flex-direction: row;
+               justify-content: flex-end;
+               align-items: center;
+            }
+
+            #sprite {
+               height: 100%;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               pointer-events: none;
+            }
+
+            #characterEquip {
+               height: 100%;
+            }
+         }
+      }
+      #goldPlaceholder {
+         display: flex;
+         flex-direction: column;
+         width: 100%;
+         justify-content: center;
+         align-items: center;
       }
    }
 
@@ -128,13 +177,62 @@
                      justify-content: space-between;
                   }
                }
-
                .table-grid {
                   display: grid;
                   grid-template-columns: 1fr 1fr;
                   grid-gap: 10px;
                }
             }
+         }
+      }
+   }
+
+   #characterEquip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      opacity: 0;
+      animation: showItems 300ms 1 ease-in;
+      animation-fill-mode: forwards;
+
+      & > div {
+         ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+
+            li {
+               & > * {
+                  margin-bottom: 5px;
+                  margin-right: 5px;
+               }
+
+               .slot {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 35px;
+                  height: 35px;
+                  padding: 2px;
+                  background: $item-background;
+                  border: solid 2px $item-box-border-color;
+               }
+            }
+         }
+      }
+
+      @keyframes showItems {
+         0% {
+            opacity: 0;
+         }
+         100% {
+            opacity: 1;
          }
       }
    }
