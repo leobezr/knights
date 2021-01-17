@@ -22,14 +22,21 @@
       }
 
       .knight-menu {
-         display: grid;
+         display: flex;
          grid-template-columns: 1fr;
+         flex-direction: column;
+         width: 100%;
          align-items: flex-start;
          justify-content: flex-start;
          height: 100%;
-         max-width: 1660px;
+         width: 100%;
          margin: 0 auto;
          padding: 10px 0;
+
+         & > * {
+            display: block;
+            width: 100%;
+         }
       }
 
       .tabs {
