@@ -17,4 +17,9 @@ body {
    span {
       font-family: "Montserrat", sans-serif;
    }
+
+   .landscape {
+      min-height: 100vh;
+      overflow: auto;
+   }
 }
