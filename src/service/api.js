@@ -29,6 +29,14 @@ class Api {
          data: props.body,
       });
    }
+   PUT(props) {
+      return Axios({
+         url: this.server + props.url,
+         headers: { ...customHeader, ...exposeHeader(props) },
+         method: "PUT",
+         data: props.body,
+      });
+   }
    GET(props) {
       return Axios({
          url: this.server + props.url,

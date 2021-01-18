@@ -16,6 +16,14 @@ export default {
       },
       async getKnight({ }, id) {
          return await knights.find(id);
+      },
+      async equipItem({ dispatch }, item) {
+         await knights.equip({
+            id: localStorage.sessionId,
+            equip: item
+         })
+
+         dispatch("me");
       }
    },
    mutations: {

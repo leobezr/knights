@@ -16,6 +16,10 @@
 
         #characterInventory {
             min-height: 200px;
+
+            [disabled] {
+                pointer-events: none;
+            }
         }
     }
 }

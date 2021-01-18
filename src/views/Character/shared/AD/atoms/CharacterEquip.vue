@@ -108,6 +108,14 @@ export default {
          return false;
       },
    },
+   watch: {
+      persona: {
+         handler() {
+            this.user = this.persona;
+         },
+         deep: true,
+      },
+   },
    created() {
       this.user = { ...this.persona };
    },
