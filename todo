@@ -12,8 +12,9 @@ ACTIONS
          - buff
    - EQUIPS
       - equip items @done
-      - unequip items
-      - throw away items
+      - unequip items @done
+      - throw away items @done
+      - equip headgear @done
    - SESSION
       - create account
       - proper session
