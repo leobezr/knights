@@ -2,24 +2,24 @@
    <div id="characterEquip">
       <div class="characterHead">
          <ul>
-            <li @contextmenu="(e) => unequip(e, equips.headgear_top, 'headgear_top')">
+            <li @contextmenu="(e) => unequip(e, equips['headgear-top'], 'headgear-top')">
                <ItemSprite
-                  :sprite="equips.headgear_top"
-                  v-if="equips.headgear_top"
+                  :sprite="equips['headgear-top']"
+                  v-if="equips['headgear-top']"
                />
                <span class="slot" v-else></span>
             </li>
-            <li @contextmenu="(e) => unequip(e, equips.headgear_middle, 'headgear_middle')">
+            <li @contextmenu="(e) => unequip(e, equips['headgear-middle'], 'headgear-middle')">
                <ItemSprite
-                  :sprite="equips.headgear_middle"
-                  v-if="equips.headgear_middle"
+                  :sprite="equips['headgear-middle']"
+                  v-if="equips['headgear-middle']"
                />
                <span class="slot" v-else></span>
             </li>
-            <li @contextmenu="(e) => unequip(e, equips.headgear_lower, 'headgear_lower')">
+            <li @contextmenu="(e) => unequip(e, equips['headgear-lower'], 'headgear-lower')">
                <ItemSprite
-                  :sprite="equips.headgear_lower"
-                  v-if="equips.headgear_lower"
+                  :sprite="equips['headgear-lower']"
+                  v-if="equips['headgear-lower']"
                />
                <span class="slot" v-else></span>
             </li>

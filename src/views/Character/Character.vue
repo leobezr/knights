@@ -53,9 +53,7 @@ export default {
 
       this.setSession();
 
-      setTimeout(() => {
         this.me().finally(() => (this.fetchingProfileData = false));
-      }, 1000);
     },
     setSession() {
       const ROUTE = this.$route;
