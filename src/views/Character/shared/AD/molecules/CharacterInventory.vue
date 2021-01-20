@@ -22,7 +22,7 @@
                      Equip item
                   </v-list-item-title>
                </v-list-item>
-               <v-list-item link>
+               <v-list-item link @click="discardItem(item)">
                   <v-list-item-title>
                      <v-icon left color="primary">mdi-delete-outline</v-icon>
                      Throw away
@@ -58,7 +58,7 @@ export default {
       },
    },
    methods: {
-      ...mapActions(["equipItem"]),
+      ...mapActions(["equipItem", "discardInventoryItem"]),
 
       equip(e, item) {
          e.preventDefault();
@@ -66,6 +66,14 @@ export default {
          this.itemStateLoading = true;
 
          this.equipItem(item)
+            .catch((e) => {})
+            .finally(() => (this.itemStateLoading = false));
+      },
+
+      discardItem(item) {
+         this.itemStateLoading = true;
+
+         this.discardInventoryItem(item)
             .catch((e) => {})
             .finally(() => (this.itemStateLoading = false));
       },

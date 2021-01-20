@@ -9,8 +9,8 @@ export default {
             if (localStorage.sessionId) {
                let persona = await profile.get();
 
-               commit("updatePersona", persona.data);
-               return persona.data;
+               commit("updatePersona", persona.data.user);
+               return persona.data.user;
             } else {
                throw "Session ID is invalid";
             }
@@ -24,7 +24,7 @@ export default {
    },
    mutations: {
       updatePersona(state, data) {
-         state.persona = data.length ? data[0] : {};
+         state.persona = data;
       }
    },
    state: {

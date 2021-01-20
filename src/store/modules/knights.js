@@ -24,6 +24,23 @@ export default {
          })
 
          dispatch("me");
+      },
+      async unequipItem({ dispatch }, props) {
+         await knights.unequip({
+            id: localStorage.sessionId,
+            slot: props.slot,
+            item: props.item
+         })
+
+         dispatch("me");
+      },
+      async discardInventoryItem({ dispatch }, item) {
+         await knights.discardItem({
+            id: localStorage.sessionId,
+            equip: item
+         })
+
+         dispatch("me");
       }
    },
    mutations: {

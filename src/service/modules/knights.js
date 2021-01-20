@@ -6,7 +6,9 @@ const prefix = "knights/"
 export default {
    create: createKnights,
    find: getKnightById,
-   equip: equipItem
+   equip: equipItem,
+   unequip: unequipItem,
+   discardItem: discardItem
 }
 
 function createKnights(payload) {
@@ -31,6 +33,20 @@ function getKnightById(payload) {
 function equipItem(payload) {
    return Api.PUT({
       url: prefix + "equip",
+      body: payload
+   })
+}
+
+function unequipItem(payload) {
+   return Api.PUT({
+      url: prefix + "unequip",
+      body: payload
+   })
+}
+
+function discardItem(payload) {
+   return Api.PUT({
+      url: prefix + "inventory/discard",
       body: payload
    })
 }
