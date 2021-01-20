@@ -5,6 +5,7 @@ import Authenticated from "@/views/Authenticated.vue";
 
 import KnightBuilder from "@/views/KnightBuilder/KnightBuilder.vue";
 import Character from "@/views/Character/Character.vue";
+import Store from "@/views/Store/Store.vue";
 
 Vue.use(VueRouter);
 
@@ -28,9 +29,9 @@ const routes = [
             }
          },
          {
-            path: "hall-of-fame/",
-            name: "Hall",
-            component: Character,
+            path: "store/",
+            name: "Store",
+            component: Store,
             meta: {
                child: true
             }
