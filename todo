@@ -6,6 +6,10 @@ INTERFACE
    - STORE
       - ALL
 ACTIONS
+   - FOOD
+      - eat food action
+         - restore hp
+         - buff
    - EQUIPS
       - equip items @done
       - unequip items
