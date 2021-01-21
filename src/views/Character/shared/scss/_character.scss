@@ -157,6 +157,30 @@
                   flex-direction: row;
                   grid-gap: 10px;
                }
+
+               .nickname {
+                  display: flex;
+                  justify-content: flex-start;
+                  align-items: center;
+                  flex-direction: row;
+                  grid-gap: 10px;
+
+                  & > div {
+                     flex: 1;
+                     display: flex;
+                  }
+
+                  .goodHonor {
+                     input {
+                        color: $success;
+                     }
+                  }
+                  .badHonor {
+                     input {
+                        color: $error;
+                     }
+                  }
+               }
             }
 
             #characterStatus {

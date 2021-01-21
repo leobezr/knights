@@ -8,7 +8,7 @@ export default {
    find: getKnightById,
    equip: equipItem,
    unequip: unequipItem,
-   discardItem: discardItem
+   discardItem: discardItem,
 }
 
 function createKnights(payload) {

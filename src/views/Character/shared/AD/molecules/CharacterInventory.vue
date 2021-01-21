@@ -13,7 +13,7 @@
                </li>
             </template>
 
-            <v-list dark>
+            <v-list dark class="deep-purple darken-4">
                <v-list-item link @click="(e) => equip(e, item)">
                   <v-list-item-title>
                      <v-icon left color="primary"
@@ -36,6 +36,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import levelRestriction from "@/shared/utils/levelRestriction.js";
 import ItemSprite from "@/shared/components/AD/atoms/ItemSprite.vue";
 
 export default {
@@ -63,13 +64,14 @@ export default {
       equip(e, item) {
          e.preventDefault();
 
-         this.itemStateLoading = true;
+         if (!levelRestriction(this.persona.level, item.tier)) {
+            this.itemStateLoading = true;
 
-         this.equipItem(item)
-            .catch((e) => {})
-            .finally(() => (this.itemStateLoading = false));
+            this.equipItem(item)
+               .catch((e) => {})
+               .finally(() => (this.itemStateLoading = false));
+         }
       },
-
       discardItem(item) {
          this.itemStateLoading = true;
 
