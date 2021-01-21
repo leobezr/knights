@@ -130,7 +130,7 @@ export default {
                   this.$router
                      .push({
                         name: "Character",
-                        params: { id: req.id },
+                        params: { id: req.user.id },
                      })
                      .catch((e) => {})
                )

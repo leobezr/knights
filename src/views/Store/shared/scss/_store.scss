@@ -1,0 +1,172 @@
+@import "@/shared/scss/variable.scss";
+
+#store {
+   .landscape {
+      height: 100vh;
+
+      &:before {
+         content: "";
+         display: block;
+         width: 100%;
+         height: 100%;
+         background: rgb(17, 20, 29);
+         background: linear-gradient(90deg, rgba(17, 20, 29, 1) 0%, rgba(32, 40, 62, 1) 100%);
+         position: absolute;
+         opacity: 0.9;
+         transition: all 220ms ease-in;
+      }
+
+      & > div:last-child {
+         position: relative;
+         z-index: 1;
+      }
+
+      .knight-menu {
+         display: flex;
+         grid-template-columns: 1fr;
+         flex-direction: column;
+         width: 100%;
+         align-items: flex-start;
+         justify-content: flex-start;
+         height: 100%;
+         width: 100%;
+         margin: 0 auto;
+         padding: 10px 0;
+
+         & > * {
+            display: block;
+            width: 100%;
+         }
+      }
+
+      .tabs {
+         background: #1b2327;
+         border-radius: 8px;
+         overflow: hidden;
+
+         .character-block {
+            h3 {
+               font-weight: 300;
+               font-size: 25px;
+               margin: 0;
+               line-height: 1em;
+               letter-spacing: 0.0035em;
+               color: $primary;
+               text-align: center;
+            }
+
+            img {
+               margin-top: -60px;
+            }
+         }
+         .wrapCard {
+            background: #1b2327;
+            padding: 1px;
+            min-height: 502px;
+         }
+         .tabsController {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px 7px 10px;
+         }
+
+         form {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+         }
+      }
+      .wrapGrid {
+         padding: 0 12px 0 0;
+         height: 100%;
+         display: flex;
+         flex-direction: column;
+         justify-content: space-between;
+
+         .itens.characterSprite {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+
+            .controller {
+               display: flex;
+               width: 100%;
+               flex-direction: row;
+               justify-content: flex-end;
+               align-items: center;
+            }
+
+            #sprite {
+               height: 100%;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               pointer-events: none;
+            }
+
+            #characterEquip {
+               height: 100%;
+            }
+         }
+      }
+      #goldPlaceholder {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+
+         position: absolute;
+         bottom: 6px;
+         left: 50%;
+         width: calc(100% - 15px);
+         transform: translateX(-50%);
+      }
+   }
+
+   .storeHolder {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 10px;
+   }
+
+   #storeItems {
+      h3 {
+         margin-bottom: 10px;
+         font-weight: 300;
+         font-size: 1.1em;
+      }
+      ul {
+         display: flex;
+         flex-wrap: wrap;
+         flex-direction: row;
+         list-style: none;
+         padding: 0;
+         margin: 0;
+         margin-bottom: 20px;
+
+         li {
+            margin: 0 4px 4px 0;
+
+            #itemSprite figure {
+               width: 50px;
+               height: 50px;
+            }
+         }
+      }
+   }
+
+   #cardBody {
+      height: calc(100vh - 30px);
+      overflow: auto;
+   }
+
+   #smallMenu {
+      .locked {
+         opacity: 0.5;
+         filter: grayscale(1);
+      }
+   }
+}

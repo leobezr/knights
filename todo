@@ -1,0 +1,34 @@
+INTERFACE
+   - CHARACTER
+      - add total points
+      - add exp (maybe not)
+      - add user level
+   - STORE
+      - ALL
+ACTIONS
+   - FOOD
+      - eat food action
+         - restore hp
+         - buff
+   - EQUIPS
+      - equip items @done
+      - unequip items @done
+      - throw away items @done
+      - equip headgear @done
+   - SESSION
+      - create account
+      - proper session
+   - SERVER CONVERSATION
+      - websocket
+LOGIC
+   - hp regen
+   - sp ?
+   - stamina ?
+   - spells ?
+   - level system
+   - store logic
+   - drop logic
+   - train logic
+   - pvp logic
+   - hunt logic
+   - item ratios

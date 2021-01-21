@@ -1,8 +1,76 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;700&display=swap");
+@import "@/shared/scss/variable.scss";
 
-html, body {
+html,
+body {
    font-family: "Montserrat", sans-serif;
    padding: 0;
    margin: 0;
    box-sizing: border-box;
+
+   max-height: 100vh;
+   overflow: hidden;
+
+   -webkit-touch-callout: none;
+   -webkit-user-select: none;
+   -khtml-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   p,
+   li,
+   span {
+      font-family: "Montserrat", sans-serif;
+   }
+
+   .landscape {
+      min-height: 100vh;
+      overflow: auto;
+   }
+
+   ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+   }
+   ::-webkit-scrollbar-button {
+      width: 0px;
+      height: 0px;
+   }
+
+   ::-webkit-scrollbar-thumb {
+      background: $menu-active-background;
+      border: 0px none $menu-active-background;
+      border-radius: 100px;
+
+      &:hover {
+         background: $menu-active-background;
+         filter: brightness(1.5);
+      }
+      &:active {
+         background: $menu-active-background;
+         filter: brightness(1.6);
+      }
+   }
+
+   ::-webkit-scrollbar-track {
+      background: $menu-background;
+      border: 0px none $menu-background;
+      border-radius: 100px;
+
+      &:hover {
+         background: $menu-background;
+      }
+      &:active {
+         background: $menu-background;
+      }
+   }
+   ::-webkit-scrollbar-corner {
+      background: transparent;
+   }
 }

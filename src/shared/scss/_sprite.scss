@@ -1,0 +1,117 @@
+#sprite {
+    figure {
+        display: flex;
+        position: relative;
+        overflow: hidden;
+
+        img {
+            position: absolute;
+        }
+
+        .headergear {
+            position: relative;
+
+            img {
+                position: absolute;
+                left: 0;
+            }
+        }
+
+        &[size="small"] {
+            width: 100px;
+            height: 100px;
+
+            img {
+                left: -50%;
+                top: -50%;
+                height: 250px;
+                width: auto;
+                transform: translate(-10%, -12%);
+            }
+        }
+
+        &[size="medium"] {
+            width: 200px;
+            height: 200px;
+
+            & > img {
+                left: -10%;
+                top: -10%;
+                height: 350px;
+                width: auto;
+                transform: translate(-15%, -16%);
+            }
+
+            .headergear {
+                position: relative;
+                width: 40px;
+                height: 40px;
+                left: 50%;
+                top: 50%;
+                transform: translate(50%, -50%);
+                z-index: 100;
+                margin: -48px 0px 0px -38px;
+
+                img {
+                    width: 40px;
+
+                    &[alt="top-helmet"] {
+                        top: -2px;
+                        z-index: 3;
+                        width: 48px;
+                        left: -3px;
+                    }
+                    &[alt="middle-helmet"] {
+                        top: 50%;
+                        transform: translateY(-50%);
+                        margin-top: 5px;
+                        z-index: 2;
+                        width: 37px;
+                        left: 1px;
+                    }
+                    &[alt="lower-helmet"] {
+                        bottom: -10px;
+                        left: 5px;
+                        width: 32px;
+                        z-index: 1;
+                    }
+                }
+
+                &[gender="female"] {
+                    margin: -43px 0px 0px -36px;
+
+                    &[sprite="0"] {
+                        margin: -42px 0px 0px -37px;
+
+                        &[alt="lower-helmet"] {
+                            bottom: -10px;
+                            left: 3px;
+                            width: 32px;
+                            z-index: 1;
+                        }
+                    }
+                }
+                &[gender="male"] {
+                    margin: -48px 0px 0px -39px;
+
+                    &[sprite="0"] {
+                        margin: -42px 0px 0px -37px;
+                    }
+                }
+            }
+        }
+
+        &[size="large"] {
+            width: 350px;
+            height: 350px;
+
+            img {
+                left: -10%;
+                top: -10%;
+                height: 600px;
+                width: auto;
+                transform: translate(-15%, -16%);
+            }
+        }
+    }
+}

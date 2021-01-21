@@ -1,0 +1,25 @@
+#knightGear {
+    &.inventory {
+        ul {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+
+            li {
+                margin-right: 5px;
+                margin-bottom: 5px;
+            }
+        }
+
+        #characterInventory {
+            min-height: 200px;
+
+            [disabled] {
+                pointer-events: none;
+            }
+        }
+    }
+}

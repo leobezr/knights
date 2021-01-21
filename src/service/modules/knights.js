@@ -2,14 +2,13 @@ import Api from "@/service/api";
 import KnightFactory from "@/factory/knights";
 
 const prefix = "knights/"
-const routes = {
-   create: createKnights,
-   find: getKnightById
-}
 
 export default {
-   create: routes.create,
-   find: routes.find
+   create: createKnights,
+   find: getKnightById,
+   equip: equipItem,
+   unequip: unequipItem,
+   discardItem: discardItem,
 }
 
 function createKnights(payload) {
@@ -28,5 +27,26 @@ function getKnightById(payload) {
 
    return Api.GET({
       url: prefix + payload
+   })
+}
+
+function equipItem(payload) {
+   return Api.PUT({
+      url: prefix + "equip",
+      body: payload
+   })
+}
+
+function unequipItem(payload) {
+   return Api.PUT({
+      url: prefix + "unequip",
+      body: payload
+   })
+}
+
+function discardItem(payload) {
+   return Api.PUT({
+      url: prefix + "inventory/discard",
+      body: payload
    })
 }

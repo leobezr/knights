@@ -1,0 +1,110 @@
+@import "@/shared/scss/variable.scss";
+
+#itemSprite {
+    figure {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 35px;
+        height: 35px;
+        padding: 2px;
+
+        background: rgba(56, 63, 80, 0.4);
+        border: solid 2px #292929;
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        &[tier="1"] {
+            border-color: $item-tier-1-border-color;
+        }
+        &[tier="2"] {
+            border-color: $item-tier-2-border-color;
+        }
+        &[tier="3"] {
+            border-color: $item-tier-3-border-color;
+        }
+        &[tier="4"] {
+            border-color: $item-tier-4-border-color;
+            background: $item-background-tier-5;
+        }
+        &[tier="5"] {
+            border-color: $item-tier-5-border-color;
+            background: $item-background-tier-5;
+        }
+        &[tier="6"] {
+            border-color: $item-tier-6-border-color;
+            background: $item-background-tier-7;
+        }
+        &[tier="7"] {
+            border-color: $item-tier-7-border-color;
+            background: $item-background-tier-7;
+        }
+        &[tier="8"] {
+            border-color: $item-tier-8-border-color;
+            background: $item-background-tier-9;
+        }
+        &[tier="9"] {
+            border-color: $item-tier-9-border-color;
+            background: $item-background-tier-9;
+        }
+        &[tier="10"] {
+            border-color: $item-tier-10-border-color;
+            background: $item-background-tier-10;
+        }
+    }
+}
+
+[tooltip] {
+    &.itemStats {
+        font-size: 12px;
+
+        .itemTitle {
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        .containerHeader {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+
+            small {
+                margin-left: 8px;
+            }
+
+            .can {
+                color: $success;
+            }
+            .blocked {
+                color: $error;
+            }
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+
+            li {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                min-width: 50px;
+                margin-right: 10px;
+
+                strong {
+                    margin-right: 10px;
+                }
+            }
+        }
+        .price {
+            color: $gold-color;
+        }
+    }
+}
