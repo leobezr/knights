@@ -1,0 +1,8 @@
+@import "@/shared/scss/variable.scss";
+
+#goldPlaceholder {
+   i {
+      color: $gold-color !important;
+      caret-color: $gold-color !important;
+   }
+}
