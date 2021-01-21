@@ -1,12 +1,11 @@
 import Api from "@/service/api";
 
 const prefix = "items/"
-const routes = {
-   get: getItemGallery,
-}
 
 export default {
-   getGallery: routes.get
+   get: getItemGallery,
+   sell: sellItem,
+   buy: buyItem
 }
 
 function getItemGallery() {
@@ -14,3 +13,18 @@ function getItemGallery() {
       url: prefix
    })
 }
+
+function sellItem(payload) {
+   return Api.POST({
+      url: prefix + "sell",
+      body: payload
+   })
+}
+
+function buyItem(payload) {
+   return Api.POST({
+      url: prefix + "buy",
+      body: payload
+   })
+}
+
