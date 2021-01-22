@@ -5,6 +5,9 @@ INTERFACE
       - swap characters
    - CHARACTER
       - add total points
+      - add status
+      - status 7 points per level
+         - (level, totalAttr) => Math.round(Math.abs(totalAttr - (level *  7)))
       - add exp @done
       - add user level @done
    - STORE @done
@@ -14,6 +17,7 @@ INTERFACE
       - dungeon
 ACTIONS
    - FOOD
+      - hp regen
       - eat food action
          - restore hp
          - buff
@@ -23,12 +27,10 @@ ACTIONS
       - throw away items @done
       - equip headgear @done
    - SESSION
-      - create account
       - proper session
    - SERVER CONVERSATION
       - websocket
 LOGIC
-   - hp regen
    - sp ?
    - stamina ?
    - spells ?
