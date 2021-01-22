@@ -6,8 +6,8 @@ INTERFACE
    - CHARACTER
       - add total points
       - add status
-      - status 7 points per level
-         - (level, totalAttr) => Math.round(Math.abs(totalAttr - (level *  7)))
+      - status 5 points per level @done
+         - (level, totalAttr) => Math.round(Math.abs(totalAttr - (level *  7))) @done
       - add exp @done
       - add user level @done
    - STORE @done
