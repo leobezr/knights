@@ -41,9 +41,9 @@
                </SmallMenu>
             </li>
          </ul>
-         <h3>Garments</h3>
+         <h3>Legs</h3>
          <ul>
-            <li v-for="(item, index) in garments" :key="index">
+            <li v-for="(item, index) in legs" :key="index">
                <SmallMenu :config="menuConfig(item)" :disabled="levelRestriction(persona.level, item.tier)">
                   <template v-slot:content>
                      <ItemSprite :sprite="item" in-store />
@@ -123,8 +123,8 @@ export default {
       footgear() {
          return this.filter("footgear");
       },
-      garments() {
-         return this.filter("garments");
+      legs() {
+         return this.filter("legs");
       },
       shields() {
          return this.filter("shields");

@@ -34,6 +34,10 @@
                      <span>{{ stats(sprite.attr.agi) }}</span>
                   </li>
                   <li>
+                     <strong>DEX:</strong>
+                     <span>{{ stats(sprite.attr.dex) }}</span>
+                  </li>
+                  <li>
                      <strong>LUK:</strong>
                      <span>{{ stats(sprite.attr.luk) }}</span>
                   </li>
