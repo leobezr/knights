@@ -199,6 +199,13 @@
                      display: flex;
                      flex-direction: row;
                      justify-content: space-between;
+
+                     span.points {
+                        min-width: 40px;
+                        display: inline-flex;
+                        justify-content: center;
+                        align-items: center;
+                     }
                   }
 
                   .modifierStats {
