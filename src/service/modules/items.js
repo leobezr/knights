@@ -5,7 +5,7 @@ const prefix = "items/"
 export default {
    get: getItemGallery,
    sell: sellItem,
-   buy: buyItem
+   buy: buyItem,
 }
 
 function getItemGallery() {
@@ -27,4 +27,3 @@ function buyItem(payload) {
       body: payload
    })
 }
-

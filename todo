@@ -1,12 +1,23 @@
 INTERFACE
+   - CREATE ACCOUNT
+      - create account
+      - manage account session
+      - swap characters
    - CHARACTER
       - add total points
-      - add exp (maybe not)
-      - add user level
-   - STORE
-      - ALL
+      - add status
+      - status 5 points per level @done
+         - (level, totalAttr) => Math.round(Math.abs(totalAttr - (level *  7))) @done
+      - add exp @done
+      - add user level @done
+   - STORE @done
+      - ALL @done
+   - HUNTING GROUNDS
+      - forest
+      - dungeon
 ACTIONS
    - FOOD
+      - hp regen
       - eat food action
          - restore hp
          - buff
@@ -16,19 +27,17 @@ ACTIONS
       - throw away items @done
       - equip headgear @done
    - SESSION
-      - create account
       - proper session
    - SERVER CONVERSATION
       - websocket
 LOGIC
-   - hp regen
    - sp ?
    - stamina ?
    - spells ?
-   - level system
-   - store logic
+   - level system @done
+   - store logic @done
    - drop logic
    - train logic
    - pvp logic
    - hunt logic
-   - item ratios
+   - item ratios @latter
