@@ -42,6 +42,15 @@ export default {
 
          dispatch("me");
       },
+      async addPoint({ dispatch }, attr) {
+         await knights.addPoint({
+            id: localStorage.sessionId,
+            attr
+         })
+
+         await dispatch("me");
+         return;
+      }
    },
    mutations: {
 

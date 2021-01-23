@@ -9,6 +9,7 @@ export default {
    equip: equipItem,
    unequip: unequipItem,
    discardItem: discardItem,
+   addPoint: addAttrPoint
 }
 
 function createKnights(payload) {
@@ -47,6 +48,13 @@ function unequipItem(payload) {
 function discardItem(payload) {
    return Api.PUT({
       url: prefix + "inventory/discard",
+      body: payload
+   })
+}
+
+function addAttrPoint(payload) {
+   return Api.PUT({
+      url: prefix + "attr/add",
       body: payload
    })
 }
