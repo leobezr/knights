@@ -1,58 +1,54 @@
-import characterSheet from "@/views/Maps/character/knight-attack-sheet_GG.png";
+import Sprite from "@/views/Maps/config/sprite.js";
+import SpritePack from "@/views/Maps/spritePack/sprite-pack.js";
 
 export default class {
    constructor(props) {
       this.canvas = props.$canvas;
       this.ctx = this.canvas.getContext("2d");
 
-      this.game = {};
-      this.spriteSheet = {}
-      this.character = {};
+      this.character = new Sprite({ ...SpritePack.players.hero }, { canvas: this.canvas });
 
-      this._drawCharacter({ characterSheet, frames: 5 });
+      this.runGame();
    }
    _updateFrame() {
-      const CHAR = this.character;
-      let { x, y, width, height } = CHAR;
-
       this._attack();
 
-      CHAR.curFrame = ++CHAR.curFrame % CHAR.frameCount;
-      CHAR.srcX = CHAR.curFrame * CHAR.width;
+      this.character.movement.frame = ++this.character.movement.frame % this.character.movement.frameCount;
+      this.character.sprite.x = this.character.movement.frame * this.character.player.w;
 
-      this.ctx.clearRect(x, y, width, height);
+      this.ctx.clearRect(this.character.player.x, this.character.player.y, this.character.player.w, this.character.player.h);
       this._move();
    }
    _attack() {
-      if (this.character.attackTurn == 3) {
-         this.character.srcY = this.character.height;
+      if (this.character.movement.attackTurn == 4) {
+         this.character.sprite.y = this.character.player.h;
       }
-      this.character.attackTurn++;
+      this.character.movement.attackTurn++;
    }
    _horizontalWalk(data) {
       if (data == "increment") {
-         if (this.character.x < (this.character.canvasWidth - this.character.height / 2)) {
-            this.character.x += this.character.speed;
+         if (this.character.player.x < (this.character.canvasProps.w - this.character.player.h / 2)) {
+            this.character.player.x += this.character.player.speed;
          }
       } else {
-         if (this.character.x > 0) {
-            this.character.x -= this.character.speed;
+         if (this.character.player.x > 0) {
+            this.character.player.x -= this.character.player.speed;
          }
       }
    }
    _verticalWalk(data) {
       if (data == "increment") {
-         if (this.character.y < (this.character.canvasHeight - this.character.width)) {
-            this.character.y += this.character.speed;
+         if (this.character.player.y < (this.character.canvasProps.h - this.character.player.w)) {
+            this.character.player.y += this.character.player.speed;
          }
       } else {
-         if (this.character.y > 0) {
-            this.character.y -= this.character.speed;
+         if (this.character.player.y > 0) {
+            this.character.player.y -= this.character.player.speed;
          }
       }
    }
    _move() {
-      const DIR = this.character.movementDirection;
+      const DIR = this.character.movement.direction;
       if (DIR) {
          switch (DIR) {
             case "left":
@@ -70,112 +66,35 @@ export default class {
          }
       }
    }
-   _readKeyCode(keyCode) {
-      const keyCodeLeft = [37, 65];
-      const keyCodeUp = [38, 87];
-      const keyCodeRight = [39, 68];
-      const keyCodeDown = [40, 83];
-
-      if (keyCodeLeft.includes(keyCode)) {
-         return "left";
-      } else if (keyCodeUp.includes(keyCode)) {
-         return "up";
-      } else if (keyCodeRight.includes(keyCode)) {
-         return "right";
-      } else if (keyCodeDown.includes(keyCode)) {
-         return "down";
-      } else {
-         return null;
-      }
-   }
-   _setMovement(direction) {
-      switch (direction) {
-         case "left":
-            this.character.srcY = this.character.height * 2;
-            break;
-         case "up":
-            this.character.srcY = this.character.height * 3;
-            break;
-         case "right":
-            this.character.srcY = this.character.height * 4;
-            break;
-         case "down":
-            this.character.srcY = this.character.height * 5;
-            break;
-      }
-   }
    _setCharDir({ right, left }) {
       this.character.right = right || false;
       this.character.left = left || false;
    }
    _drawAnimation() {
-      const CHAR = this.character;
-
       this._updateFrame();
-      this.ctx.drawImage(CHAR.sprite, CHAR.srcX, CHAR.srcY, CHAR.width, CHAR.height, CHAR.x, CHAR.y, CHAR.width, CHAR.height);
-   }
-   _drawCharacter({ characterSheet, frames }) {
-      const CHAR = this.character;
 
-      CHAR.intervalSpeed = 65;
-
-      CHAR.canvasWidth = this.canvas.width;
-      CHAR.canvasHeight = this.canvas.height;
-
-      CHAR.spriteWidth = 700;
-      CHAR.spriteHeight = 1483;
-
-      CHAR.attackTurn = 0;
-      CHAR.movementDirection = null;
-
-      CHAR.rows = 6;
-      CHAR.cols = frames;
-
-      CHAR.width = CHAR.spriteWidth / CHAR.cols;
-      CHAR.height = CHAR.spriteHeight / CHAR.rows;
-
-      CHAR.curFrame = 0;
-      CHAR.frameCount = frames;
-
-      CHAR.x = 300;
-      CHAR.y = 400;
-
-      CHAR.srcX = 0;
-      CHAR.srcY = CHAR.height;
-
-      CHAR.left = false;
-      CHAR.right = true;
-
-      CHAR.speed = 30;
-
-      CHAR.canvas = this.canvas;
-
-      CHAR.ctx = this.ctx;
-
-      CHAR.sprite = new Image();
-      CHAR.sprite.src = characterSheet;
-
-      CHAR.sprite.onClick = () => console.log("click")
-
-      setInterval(this._drawAnimation.bind(this), CHAR.intervalSpeed);
+      this.ctx.drawImage(
+         this.character.sprite.animation,
+         this.character.sprite.x, this.character.sprite.y,
+         this.character.player.w, this.character.player.h,
+         this.character.player.x, this.character.player.y,
+         this.character.player.w, this.character.player.h
+      );
    }
    attack() {
-      this.character.srcY = 0;
-      this.character.attackTurn = 0;
+      this.character.attack();
    }
    move(keyCode) {
-      const direction = this._readKeyCode(keyCode);
-
-      if (keyCode == 32) {
-         this.attack();
-         return;
-      }
-
-      this._setMovement(direction);
-      this.character.movementDirection = direction;
+      this.character.move(keyCode);
    }
    stop() {
-      this.character.srcY = this.character.height;
-      this.character.movementDirection = null;
+      this.character.stop()
+   }
+
+   /**
+    * New methods
+    */
+   runGame() {
+      setInterval(this._drawAnimation.bind(this), this.character.intervalSpeed);
    }
 }
