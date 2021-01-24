@@ -33,7 +33,6 @@
                <span>
                   <v-btn
                      v-if="pointsToAdd && attrBellowMaxStatus('str')"
-                     :loading="waitingStatusUpdate"
                      icon
                      @click="addStatus('str')"
                      color="primary"
@@ -51,7 +50,6 @@
                <span>
                   <v-btn
                      v-if="pointsToAdd && attrBellowMaxStatus('vit')"
-                     :loading="waitingStatusUpdate"
                      icon
                      @click="addStatus('vit')"
                      color="primary"
@@ -69,7 +67,6 @@
                <span>
                   <v-btn
                      v-if="pointsToAdd && attrBellowMaxStatus('agi')"
-                     :loading="waitingStatusUpdate"
                      icon
                      @click="addStatus('agi')"
                      color="primary"
@@ -87,7 +84,6 @@
                <span>
                   <v-btn
                      v-if="pointsToAdd && attrBellowMaxStatus('luk')"
-                     :loading="waitingStatusUpdate"
                      icon
                      @click="addStatus('luk')"
                      color="primary"
@@ -107,7 +103,10 @@
                   <strong>Character Power</strong>
                   <span> {{ attribute.cp }} </span>
                </div>
-               <div class="d-flex justify-space-between w-100" v-if="pointsToAdd">
+               <div
+                  class="d-flex justify-space-between w-100"
+                  v-if="pointsToAdd"
+               >
                   <strong>Status Points Available</strong>
                   <span> {{ pointsToAdd }} </span>
                </div>
@@ -129,7 +128,6 @@ export default {
    data() {
       return {
          user: null,
-         waitingStatusUpdate: false,
       };
    },
    computed: {
@@ -176,15 +174,7 @@ export default {
 
       async addStatus(status) {
          if (this.pointsToAdd) {
-            this.waitingStatusUpdate = true;
-
-            try {
-               await this.addPoint(status);
-               this.waitingStatusUpdate = false;
-            } catch (err) {
-               this.waitingStatusUpdate = false;
-               throw Error(err);
-            }
+            await this.addPoint(status);
          }
       },
    },

@@ -5,6 +5,8 @@ export default class {
       this.canvas = props.$canvas;
       this.ctx = this.canvas.getContext("2d");
 
+      this.game = {};
+      this.spriteSheet = {}
       this.character = {};
 
       this._drawCharacter({ characterSheet, frames: 5 });
@@ -40,7 +42,7 @@ export default class {
    }
    _verticalWalk(data) {
       if (data == "increment") {
-         if (this.character.y < (this.character.canvasHeight  - this.character.width)) {
+         if (this.character.y < (this.character.canvasHeight - this.character.width)) {
             this.character.y += this.character.speed;
          }
       } else {
@@ -51,8 +53,6 @@ export default class {
    }
    _move() {
       const DIR = this.character.movementDirection;
-      console.log(this.character.x);
-
       if (DIR) {
          switch (DIR) {
             case "left":
@@ -71,18 +71,18 @@ export default class {
       }
    }
    _readKeyCode(keyCode) {
-      const keyCodeLeft = 37;
-      const keyCodeUp = 38;
-      const keyCodeRight = 39;
-      const keyCodeDown = 40;
+      const keyCodeLeft = [37, 65];
+      const keyCodeUp = [38, 87];
+      const keyCodeRight = [39, 68];
+      const keyCodeDown = [40, 83];
 
-      if (keyCodeLeft == keyCode) {
+      if (keyCodeLeft.includes(keyCode)) {
          return "left";
-      } else if (keyCodeUp == keyCode) {
+      } else if (keyCodeUp.includes(keyCode)) {
          return "up";
-      } else if (keyCodeRight == keyCode) {
+      } else if (keyCodeRight.includes(keyCode)) {
          return "right";
-      } else if (keyCodeDown == keyCode) {
+      } else if (keyCodeDown.includes(keyCode)) {
          return "down";
       } else {
          return null;
@@ -155,6 +155,8 @@ export default class {
       CHAR.sprite = new Image();
       CHAR.sprite.src = characterSheet;
 
+      CHAR.sprite.onClick = () => console.log("click")
+
       setInterval(this._drawAnimation.bind(this), CHAR.intervalSpeed);
    }
    attack() {
@@ -163,6 +165,11 @@ export default class {
    }
    move(keyCode) {
       const direction = this._readKeyCode(keyCode);
+
+      if (keyCode == 32) {
+         this.attack();
+         return;
+      }
 
       this._setMovement(direction);
       this.character.movementDirection = direction;
