@@ -8,7 +8,7 @@ export default class {
       this.canvasProps.ctx = this.canvasProps.getContext("2d");
 
       this.automation = {
-         active: config ? config.AI : false,
+         active: config.AI,
          chasing: { x: null, y: null },
       }
 
@@ -29,7 +29,6 @@ export default class {
 
          containerW: sprite.width,
          containerH: sprite.height,
-         spriteHeight: sprite.spriteHeight,
 
          x: 0,
          h: this.canvasProps.h,

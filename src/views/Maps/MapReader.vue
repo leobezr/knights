@@ -32,7 +32,9 @@ export default {
       },
       mapBackground() {
          if (this.mapName) {
-            return `background-image: url(${mapConfig[this.mapName].bg});`;
+            return `background-image: url(${
+               mapConfig.enemies[this.mapName].field
+            });`;
          }
       },
       maxWindowWidth() {
@@ -42,16 +44,19 @@ export default {
    methods: {
       setMap() {
          const MAP = this.$route.params.hunt;
+         let a = mapConfig
 
-         if (MAP) {
+         if (MAP && mapConfig.enemies[MAP]) {
             this.mapName = MAP;
             this.map = new CanvasDrawer({
                win: this.winMatch,
                lose: this.loseMatch,
                $canvas: this.$refs.Canvas,
                playerStats: this.characterStats,
-               ...mapConfig[MAP],
+               monster: mapConfig.enemies[MAP],
             });
+         } else {
+            this.$router.push({ name: "Hunts" }).catch((e) => {});
          }
       },
       attack() {
@@ -66,8 +71,8 @@ export default {
          this.map.stop();
       },
       setKeyFunction() {
-         window.addEventListener("keydown", (e) => this.arrowWalk(e));
-         window.addEventListener("keyup", () => this.arrowStopWalk());
+         window.addEventListener("keydown", this.arrowWalk);
+         window.addEventListener("keyup", this.arrowStopWalk);
       },
       winMatch() {
          console.log("wone match");
@@ -81,8 +86,8 @@ export default {
       this.setKeyFunction();
    },
    beforeDestroy() {
-      window.removeEventListener("keydown", this.arrowWalk);
-      window.removeEventListener("keyup", this.arrowStopWalk);
+      window.removeEventListener("keydown", this.arrowWalk, false);
+      window.removeEventListener("keyup", this.arrowStopWalk, false);
    },
 };
 </script>

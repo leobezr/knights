@@ -1,5 +1,5 @@
 import Sprite from "@/views/Maps/config/sprite.js";
-import SpritePack from "@/views/Maps/spritePack/sprite-pack.js";
+import SpritePack from "@/views/Maps/config/map-config.js";
 
 const INTERVAL_SPEED = 75;
 
@@ -12,7 +12,6 @@ export default class {
       this.loseCallback = props.lose
 
       const HERO = SpritePack.players.hero
-      const PORING = SpritePack.enemies.poring
 
       this.character = new Sprite(HERO, 0, 0, this.canvas, false, {
          AI: false,
@@ -20,7 +19,7 @@ export default class {
          lose: this.loseCallback
       });
 
-      this.monster = new Sprite(PORING, 500, 500, this.canvas, false, {
+      this.monster = new Sprite(props.monster, 500, 500, this.canvas, false, {
          AI: true,
          win: this.winCallback,
          lose: this.loseCallback
