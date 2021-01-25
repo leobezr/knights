@@ -20,6 +20,10 @@ export default {
       return {
          mapName: null,
          map: null,
+         characterStats: {
+            life: 10000,
+            dmg: 10,
+         },
       };
    },
    computed: {
@@ -42,7 +46,10 @@ export default {
          if (MAP) {
             this.mapName = MAP;
             this.map = new CanvasDrawer({
+               win: this.winMatch,
+               lose: this.loseMatch,
                $canvas: this.$refs.Canvas,
+               playerStats: this.characterStats,
                ...mapConfig[MAP],
             });
          }
@@ -61,6 +68,12 @@ export default {
       setKeyFunction() {
          window.addEventListener("keydown", (e) => this.arrowWalk(e));
          window.addEventListener("keyup", () => this.arrowStopWalk());
+      },
+      winMatch() {
+         console.log("wone match");
+      },
+      loseMatch() {
+         console.log("lost match");
       },
    },
    mounted() {

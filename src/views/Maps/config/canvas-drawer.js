@@ -1,100 +1,82 @@
 import Sprite from "@/views/Maps/config/sprite.js";
 import SpritePack from "@/views/Maps/spritePack/sprite-pack.js";
 
+const INTERVAL_SPEED = 75;
+
 export default class {
    constructor(props) {
       this.canvas = props.$canvas;
       this.ctx = this.canvas.getContext("2d");
 
-      this.character = new Sprite({ ...SpritePack.players.hero }, { canvas: this.canvas });
+      this.winCallback = props.win
+      this.loseCallback = props.lose
+
+      const HERO = SpritePack.players.hero
+      const PORING = SpritePack.enemies.poring
+
+      this.character = new Sprite(HERO, 0, 0, this.canvas, false, {
+         AI: false,
+         win: this.winCallback,
+         lose: this.loseCallback
+      });
+
+      this.monster = new Sprite(PORING, 500, 500, this.canvas, false, {
+         AI: true,
+         win: this.winCallback,
+         lose: this.loseCallback
+      });
+
+      this.character.fight({ target: this.monster });
+      this.monster.fight({ target: this.character });
 
       this.runGame();
    }
-   _updateFrame() {
-      this._attack();
+   _getCollision(player1, player2) {
+      return player1.x < player2.x + player2.w &&
+         player1.x + player1.w > player2.x &&
+         player1.y < player2.y + (player2.h / 2) &&
+         player1.y + player1.h / 5 > player2.y
+   }
+   _colliding() {
+      const HERO = this.character.player;
+      const MONSTER = this.monster.player;
 
-      this.character.movement.frame = ++this.character.movement.frame % this.character.movement.frameCount;
-      this.character.sprite.x = this.character.movement.frame * this.character.player.w;
+      let isColliding = this._getCollision(HERO, MONSTER);
 
-      this.ctx.clearRect(this.character.player.x, this.character.player.y, this.character.player.w, this.character.player.h);
-      this._move();
+      this.monster.colliding(isColliding);
+      this.character.colliding(isColliding);
    }
-   _attack() {
-      if (this.character.movement.attackTurn == 4) {
-         this.character.sprite.y = this.character.player.h;
-      }
-      this.character.movement.attackTurn++;
-   }
-   _horizontalWalk(data) {
-      if (data == "increment") {
-         if (this.character.player.x < (this.character.canvasProps.w - this.character.player.h / 2)) {
-            this.character.player.x += this.character.player.speed;
-         }
-      } else {
-         if (this.character.player.x > 0) {
-            this.character.player.x -= this.character.player.speed;
-         }
-      }
-   }
-   _verticalWalk(data) {
-      if (data == "increment") {
-         if (this.character.player.y < (this.character.canvasProps.h - this.character.player.w)) {
-            this.character.player.y += this.character.player.speed;
-         }
-      } else {
-         if (this.character.player.y > 0) {
-            this.character.player.y -= this.character.player.speed;
-         }
-      }
-   }
-   _move() {
-      const DIR = this.character.movement.direction;
-      if (DIR) {
-         switch (DIR) {
-            case "left":
-               this._horizontalWalk("setback");
-               break
-            case "up":
-               this._verticalWalk("setback");
-               break
-            case "right":
-               this._horizontalWalk("increment");
-               break
-            case "down":
-               this._verticalWalk("increment");
-               break
-         }
-      }
-   }
-   _setCharDir({ right, left }) {
-      this.character.right = right || false;
-      this.character.left = left || false;
-   }
-   _drawAnimation() {
-      this._updateFrame();
 
-      this.ctx.drawImage(
-         this.character.sprite.animation,
-         this.character.sprite.x, this.character.sprite.y,
-         this.character.player.w, this.character.player.h,
-         this.character.player.x, this.character.player.y,
-         this.character.player.w, this.character.player.h
-      );
+   updateFrames() {
+      this.character.animate();
+      this.monster.animate();
+      this._colliding();
+
+      this.monster.chase({ x: this.character.player.x, y: this.character.player.y, target: this.character })
+   }
+   draw() {
+      this.updateFrames();
+
+      this.monster.draw();
+      this.character.draw();
    }
    attack() {
-      this.character.attack();
+      this.monster.attack();
+      this.character.attack(this.monster);
    }
    move(keyCode) {
+      this.monster.move(keyCode);
       this.character.move(keyCode);
    }
    stop() {
-      this.character.stop()
+      this.character.stop();
+      this.monster.stop();
    }
 
    /**
     * New methods
     */
    runGame() {
-      setInterval(this._drawAnimation.bind(this), this.character.intervalSpeed);
+      setInterval(() => this.draw(), INTERVAL_SPEED);
    }
 }
