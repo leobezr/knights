@@ -41,10 +41,26 @@
             </li>
          </ul>
       </div>
-      <div class="characterFoot">
+      <div class="characterLowerCenter">
          <ul>
+            <li @contextmenu="(e) => unequip(e, equips.legs, 'legs')">
+               <ItemSprite :sprite="equips.legs" v-if="equips.legs" />
+               <span class="slot" v-else></span>
+            </li>
+         </ul>
+      </div>
+      <div class="characterBottom">
+         <ul>
+            <li @contextmenu="(e) => unequip(e, equips.decoration, 'decoration')">
+               <ItemSprite :sprite="equips.decoration" v-if="equips.decoration" />
+               <span class="slot" v-else></span>
+            </li>
             <li @contextmenu="(e) => unequip(e, equips.footgear, 'footgear')">
                <ItemSprite :sprite="equips.footgear" v-if="equips.footgear" />
+               <span class="slot" v-else></span>
+            </li>
+            <li @contextmenu="(e) => unequip(e, equips.ammo, 'ammo')">
+               <ItemSprite :sprite="equips.ammo" v-if="equips.ammo" />
                <span class="slot" v-else></span>
             </li>
          </ul>

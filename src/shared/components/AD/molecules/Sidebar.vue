@@ -47,7 +47,7 @@ export default {
       sidebarLinks() {
          return [
             {
-               icon: "mdi-face-profile",
+               icon: "mdi-face-woman-shimmer-outline",
                link: "Character",
                params: {
                   id: this.sessionId,
@@ -55,6 +55,8 @@ export default {
                label: "Profile",
             },
             { icon: "mdi-treasure-chest", link: "Store", label: "Store" },
+            { icon: "mdi-ghost", link: "Hunts", label: "Hunts" },
+            { icon: "mdi-sword-cross", link: "Character", label: "Arena" },
             {
                icon: "mdi-logout-variant",
                action: this.signout,

@@ -6,6 +6,8 @@ import Authenticated from "@/views/Authenticated.vue";
 import KnightBuilder from "@/views/KnightBuilder/KnightBuilder.vue";
 import Character from "@/views/Character/Character.vue";
 import Store from "@/views/Store/Store.vue";
+import Hunts from "@/views/Hunt/Hunts.vue";
+import MapReader from "@/views/Maps/MapReader.vue";
 
 Vue.use(VueRouter);
 
@@ -36,6 +38,22 @@ const routes = [
                child: true
             }
          },
+         {
+            path: "hunts/",
+            name: "Hunts",
+            component: Hunts,
+            meta: {
+               child: true
+            }
+         },
+         {
+            path: "hunts/map/:hunt",
+            name: "MapReader",
+            component: MapReader,
+            meta: {
+               child: true
+            }
+         }
       ]
    }
 ];

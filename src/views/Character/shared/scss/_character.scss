@@ -106,10 +106,6 @@
                align-items: center;
                pointer-events: none;
             }
-
-            #characterEquip {
-               height: 100%;
-            }
          }
       }
       #goldPlaceholder {
@@ -118,6 +114,16 @@
          width: 100%;
          justify-content: center;
          align-items: center;
+      }
+
+      .gear {
+         display: grid;
+         grid-template-columns: repeat(3, 1fr);
+
+         #knightGear {
+            height: 520px;
+            overflow: auto;
+         }
       }
    }
 
@@ -234,7 +240,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-
+      height: 100%;
+      margin: 20px 0 30px;
       opacity: 0;
       animation: showItems 300ms 1 ease-in;
       animation-fill-mode: forwards;
@@ -259,8 +266,8 @@
                   display: flex;
                   justify-content: center;
                   align-items: center;
-                  width: 35px;
-                  height: 35px;
+                  width: 40px;
+                  height: 40px;
                   padding: 2px;
                   background: $item-background;
                   border: solid 2px $item-box-border-color;
