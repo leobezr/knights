@@ -1,7 +1,66 @@
+@import "src/shared/scss/variable.scss";
+
 #canvasMapReader {
    width: 100%;
    height: 100%;
    display: block;
 
-   background-size: cover;
+   canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background-size: cover;
+
+      &.loser {
+         filter: brightness(0.05);
+         transition: all 3s ease-in;
+      }
+      &.winner {
+         filter: brightness(0.4);
+         transition: all 3s ease-in;
+      }
+   }
+
+   .battleStats {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -100%);
+      color: #fff;
+      font-size: 40px;
+
+      & > div {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-direction: column;
+      }
+
+      .loser {
+         color: $error;
+      }
+      .winner {
+         color: $gold-color;
+      }
+
+      animation: growLetters 800ms 1 ease-in;
+      animation-fill-mode: forwards;
+      opacity: 0;
+      animation-delay: 1100ms;
+   }
+
+   @keyframes growLetters {
+      0% {
+         font-size: 40px;
+         opacity: 0;
+      }
+      20% {
+         font-size: 50px;
+         opacity: 1;
+      }
+      100% {
+         font-size: 120px;
+         opacity: 1;
+      }
+   }
 }

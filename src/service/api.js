@@ -8,11 +8,9 @@ const token = () => {
    let id = localStorage.sessionId;
 
    if (id) {
-      return {
-         token: id
-      }
+      return id
    } else {
-      return {}
+      return null
    }
 };
 
@@ -24,7 +22,7 @@ class Api {
    POST(props) {
       return Axios({
          url: this.server + props.url,
-         headers: { ...customHeader, ...exposeHeader(props) },
+         headers: { ...customHeader(), ...exposeHeader(props) },
          method: "POST",
          data: props.body,
       });
@@ -32,7 +30,7 @@ class Api {
    PUT(props) {
       return Axios({
          url: this.server + props.url,
-         headers: { ...customHeader, ...exposeHeader(props) },
+         headers: { ...customHeader(), ...exposeHeader(props) },
          method: "PUT",
          data: props.body,
       });
@@ -41,14 +39,16 @@ class Api {
       return Axios({
          url: this.server + props.url,
          method: "GET",
-         headers: { ...customHeader, ...exposeHeader(props) },
+         headers: { ...customHeader(), ...exposeHeader(props) },
       })
    }
 }
 
-const customHeader = {
-   "Access-Control-Allow-Origin": "*",
-   ...token()
+const customHeader = () => {
+   return {
+      "Access-Control-Allow-Origin": "*",
+      "Requester": token()
+   }
 }
 
 export default new Api({ server: HTTP.server, header: customHeader });

@@ -1,5 +1,5 @@
 import Sprite from "@/views/Maps/config/sprite.js";
-import SpritePack from "@/views/Maps/config/map-config.js";
+import SpritePack from "@/views/Maps/monsters/map-config.js";
 
 const INTERVAL_SPEED = 75;
 
@@ -7,9 +7,10 @@ export default class {
    constructor(props) {
       this.canvas = props.$canvas;
       this.ctx = this.canvas.getContext("2d");
+      this.gameLoop = null;
 
-      this.winCallback = props.win
-      this.loseCallback = props.lose
+      this.winCallback = () => { this._breakGameLoop(); props.win.call() }
+      this.loseCallback = () => { this._breakGameLoop(); props.lose.call() }
 
       const HERO = SpritePack.players.hero
 
@@ -45,6 +46,9 @@ export default class {
       this.monster.colliding(isColliding);
       this.character.colliding(isColliding);
    }
+   _breakGameLoop() {
+      setTimeout(() => clearInterval(this.gameLoop), 1000);
+   }
 
    updateFrames() {
       this.character.animate();
@@ -71,11 +75,10 @@ export default class {
       this.character.stop();
       this.monster.stop();
    }
-
    /**
     * New methods
     */
    runGame() {
-      setInterval(() => this.draw(), INTERVAL_SPEED);
+      this.gameLoop = setInterval(() => this.draw(), INTERVAL_SPEED);
    }
 }

@@ -10,7 +10,8 @@ import zombie from "@/views/Maps/monsters/spritesheet-zombie.png";
 export default {
    enemies: {
       doppelganger: {
-         bg: doppelganger,
+         id: 10000,
+         spritesheet: doppelganger,
          rows: 6,
          cols: 5,
          width: 700,
@@ -21,18 +22,20 @@ export default {
          field: fieldScene
       },
       poring: {
-         bg: poring,
+         id: 10001,
+         spritesheet: poring,
          rows: 6,
          cols: 8,
          width: 1120,
          height: 1483,
          health: 200,
-         damage: 1,
+         damage: 25,
          name: "Poring",
          field: fieldScene
       },
       zombie: {
-         bg: zombie,
+         id: 10002,
+         spritesheet: zombie,
          rows: 6,
          cols: 8,
          width: 1120,
@@ -45,7 +48,7 @@ export default {
    },
    players: {
       hero: {
-         bg: hero,
+         spritesheet: hero,
          rows: 6,
          cols: 5,
          width: 700,

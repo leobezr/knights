@@ -57,8 +57,19 @@ export default {
             })
             .catch((e) => {});
       },
+      checkRewards() {
+         const rewards = sessionStorage.length
+            ? JSON.parse(sessionStorage.reward)
+            : null;
+
+         if (rewards) {
+            console.log(rewards);
+            sessionStorage.clear();
+         }
+      },
       init() {
          this.me();
+         this.checkRewards();
       },
    },
    created() {

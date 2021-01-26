@@ -31,11 +31,12 @@ export default class {
          containerH: sprite.height,
 
          x: 0,
+         y: sprite.height * 2,
          h: this.canvasProps.h,
 
          animation: new Image()
       }
-      this.sprite.animation.src = sprite.bg;
+      this.sprite.animation.src = sprite.spritesheet;
 
       this.player = {
          speed: 25,
@@ -157,7 +158,7 @@ export default class {
 
             if (this.enemy.player.hp <= 0) {
                if (!this.automation.active) {
-                  this.actions.win()
+                  this.actions.win(this.enemy)
                }
             }
 

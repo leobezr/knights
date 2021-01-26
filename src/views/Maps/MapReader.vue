@@ -1,29 +1,55 @@
 <template>
-   <canvas
-      id="canvasMapReader"
-      :width="maxWindowWidth"
-      :height="maxWindowHeight"
-      :style="mapBackground"
-      @mousedown="attack"
-      ref="Canvas"
-   />
+   <div id="canvasMapReader">
+      <canvas
+         :width="maxWindowWidth"
+         :height="maxWindowHeight"
+         :style="mapBackground"
+         :class="canvasState"
+         @mousedown="attack"
+         ref="Canvas"
+      />
+      <div class="battleStats" v-if="canvasState">
+         <div class="winner" v-if="canvasState == 'winner'">
+            <span>WINNER</span>
+            <v-btn
+               color="amber"
+               @click="backToHuntLobby('wone')"
+               :loading="levelLoading"
+               >Get reward</v-btn
+            >
+         </div>
+         <div class="loser" v-else>
+            <span>LOSER</span>
+            <v-btn
+               class="pink accent-3 white--text"
+               @click="backToHuntLobby"
+               :loading="levelLoading"
+               >Go back</v-btn
+            >
+         </div>
+      </div>
+   </div>
 </template>
 
 <script>
-import mapConfig from "@/views/Maps/config/map-config.js";
+import mapConfig from "@/views/Maps/monsters/map-config.js";
 import CanvasDrawer from "@/views/Maps/config/canvas-drawer.js";
 import "@/views/Maps/shared/scss/_mapReader.scss";
+import { mapActions } from "vuex";
 
 export default {
    name: "MapReader",
    data() {
       return {
-         mapName: null,
-         map: null,
+         battle: null,
          characterStats: {
             life: 10000,
             dmg: 10,
          },
+         enemy: null,
+         mapName: null,
+         map: null,
+         levelLoading: false,
       };
    },
    computed: {
@@ -40,11 +66,18 @@ export default {
       maxWindowWidth() {
          return Math.round(window.innerWidth - 80);
       },
+      canvasState() {
+         if (this.battle != null) {
+            return this.battle ? "winner" : "loser";
+         }
+         return false;
+      },
    },
    methods: {
+      ...mapActions(["getReward"]),
+
       setMap() {
          const MAP = this.$route.params.hunt;
-         let a = mapConfig
 
          if (MAP && mapConfig.enemies[MAP]) {
             this.mapName = MAP;
@@ -55,8 +88,9 @@ export default {
                playerStats: this.characterStats,
                monster: mapConfig.enemies[MAP],
             });
+            this.enemy = mapConfig.enemies[MAP].id;
          } else {
-            this.$router.push({ name: "Hunts" }).catch((e) => {});
+            this.backToHuntLobby();
          }
       },
       attack() {
@@ -70,15 +104,25 @@ export default {
       arrowStopWalk() {
          this.map.stop();
       },
+      backToHuntLobby() {
+         this.$router.push({ name: "Hunts" }).catch((e) => {});
+      },
       setKeyFunction() {
          window.addEventListener("keydown", this.arrowWalk);
          window.addEventListener("keyup", this.arrowStopWalk);
       },
       winMatch() {
-         console.log("wone match");
+         this.battle = true;
+         this.levelLoading = true;
+
+         this.getReward(this.enemy)
+            .catch((err) => {
+               throw Error(err);
+            })
+            .finally(() => (this.levelLoading = false));
       },
       loseMatch() {
-         console.log("lost match");
+         this.battle = false;
       },
    },
    mounted() {
