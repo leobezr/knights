@@ -3,20 +3,23 @@
       <div class="landscape" :style="backgroundImage">
          <div class="huntingOptions">
             <CardBody v-for="(monster, index) in monsterList" :key="index">
-               <div class="monsterCanvas">
-                  <MonsterHunt :monster-data="monster" />
-               </div>
-               <div class="monsterBadge">{{ monster.name }}</div>
-               <div class="monsterLoot"></div>
-               <div class="controller">
-                  <v-btn
-                     class="deep-orange accent-4 white--text"
-                     @click="sendToMap(monster)"
-                  >
-                     <v-icon left>mdi-sword</v-icon> Fight
-                  </v-btn>
-               </div>
+               <template v-slot:content>
+                  <div class="monsterCanvas">
+                     <MonsterHunt :monster-data="monster" />
+                  </div>
+                  <div class="monsterBadge">{{ monster.name }}</div>
+                  <div class="monsterLoot"></div>
+                  <div class="controller">
+                     <v-btn
+                        class="deep-orange accent-4 white--text"
+                        @click="sendToMap(monster)"
+                     >
+                        <v-icon left>mdi-sword</v-icon> Fight
+                     </v-btn>
+                  </div>
+               </template>
             </CardBody>
+            <Rewards />
          </div>
       </div>
    </div>
@@ -27,6 +30,7 @@ import { mapActions } from "vuex";
 import bgImage from "@/shared/img/dungeon.jpg";
 import CardBody from "@/shared/components/AD/atoms/CardBody.vue";
 import MonsterHunt from "@/views/Hunt/shared/AD/atoms/MonsterHunt.vue";
+import Rewards from "@/views/Hunt/shared/AD/molecules/Rewards.vue";
 import Maps from "@/views/Hunt/shared/maps/index.js";
 import "@/views/Hunt/shared/scss/_hunts.scss";
 
@@ -45,6 +49,7 @@ export default {
    components: {
       CardBody,
       MonsterHunt,
+      Rewards,
    },
    methods: {
       ...mapActions(["me"]),

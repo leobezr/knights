@@ -1,24 +1,30 @@
 <template>
    <div id="profileData">
       <CardBody title="Profile Data" index="1">
-         <div class="grid-container">
-            <div class="wrapGrid">
-               <div class="itens characterSprite">
-                  <div class="controller">
-                     <v-btn icon color="primary" @click="changeCharacterView">
-                        <v-icon>mdi-bag-personal</v-icon>
-                     </v-btn>
+         <template v-slot:content>
+            <div class="grid-container">
+               <div class="wrapGrid">
+                  <div class="itens characterSprite">
+                     <div class="controller">
+                        <v-btn
+                           icon
+                           color="primary"
+                           @click="changeCharacterView"
+                        >
+                           <v-icon>mdi-bag-personal</v-icon>
+                        </v-btn>
+                     </div>
+                     <Sprite size="medium" v-if="characterView" />
+                     <CharacterEquip v-else />
                   </div>
-                  <Sprite size="medium" v-if="characterView" />
-                  <CharacterEquip v-else />
+                  <GoldPlaceholder />
                </div>
-               <GoldPlaceholder />
+               <div class="characterInfo">
+                  <ProfileInfo />
+                  <CharacterStatus />
+               </div>
             </div>
-            <div class="characterInfo">
-               <ProfileInfo />
-               <CharacterStatus />
-            </div>
-         </div>
+         </template>
       </CardBody>
    </div>
 </template>
