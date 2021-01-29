@@ -1,0 +1,39 @@
+@import "@/shared/scss/variable.scss";
+
+#reward {
+   #cardBodyModal {
+      .card-content {
+         ul {
+            min-height: 70px;
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            flex-direction: row;
+            flex-wrap: wrap;
+            overflow: auto;
+            margin: 0;
+            padding: 5px;
+            width: 100%;
+            grid-gap: 2px;
+            grid-row-gap: 5px;
+            max-height: 200px;
+
+            li {
+               display: inline-flex;
+               justify-content: center;
+               align-items: center;
+            }
+         }
+         div.controller {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5px 5px;
+
+            button {
+               margin-left: 5px;
+            }
+         }
+      }
+   }
+}
