@@ -42,32 +42,7 @@
     #cardBody {
         .card-content {
             min-height: 120px;
-            width: 410px;
-            padding: 0 10px 10px 0;
-
-            ul {
-                min-height: 70px;
-                list-style: none;
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                overflow: auto;
-                margin: 0;
-                padding: 10px;
-
-                li {
-                    display: flex;
-                }
-            }
-            .controller {
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                
-                button {
-                    margin-left: 5px;
-                }
-            }
+            min-width: 450px;
         }
     }
 }
