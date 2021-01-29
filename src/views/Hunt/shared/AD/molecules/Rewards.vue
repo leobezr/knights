@@ -22,6 +22,7 @@
 import ItemSprite from "@/shared/components/AD/atoms/ItemSprite.vue";
 import CardBody from "@/shared/components/AD/atoms/CardBody.vue";
 import GoldPlaceholder from "@/views/Character/shared/AD/atoms/GoldPlaceholder.vue";
+import "@/views/Hunt/shared/scss/_rewards.scss";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
