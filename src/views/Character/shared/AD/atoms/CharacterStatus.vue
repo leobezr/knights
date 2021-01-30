@@ -9,21 +9,14 @@
                <span>{{ attribute.hit }}</span>
             </div>
             <div class="line">
-               <strong>ATK</strong>
-               <span>{{ attribute.atk }}</span>
-            </div>
-            <div class="line">
                <strong>DEF</strong>
                <span
                   >{{ attribute.def }}
-                  <ModifierStats stats="armor" :attr="mod" />
                </span>
             </div>
             <div class="line">
                <strong>HP</strong>
-               <span>{{
-                  `${attribute.hp.value} / ${attribute.hp.total}`
-               }}</span>
+               <span>{{ attribute.hp.toLocaleString() }}</span>
             </div>
          </div>
 
@@ -96,6 +89,23 @@
                   <ModifierStats stats="luk" :attr="mod" />
                </span>
             </div>
+            <div class="line">
+               <strong>DEX</strong>
+               <span>
+                  <v-btn
+                     v-if="pointsToAdd && attrBellowMaxStatus('dex')"
+                     icon
+                     @click="addStatus('dex')"
+                     color="primary"
+                     small
+                     class="mr-1"
+                  >
+                     <v-icon small dark>mdi-plus</v-icon>
+                  </v-btn>
+                  <span class="points">{{ attribute.dex }}</span>
+                  <ModifierStats stats="dex" :attr="mod" />
+               </span>
+            </div>
          </div>
          <div class="table-stats">
             <div class="line flex-column">
@@ -141,10 +151,10 @@ export default {
       },
       pointsToAdd() {
          const GAIN_STATUS_PER_LEVEL = 5;
-         let { str, agi, vit, luk } = this.user.attributes;
-         let attr = { str, agi, vit, luk };
+         let { str, agi, vit, luk, dex } = this.user.attributes;
+         let attr = { str, agi, vit, luk, dex };
 
-         let statusPoints = -40;
+         let statusPoints = -50;
 
          for (let value in attr) {
             let val = parseFloat(attr[value]) || 0;
