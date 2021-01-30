@@ -1,9 +1,11 @@
 <template>
-    <div id="knightGear" class="inventory">
-        <CardBody title="Inventory" index="2">
+   <div id="knightGear" class="inventory">
+      <CardBody title="Inventory" index="2">
+         <template v-slot:content>
             <CharacterInventory />
-        </CardBody>
-    </div>
+         </template>
+      </CardBody>
+   </div>
 </template>
 
 <script>
@@ -12,10 +14,10 @@ import CharacterInventory from "@/views/Character/shared/AD/molecules/CharacterI
 import "@/shared/scss/_knightGearInventory.scss";
 
 export default {
-    name: "KnightGear",
-    components: {
-        CardBody,
-        CharacterInventory
-    }
-}
+   name: "KnightGear",
+   components: {
+      CardBody,
+      CharacterInventory,
+   },
+};
 </script>

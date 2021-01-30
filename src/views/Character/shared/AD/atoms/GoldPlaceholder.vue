@@ -30,10 +30,19 @@ export default {
       gold() {
          const PERSONA = this.persona;
 
+         if (this.customValue > 0) {
+            return this.customValue;
+         }
          if (PERSONA && PERSONA.gold) {
             return PERSONA.gold.toLocaleString();
          }
          return 0;
+      },
+   },
+   props: {
+      "custom-value": {
+         type: Number,
+         default: 0,
       },
    },
 };

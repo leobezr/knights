@@ -50,6 +50,12 @@ export default {
 
          await dispatch("me");
          return;
+      },
+      async getStoredReward({ dispatch }) {
+         await knights.getReward()
+
+         await dispatch("me");
+         return;
       }
    },
    mutations: {

@@ -31,11 +31,12 @@ export default class {
          containerH: sprite.height,
 
          x: 0,
+         y: sprite.height * 2,
          h: this.canvasProps.h,
 
          animation: new Image()
       }
-      this.sprite.animation.src = sprite.bg;
+      this.sprite.animation.src = sprite.spritesheet;
 
       this.player = {
          speed: 25,
@@ -48,8 +49,10 @@ export default class {
          w: this.sprite.containerW / this.sprite.cols,
          h: this.sprite.containerH / this.sprite.rows,
 
-         hp: sprite.health,
-         dmg: sprite.damage,
+         hp: config.AI ? sprite.health : config.hp,
+         dmg: config.AI ? sprite.damage : config.damage,
+         def: config.AI ? sprite.def : config.def,
+         agi: config.AI ? sprite.agi : config.agi,
 
          x: x,
          y: y
@@ -127,13 +130,21 @@ export default class {
    /**
     * Attack logic
     */
+   _dmgCalculator() {
+      const balanceDamage = 4000;
+
+      return Math.round(this.player.dmg * (balanceDamage + this.enemy.player.def) / (balanceDamage + this.enemy.player.def * 10));
+   }
+   _attackSpeed() {
+      return 300 - Math.round(this.player.agi * .9)
+   }
    _attack() {
       if (this.player.dead) return;
 
       if (this.player.attacking && this.movement.attackTurn) {
          setTimeout(() => {
             this.movement.attackTurn = true
-         }, 300);
+         }, this._attackSpeed());
 
          this.movement.attackTurn = false;
 
@@ -145,7 +156,7 @@ export default class {
             this.canvasProps.ctx.font = "30px Montserrat";
             this.canvasProps.ctx.fillStyle = "red";
             this.canvasProps.ctx.textAlign = "center";
-            this.canvasProps.ctx.fillText(this.player.dmg, this.enemy.player.x + 50, this.enemy.player.y);
+            this.canvasProps.ctx.fillText(this._dmgCalculator(), this.enemy.player.x + 50, this.enemy.player.y);
 
             let clearSizeX = 400;
             let clearSizeY = 50;
@@ -153,11 +164,11 @@ export default class {
             let clearDirX = this.enemy.player.x - 80
             let clearDirY = this.enemy.player.y - 40
 
-            this.enemy.takeDamage(this.player.dmg);
+            this.enemy.takeDamage(this._dmgCalculator());
 
             if (this.enemy.player.hp <= 0) {
                if (!this.automation.active) {
-                  this.actions.win()
+                  this.actions.win(this.enemy)
                }
             }
 

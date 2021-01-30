@@ -4,13 +4,17 @@
          <div class="storeHolder pt-2">
             <div class="storeContainer">
                <CardBody title="Store">
-                  <StoreItems />
+                  <template v-slot:content>
+                     <StoreItems />
+                  </template>
                </CardBody>
             </div>
             <div class="inventoryContainer">
                <CardBody title="Inventory">
-                  <StoreInventory id="knightGear" class="inventory mt-1" />
-                  <GoldPlaceholder class="d-block w-100 mt-10" />
+                  <template v-slot:content>
+                     <StoreInventory id="knightGear" class="inventory mt-1" />
+                     <GoldPlaceholder class="d-block w-100 mt-10" />
+                  </template>
                </CardBody>
             </div>
          </div>
@@ -38,7 +42,7 @@ export default {
       CardBody,
       StoreInventory,
       GoldPlaceholder,
-      StoreItems
+      StoreItems,
    },
    methods: {
       ...mapActions(["me"]),

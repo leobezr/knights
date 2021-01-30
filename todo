@@ -4,8 +4,10 @@ INTERFACE
       - manage account session
       - swap characters
    - CHARACTER
-      - add total points
-      - add status
+      - add total points @done
+      - add status @done
+      - level system
+      - item stats
       - status 5 points per level @done
          - (level, totalAttr) => Math.round(Math.abs(totalAttr - (level *  7))) @done
       - add exp @done
@@ -13,14 +15,9 @@ INTERFACE
    - STORE @done
       - ALL @done
    - HUNTING GROUNDS
-      - forest
+      - field @done
       - dungeon
 ACTIONS
-   - FOOD
-      - hp regen
-      - eat food action
-         - restore hp
-         - buff
    - EQUIPS
       - equip items @done
       - unequip items @done
@@ -31,13 +28,12 @@ ACTIONS
    - SERVER CONVERSATION
       - websocket
 LOGIC
-   - sp ?
    - stamina ?
    - spells ?
    - level system @done
    - store logic @done
-   - drop logic
+   - drop logic @done
    - train logic
    - pvp logic
-   - hunt logic
-   - item ratios @latter
+   - hunt logic @done
+   - item ratios @done

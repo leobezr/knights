@@ -1,28 +1,35 @@
 import Sprite from "@/views/Maps/config/sprite.js";
-import SpritePack from "@/views/Maps/config/map-config.js";
+import SpritePack from "@/views/Maps/monsters/map-config.js";
 
-const INTERVAL_SPEED = 75;
+const INTERVAL_SPEED = 55;
 
 export default class {
    constructor(props) {
       this.canvas = props.$canvas;
       this.ctx = this.canvas.getContext("2d");
+      this.characterLoop = null;
+      this.monsterLoop = null;
+      this.globalLoop = null;
 
-      this.winCallback = props.win
-      this.loseCallback = props.lose
+      this.winCallback = () => { this._breakGameLoop(); props.win.call() }
+      this.loseCallback = () => { this._breakGameLoop(); props.lose.call() }
 
       const HERO = SpritePack.players.hero
 
       this.character = new Sprite(HERO, 0, 0, this.canvas, false, {
          AI: false,
          win: this.winCallback,
-         lose: this.loseCallback
+         lose: this.loseCallback,
+         damage: props.playerStats.damage,
+         hp: props.playerStats.hp,
+         def: props.playerStats.def,
+         agi: props.playerStats.agi
       });
 
       this.monster = new Sprite(props.monster, 500, 500, this.canvas, false, {
          AI: true,
          win: this.winCallback,
-         lose: this.loseCallback
+         lose: this.loseCallback,
       });
 
       this.character.fight({ target: this.monster });
@@ -45,6 +52,11 @@ export default class {
       this.monster.colliding(isColliding);
       this.character.colliding(isColliding);
    }
+   _breakGameLoop() {
+      setTimeout(() => clearInterval(this.characterLoop), 1000);
+      setTimeout(() => clearInterval(this.monsterLoop), 1000);
+      setTimeout(() => clearInterval(this.globalLoop), 1000);
+   }
 
    updateFrames() {
       this.character.animate();
@@ -53,11 +65,11 @@ export default class {
 
       this.monster.chase({ x: this.character.player.x, y: this.character.player.y, target: this.character })
    }
-   draw() {
-      this.updateFrames();
-
-      this.monster.draw();
+   drawCharacter() {
       this.character.draw();
+   }
+   drawMonster() {
+      this.monster.draw();
    }
    attack() {
       this.monster.attack();
@@ -71,11 +83,12 @@ export default class {
       this.character.stop();
       this.monster.stop();
    }
-
    /**
     * New methods
     */
    runGame() {
-      setInterval(() => this.draw(), INTERVAL_SPEED);
+      this.globalLoop = setInterval(() => this.updateFrames(), INTERVAL_SPEED);
+      this.characterLoop = setInterval(() => this.drawCharacter(), INTERVAL_SPEED);
+      this.monsterLoop = setInterval(() => this.drawMonster(), INTERVAL_SPEED);
    }
 }
