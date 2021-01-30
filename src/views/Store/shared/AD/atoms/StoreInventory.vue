@@ -6,7 +6,7 @@
                <li
                   v-bind="attrs"
                   v-on="on"
-                  @contextmenu="(e) => disabledContext(e)"
+                  @contextmenu="(e) => sellLeftClick(e, item)"
                >
                   <ItemSprite :sprite="item" />
                </li>
@@ -51,8 +51,9 @@ export default {
    methods: {
       ...mapActions(["sellInventoryItem"]),
 
-      disabledContext(e) {
+      sellLeftClick(e, item) {
          e.preventDefault();
+         this.sell(item);
       },
       sell(item) {
          if (this.persona.inventory.includes(item)) {

@@ -40,13 +40,20 @@
          color: $error;
       }
       .winner {
-         color: $gold-color;
+         color: #fff;
       }
 
       animation: growLetters 800ms 1 ease-in;
       animation-fill-mode: forwards;
       opacity: 0;
       animation-delay: 1100ms;
+
+      .controller {
+         display: flex;
+         justify-content: space-evenly;
+         align-items: center;
+         flex-direction: row;
+      }
    }
 
    @keyframes growLetters {

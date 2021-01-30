@@ -5,6 +5,8 @@ import ZombieSprite from "@/views/Hunt/shared/img/monsters/zombie/zombie.gif";
 import graveyardBackground from "@/views/Hunt/shared/img/monsters/zombie/graveyard.png";
 
 import ZairoSprite from "@/views/Hunt/shared/img/monsters/goblins/zairo.gif";
+import Doppelganger from "@/views/Hunt/shared/img/monsters/doppelganger/doppelganger.gif";
+import Loki from "@/views/Hunt/shared/img/monsters/loki/loki.gif";
 
 export default [
    {
@@ -15,16 +17,16 @@ export default [
       scale: 1.5,
    },
    {
-      name: "Zairo",
-      sprite: ZairoSprite,
-      level: 30,
-      bg: PoringBackgroundSprite,
+      name: "Zombie",
+      sprite: ZombieSprite,
+      level: 50,
+      bg: graveyardBackground,
       scale: 1,
    },
    {
-      name: "Zombie",
-      sprite: ZombieSprite,
-      level: 30,
+      name: "Loki",
+      sprite: Loki,
+      level: 60,
       bg: graveyardBackground,
       scale: 1,
    },
