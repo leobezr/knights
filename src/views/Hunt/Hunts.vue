@@ -31,14 +31,14 @@ import bgImage from "@/shared/img/dungeon.jpg";
 import CardBody from "@/shared/components/AD/atoms/CardBody.vue";
 import MonsterHunt from "@/views/Hunt/shared/AD/atoms/MonsterHunt.vue";
 import Rewards from "@/views/Hunt/shared/AD/molecules/Rewards.vue";
-import Maps from "@/views/Hunt/shared/maps/index.js";
+import Hunts from "@/views/Hunt/shared/hunts";
 import "@/views/Hunt/shared/scss/_hunts.scss";
 
 export default {
    name: "Hunts",
    data() {
       return {
-         monsterList: [...Maps],
+         monsterList: [...Hunts],
       };
    },
    computed: {
@@ -68,7 +68,6 @@ export default {
             : null;
 
          if (rewards) {
-            console.log(rewards);
             sessionStorage.clear();
          }
       },
