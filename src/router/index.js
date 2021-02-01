@@ -8,6 +8,7 @@ import Character from "@/views/Character/Character.vue";
 import Store from "@/views/Store/Store.vue";
 import Hunts from "@/views/Hunt/Hunts.vue";
 import MapReader from "@/views/Maps/MapReader.vue";
+import HuntingGround from "@/views/HuntingGround.vue/HuntingGround.vue";
 
 Vue.use(VueRouter);
 
@@ -50,6 +51,14 @@ const routes = [
             path: "hunts/map/:hunt",
             name: "MapReader",
             component: MapReader,
+            meta: {
+               child: true
+            }
+         },
+         {
+            path: "hunting-ground",
+            name: "HuntingGround",
+            component: HuntingGround,
             meta: {
                child: true
             }
