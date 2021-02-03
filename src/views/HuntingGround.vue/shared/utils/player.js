@@ -18,6 +18,10 @@ export default class {
          stage: props.stage
       }
 
+      this.sprite = {
+         map: props.spriteProp.map
+      }
+
       const stats = props.spriteProp.stats;
 
       this.stats = {
@@ -288,10 +292,7 @@ export default class {
          const imageObj = new Image();
 
          imageObj.onload = function () {
-            const spriteH = parseInt(this.config.h);
-            const spriteW = parseInt(this.config.w);
-
-            const spriteOffset = spriteW;
+            const SPRITE = this.sprite.map;
 
             this.player = new Konva.Sprite({
                x: 50,
@@ -299,77 +300,13 @@ export default class {
                image: imageObj,
                animation: "standing",
                animations: {
-                  standing: [
-                     0, spriteH, spriteW, spriteH,
-                     spriteOffset, spriteH, spriteW, spriteH,
-                     spriteOffset * 2, spriteH, spriteW, spriteH,
-                     spriteOffset * 3, spriteH, spriteW, spriteH,
-                     spriteOffset * 4, spriteH, spriteW, spriteH,
-                     spriteOffset * 5, spriteH, spriteW, spriteH,
-                     spriteOffset * 6, spriteH, spriteW, spriteH,
-                     spriteOffset * 7, spriteH, spriteW, spriteH,
-                  ],
-                  attacking: [
-                     0, 0, spriteW, spriteH,
-                     spriteOffset, 0, spriteW, spriteH,
-                     spriteOffset * 2, 0, spriteW, spriteH,
-                     spriteOffset * 3, 0, spriteW, spriteH,
-                     spriteOffset * 4, 0, spriteW, spriteH,
-                     spriteOffset * 5, 0, spriteW, spriteH,
-                     spriteOffset * 6, 0, spriteW, spriteH,
-                     spriteOffset * 7, 0, spriteW, spriteH,
-                  ],
-                  walkingLeft: [
-                     0, spriteH * 2, spriteW, spriteH,
-                     spriteOffset, spriteH * 2, spriteW, spriteH,
-                     spriteOffset * 2, spriteH * 2, spriteW, spriteH,
-                     spriteOffset * 3, spriteH * 2, spriteW, spriteH,
-                     spriteOffset * 4, spriteH * 2, spriteW, spriteH,
-                     spriteOffset * 5, spriteH * 2, spriteW, spriteH,
-                     spriteOffset * 6, spriteH * 2, spriteW, spriteH,
-                     spriteOffset * 7, spriteH * 2, spriteW, spriteH,
-                  ],
-                  walkingUp: [
-                     0, spriteH * 3, spriteW, spriteH,
-                     spriteOffset, spriteH * 3, spriteW, spriteH,
-                     spriteOffset * 2, spriteH * 3, spriteW, spriteH,
-                     spriteOffset * 3, spriteH * 3, spriteW, spriteH,
-                     spriteOffset * 4, spriteH * 3, spriteW, spriteH,
-                     spriteOffset * 5, spriteH * 3, spriteW, spriteH,
-                     spriteOffset * 6, spriteH * 3, spriteW, spriteH,
-                     spriteOffset * 7, spriteH * 3, spriteW, spriteH,
-                  ],
-                  walkingRight: [
-                     0, spriteH * 4, spriteW, spriteH,
-                     spriteOffset, spriteH * 4, spriteW, spriteH,
-                     spriteOffset * 2, spriteH * 4, spriteW, spriteH,
-                     spriteOffset * 3, spriteH * 4, spriteW, spriteH,
-                     spriteOffset * 4, spriteH * 4, spriteW, spriteH,
-                     spriteOffset * 5, spriteH * 4, spriteW, spriteH,
-                     spriteOffset * 6, spriteH * 4, spriteW, spriteH,
-                     spriteOffset * 7, spriteH * 4, spriteW, spriteH,
-                  ],
-                  walkingDown: [
-                     0, spriteH * 5, spriteW, spriteH,
-                     spriteOffset, spriteH * 5, spriteW, spriteH,
-                     spriteOffset * 2, spriteH * 5, spriteW, spriteH,
-                     spriteOffset * 3, spriteH * 5, spriteW, spriteH,
-                     spriteOffset * 4, spriteH * 5, spriteW, spriteH,
-                     spriteOffset * 5, spriteH * 5, spriteW, spriteH,
-                     spriteOffset * 6, spriteH * 5, spriteW, spriteH,
-                     spriteOffset * 7, spriteH * 5, spriteW, spriteH,
-                  ],
-                  die: [
-                     0, spriteH * 6, spriteW, spriteH,
-                     spriteOffset, spriteH * 6, spriteW, spriteH,
-                     spriteOffset * 2, spriteH * 6, spriteW, spriteH,
-                     spriteOffset * 3, spriteH * 6, spriteW, spriteH,
-                     spriteOffset * 4, spriteH * 6, spriteW, spriteH,
-                     spriteOffset * 5, spriteH * 6, spriteW, spriteH,
-                     spriteOffset * 6, spriteH * 6, spriteW, spriteH,
-                     spriteOffset * 7, spriteH * 6, spriteW, spriteH,
-                     spriteOffset * 7, spriteH * 6, spriteW, spriteH,
-                  ],
+                  standing: SPRITE.standing,
+                  attacking: SPRITE.attacking,
+                  walkingLeft: SPRITE.walkingLeft,
+                  walkingUp: SPRITE.walkingUp,
+                  walkingRight: SPRITE.walkingRight,
+                  walkingDown: SPRITE.walkingDown,
+                  die: SPRITE.die,
                },
                frameRate: 12,
                frameIndex: 0

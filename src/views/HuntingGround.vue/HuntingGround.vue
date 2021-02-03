@@ -5,7 +5,11 @@
          <div class="winner" v-if="canvasState == 'winner'">
             <span>COMPLETE</span>
             <div class="controller">
-               <v-btn @click="goAgain" v-if="!isFinalRound" class="mr-2" color="primary"
+               <v-btn
+                  @click="goAgain"
+                  v-if="!isFinalRound"
+                  class="mr-2"
+                  color="primary"
                   >Go again</v-btn
                >
                <v-btn
@@ -33,8 +37,9 @@
 import Canvas from "@/views/HuntingGround.vue/shared/utils/canvas.js";
 import field from "@/views/Maps/maps/field.png";
 import mapConfig from "@/views/Maps/monsters/map-config.js";
-import "@/views/HuntingGround.vue/shared/scss/_mapper.scss";
+import VocationSprites from "@/views/Maps/monsters/heroes.js";
 import { mapActions } from "vuex";
+import "@/views/HuntingGround.vue/shared/scss/_mapper.scss";
 
 export default {
    name: "HuntingGround",
@@ -65,7 +70,7 @@ export default {
          return enemies;
       },
       player() {
-         return mapConfig.players.hero;
+         return VocationSprites.classes.knight;
       },
       mapBackground() {
          const MAP = this.$route.params.hunt;
@@ -88,7 +93,7 @@ export default {
          const PERSONA = await this.me();
 
          this.player.stats = PERSONA;
-         this.player.misc = PERSONA.misc
+         this.player.misc = PERSONA.misc;
          this.init();
       },
       backToHuntLobby() {

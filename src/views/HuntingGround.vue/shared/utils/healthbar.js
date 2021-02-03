@@ -58,12 +58,10 @@ export default class {
       this.core.layer.add(this.hpBarGroup)
    }
    _stickyGroup() {
-      let avatarGridHeight = Math.floor(this.config.h);
-      let avatarGridWidth = Math.floor(this.config.w);
       let avatarPos = { x: this.avatar.x(), y: this.avatar.y() };
 
-      this.hpBarGroup.x(Math.floor((avatarPos.x - 10) - avatarGridWidth / 2));
-      this.hpBarGroup.y(Math.floor((avatarPos.y + 5) + avatarGridHeight / 2));
+      this.hpBarGroup.x(Math.floor(avatarPos.x - 45));
+      this.hpBarGroup.y(Math.floor((avatarPos.y + 165)));
    }
    _keepLoop() {
       if (this.script.dead) return;
