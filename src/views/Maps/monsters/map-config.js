@@ -7,15 +7,22 @@ import poring from "@/views/Maps/monsters/spritesheet-poring.png";
 import zombie from "@/views/Maps/monsters/spritesheet-zombie.png";
 import loki from "@/views/Maps/monsters/spritesheet-loki.png";
 
+import { sword } from "@/shared/utils/soundPack.js";
+
 export default {
    enemies: {
       poring: {
          id: 10001,
-         health: 200,
+         health: 100,
          def: 0,
-         damage: 5,
-         agi: 10,
+         damage: 15,
+         agi: 35,
          spritesheet: poring,
+         sound: {
+            attack: sword.punch,
+            onHit: null,
+         },
+         attackRange: 10,
          rows: 6,
          cols: 8,
          width: 1120,
@@ -28,8 +35,13 @@ export default {
          health: 350,
          def: 15,
          damage: 25,
-         agi: 10,
+         agi: 50,
          spritesheet: zombie,
+         sound: {
+            attack: sword.monsterAttack,
+            onHit: sword.monsterGrowl,
+         },
+         attackRange: 15,
          rows: 6,
          cols: 8,
          width: 1120,
@@ -41,9 +53,14 @@ export default {
          id: 10003,
          health: 900,
          def: 250,
-         damage: 250,
-         agi: 80,
+         damage: 700,
+         agi: 800,
+         attackRange: 20,
          spritesheet: loki,
+         sound: {
+            attack: sword.fast,
+            onHit: sword.punch
+         },
          rows: 6,
          cols: 5,
          width: 700,
@@ -55,6 +72,10 @@ export default {
    players: {
       hero: {
          spritesheet: swordman,
+         sound: {
+            attack: sword.slow,
+            onHit: sword.punch
+         },
          rows: 6,
          cols: 8,
          width: 1120,

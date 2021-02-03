@@ -1,5 +1,7 @@
 export default class {
    constructor(props) {
+      this.id = props.id
+
       this._onLeft = () => { };
       this._onUp = () => { };
       this._onRight = () => { };
@@ -9,73 +11,72 @@ export default class {
       this._onClickRelease = () => { };
       this._onSpaceRelease = () => { };
 
-      this._onSpace = () => { }
       this._onClick = () => { }
-
-      window.addEventListener("keydown", this.setEvent);
-      window.addEventListener("keyup", this.setRelease);
-
-      window.addEventListener("mousedown", this.setClick);
-      window.addEventListener("mouseup", this.removeClick);
 
       this.walking = false;
       this._repeater = null;
       this.lastDir = null;
 
-      this.script = {
-         dead: false,
-         loop: null
-      }
-
       this.actions = {
-         updateMapPlayers: props.updateMapPlayers,
-         updateCollision: props.updateCollision
+         updateMapPlayers: props.updateMapPlayers
       }
 
-      this.attr = {
-         attackRange: props.attackRange
+      this.mapScanner = null;
+      this.self = null;
+      this.enemy = null;
+
+      this.speed = props.speed;
+      this.range = props.attackRange
+      this.ticsInIdle = 0;
+      this.loop = null;
+
+      this.script = {
+         dead: false
       }
 
       this.startLoop();
    }
-   /**
-    * Locate enemies
-    * @param {Object} self -> Self data
-    * @param {Object} enemy -> Enemy Data
-    */
-   _attackIfInRange(self, enemy) {
-      const selfAvatar = self.player;
-      const posSelf = { x: selfAvatar.x(), y: selfAvatar.y() };
+   _dmgCalculator(enemy, self) {
+      const balanceDamage = 4000;
 
-      let spawnMap = enemy.map(creature => {
-         return {
-            pos: {
-               x: creature.config.monster.x(),
-               y: creature.config.monster.y(),
-            },
-            id: creature.config.id
+      let selfDamage = self.config.stats.damage;
+      let enemyArmor = enemy.stats.def
+
+      return Math.round(selfDamage * (balanceDamage + enemyArmor) / (balanceDamage + enemyArmor * 10));
+   }
+   _trackAndDestroy(self, enemy) {
+      const posSelf = { x: self.x(), y: self.y() };
+      const posEnemy = { x: enemy.x(), y: enemy.y() };
+
+      const hypotInX = Math.hypot(posSelf.x, Math.round(posEnemy.x - posSelf.x))
+      const hypotInY = Math.hypot(posSelf.y, Math.round(posEnemy.y - posSelf.y))
+
+      const attackRange = this.range;
+
+      const boxOffset = { x: posSelf.x + attackRange, y: posSelf.y + attackRange };
+
+      if (this.ticsInIdle >= Math.round(80 - (this.speed / 15))) {
+         self.x(enemy.x() - attackRange);
+         self.y(enemy.y() - attackRange);
+      }
+
+      if (hypotInX >= 0 && hypotInX < boxOffset.x) {
+         if (hypotInY >= 0 && hypotInY < boxOffset.y) {
+            this._onClick.call();
+            return;
          }
-      });
+      }
+      this._onClickRelease();
 
-      const collisionList = []
-
-      for (let spawn of spawnMap) {
-         const posEnemy = { x: spawn.pos.x, y: spawn.pos.y };
-
-         const hypotInX = Math.hypot(posSelf.x, Math.round(posEnemy.x - posSelf.x))
-         const hypotInY = Math.hypot(posSelf.y, Math.round(posEnemy.y - posSelf.y))
-
-         const attackRange = this.attr.attackRange;
-
-         const boxOffset = { x: posSelf.x + attackRange, y: posSelf.y + attackRange };
-
-         if (hypotInX >= 0 && hypotInX < boxOffset.x) {
-            if (hypotInY >= 0 && hypotInY < boxOffset.y) {
-               collisionList.push(spawn.id);
-            }
-         }
-
-         this.actions.updateCollision(collisionList);
+      if (posSelf.x > posEnemy.x && hypotInX > boxOffset.x) {
+         this._onLeft.call()
+      } else if (posSelf.y > posEnemy.y && hypotInY > boxOffset.y) {
+         this._onUp.call();
+      }
+      else if (posSelf.x < posEnemy.x && hypotInX > boxOffset.x) {
+         this._onRight.call();
+      } else {
+         this._onDown.call();
       }
    }
    /**
@@ -94,8 +95,6 @@ export default class {
    _setDir(cb) {
       this.walking = true;
       this.lastDir = cb;
-
-      this.repeater();
    }
    /**
     * Binded methods
@@ -226,42 +225,37 @@ export default class {
    onClick(cb) {
       this._onClick = () => {
          this._clearCache();
+         this.ticsInIdle = 0;
 
          cb.call();
       }
    }
-
-   repeater() {
-      this._repeater = setInterval(() => {
-         if (this.walking) {
-            this.lastDir.call()
-         }
-      }, 100)
+   /**
+    * Deal damage to enemy
+    */
+   dealDamage() {
+      const ENEMY = this.enemy;
+      ENEMY.takeDamage(this._dmgCalculator(ENEMY, this.self))
    }
    destroyEvents() {
-      window.removeEventListener("keydown", this.setEvent, false);
-      window.removeEventListener("keyup", this.setRelease, false);
-
-      window.removeEventListener("mousedown", this.setClick, false);
-      window.removeEventListener("mouseup", this.removeClick, false);
-
+      window.cancelAnimationFrame(this.loop);
       this.script.dead = true;
-      window.cancelAnimationFrame(this.script.loop);
    }
    startLoop() {
       const LOOP = () => this.startLoop();
       this.ticsInIdle++;
 
-      this.script.loop = window.requestAnimationFrame(function () {
+      this.loop = window.requestAnimationFrame(function () {
          if (this.script.dead) return;
 
          let scan = this.actions.updateMapPlayers.call();
 
-         this.self = scan.player.config;
-         this.enemies = scan.monsters.filter(m => m.config.id != this.id);
+         this.mapScanner = scan.monsters.filter(m => m.config.id != this.id);
+         this.self = scan.monsters.filter(m => m.config.id == this.id)[0];
+         this.enemy = scan.player?.config;
 
-         if (this.self && this.enemies) {
-            this._attackIfInRange(this.self, this.enemies);
+         if (this.self && this.enemy) {
+            this._trackAndDestroy(this.self.config.monster, this.enemy.player, this.enemy);
          }
 
          if (this.walking) {

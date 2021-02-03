@@ -168,5 +168,28 @@
          opacity: 0.5;
          filter: grayscale(1);
       }
+      [has-enough-gold] {
+         &:not(.locked) {
+            position: relative;
+
+            &:before {
+               content: "";
+               position: absolute;
+               left: 0;
+               top: 0;
+               display: block;
+               width: 100%;
+               height: 100%;
+               background: red;
+               opacity: 0.25;
+               z-index: 100;
+               pointer-events: none;
+            }
+
+            #itemSprite {
+               filter: grayscale(.3);
+            }
+         }
+      }
    }
 }

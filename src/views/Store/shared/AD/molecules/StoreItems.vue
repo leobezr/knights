@@ -4,7 +4,11 @@
          <h3>Headgears</h3>
          <ul>
             <li v-for="(item, index) in headgears" :key="index">
-               <SmallMenu :config="menuConfig(item)" :disabled="levelRestriction(persona.level, item.tier)">
+               <SmallMenu
+                  :config="menuConfig(item)"
+                  :has-enough-gold="hasGold(item)"
+                  :disabled="levelRestriction(persona.level, item.tier)"
+               >
                   <template v-slot:content>
                      <ItemSprite :sprite="item" in-store />
                   </template>
@@ -14,7 +18,11 @@
          <h3>Armor</h3>
          <ul>
             <li v-for="(item, index) in armor" :key="index">
-               <SmallMenu :config="menuConfig(item)" :disabled="levelRestriction(persona.level, item.tier)">
+               <SmallMenu
+                  :config="menuConfig(item)"
+                  :has-enough-gold="hasGold(item)"
+                  :disabled="levelRestriction(persona.level, item.tier)"
+               >
                   <template v-slot:content>
                      <ItemSprite :sprite="item" in-store />
                   </template>
@@ -24,7 +32,11 @@
          <h3>Acessories</h3>
          <ul>
             <li v-for="(item, index) in accessories" :key="index">
-               <SmallMenu :config="menuConfig(item)" :disabled="levelRestriction(persona.level, item.tier)">
+               <SmallMenu
+                  :config="menuConfig(item)"
+                  :has-enough-gold="hasGold(item)"
+                  :disabled="levelRestriction(persona.level, item.tier)"
+               >
                   <template v-slot:content>
                      <ItemSprite :sprite="item" in-store />
                   </template>
@@ -34,7 +46,11 @@
          <h3>Footgear</h3>
          <ul>
             <li v-for="(item, index) in footgear" :key="index">
-               <SmallMenu :config="menuConfig(item)" :disabled="levelRestriction(persona.level, item.tier)">
+               <SmallMenu
+                  :config="menuConfig(item)"
+                  :has-enough-gold="hasGold(item)"
+                  :disabled="levelRestriction(persona.level, item.tier)"
+               >
                   <template v-slot:content>
                      <ItemSprite :sprite="item" in-store />
                   </template>
@@ -44,7 +60,11 @@
          <h3>Legs</h3>
          <ul>
             <li v-for="(item, index) in legs" :key="index">
-               <SmallMenu :config="menuConfig(item)" :disabled="levelRestriction(persona.level, item.tier)">
+               <SmallMenu
+                  :config="menuConfig(item)"
+                  :has-enough-gold="hasGold(item)"
+                  :disabled="levelRestriction(persona.level, item.tier)"
+               >
                   <template v-slot:content>
                      <ItemSprite :sprite="item" in-store />
                   </template>
@@ -54,7 +74,11 @@
          <h3>Sheilds</h3>
          <ul>
             <li v-for="(item, index) in shields" :key="index">
-               <SmallMenu :config="menuConfig(item)" :disabled="levelRestriction(persona.level, item.tier)">
+               <SmallMenu
+                  :config="menuConfig(item)"
+                  :has-enough-gold="hasGold(item)"
+                  :disabled="levelRestriction(persona.level, item.tier)"
+               >
                   <template v-slot:content>
                      <ItemSprite :sprite="item" in-store />
                   </template>
@@ -64,7 +88,11 @@
          <h3>Weapons</h3>
          <ul>
             <li v-for="(item, index) in weapons" :key="index">
-               <SmallMenu :config="menuConfig(item)" :disabled="levelRestriction(persona.level, item.tier)">
+               <SmallMenu
+                  :config="menuConfig(item)"
+                  :has-enough-gold="hasGold(item)"
+                  :disabled="levelRestriction(persona.level, item.tier)"
+               >
                   <template v-slot:content>
                      <ItemSprite :sprite="item" in-store />
                   </template>
@@ -79,7 +107,10 @@
 import { mapActions, mapGetters, mapState } from "vuex";
 import ItemSprite from "@/shared/components/AD/atoms/ItemSprite.vue";
 import SmallMenu from "@/shared/components/AD/atoms/SmallMenu.vue";
+import itemValueIdentifier from "@/shared/utils/itemValueIdentifier.js";
 import levelRestriction from "@/shared/utils/levelRestriction.js";
+import { shop } from "@/shared/utils/soundPack.js";
+import { Howl } from "howler";
 
 export default {
    name: "StoreItem",
@@ -114,6 +145,16 @@ export default {
       headgears() {
          return this.filter("headgear");
       },
+      hasGold() {
+         const itemValue = (item) =>
+            itemValueIdentifier.buying(
+               item.gold,
+               item.tier,
+               this.persona.honor ?? 0
+            );
+
+         return (item) => this.persona.gold >= itemValue(item);
+      },
       accessories() {
          return this.filter("accessories");
       },
@@ -130,7 +171,7 @@ export default {
          return this.filter("shields");
       },
       weapons() {
-         return this.filter("weapons");
+         return this.filter("weapon");
       },
 
       menuConfig() {
@@ -153,7 +194,7 @@ export default {
       filter(key) {
          if (this.galleryList) {
             const ITEM_LIST = this.galleryList.filter((item) => {
-               return item.sprite.includes(key);
+               return item.type.includes(key);
             });
 
             if (ITEM_LIST && ITEM_LIST.length) {
@@ -167,7 +208,14 @@ export default {
       },
       buyItem(item) {
          this.buyItemFromStore(item);
-      }
+
+         const buySound = new Howl({
+            src: [shop.buyItem],
+            volume: 0.1,
+         });
+
+         buySound.play();
+      },
    },
    created() {
       this.getItems();

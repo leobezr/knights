@@ -57,7 +57,7 @@ export default {
       sendToMap(monster) {
          this.$router
             .push({
-               name: "MapReader",
+               name: "HuntingGround",
                params: { hunt: monster.name.toLowerCase() },
             })
             .catch((e) => {});

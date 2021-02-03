@@ -17,6 +17,9 @@ const routes = [
       path: '/',
       name: 'KnightBuilder',
       component: KnightBuilder,
+      meta: {
+         soundtrack: "login",
+      }
    },
    {
       path: "/app/",
@@ -28,6 +31,7 @@ const routes = [
             name: "Character",
             component: Character,
             meta: {
+               soundtrack: "default",
                child: true
             }
          },
@@ -36,6 +40,7 @@ const routes = [
             name: "Store",
             component: Store,
             meta: {
+               soundtrack: "shop",
                child: true
             }
          },
@@ -44,22 +49,25 @@ const routes = [
             name: "Hunts",
             component: Hunts,
             meta: {
+               soundtrack: "default",
                child: true
             }
          },
+         // {
+         //    path: "hunts/map/:hunt",
+         //    name: "MapReader",
+         //    component: MapReader,
+         //    meta: {
+         //       soundtrack: "hunt",
+         //       child: true
+         //    }
+         // },
          {
             path: "hunts/map/:hunt",
-            name: "MapReader",
-            component: MapReader,
-            meta: {
-               child: true
-            }
-         },
-         {
-            path: "hunting-ground",
             name: "HuntingGround",
             component: HuntingGround,
             meta: {
+               soundtrack: "hunt",
                child: true
             }
          }
