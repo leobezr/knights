@@ -1,8 +1,8 @@
 <template>
    <ul id="smallMenu">
-      <v-menu top offset-y :disabled="disabled">
+      <v-menu top offset-y :disabled="disabled || !hasEnoughGold">
          <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" v-on="on" :class="disabled ? 'locked' : ''">
+            <div v-bind="attrs" v-on="on" :has-enough-gold="!hasEnoughGold" :class="disabled ? 'locked' : ''">
                <slot name="content" />
             </div>
          </template>
@@ -35,6 +35,10 @@ export default {
       disabled: {
          type: Boolean,
          default: false,
+      },
+      "has-enough-gold": {
+         type: Boolean,
+         default: true,
       },
    },
 };
