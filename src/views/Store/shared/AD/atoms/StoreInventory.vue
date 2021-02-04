@@ -28,6 +28,8 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import ItemSprite from "@/shared/components/AD/atoms/ItemSprite.vue";
+import { shop } from "@/shared/utils/soundPack.js";
+import { Howl } from "howler";
 
 export default {
    name: "CharacterInventory",
@@ -51,13 +53,23 @@ export default {
    methods: {
       ...mapActions(["sellInventoryItem"]),
 
+      playSound() {
+         const sellSound = new Howl({
+            src: [shop.sellItem],
+            volume: 0.1,
+         });
+
+         sellSound.play();
+      },
       sellLeftClick(e, item) {
          e.preventDefault();
          this.sell(item);
+         this.playSound()
       },
       sell(item) {
          if (this.persona.inventory.includes(item)) {
             this.sellInventoryItem(item);
+            this.playSound()
          }
       },
    },

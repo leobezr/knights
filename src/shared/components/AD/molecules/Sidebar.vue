@@ -56,7 +56,7 @@ export default {
             },
             { icon: "mdi-treasure-chest", link: "Store", label: "Store" },
             { icon: "mdi-ghost", link: "Hunts", label: "Hunts" },
-            { icon: "mdi-sword-cross", link: "Character", label: "Arena" },
+            { icon: "mdi-sword-cross", link: "HuntingGround", label: "Arena" },
             {
                icon: "mdi-logout-variant",
                action: this.signout,
