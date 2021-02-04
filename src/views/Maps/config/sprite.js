@@ -1,4 +1,4 @@
-import HealthBar from "@/views/Maps/config/healthbar.js";
+// import HealthBar from "@/views/Maps/config/healthbar.js";
 
 export default class {
    constructor(sprite, x, y, canvas, orientation, config) {

@@ -10,9 +10,7 @@
             </div>
             <div class="line">
                <strong>DEF</strong>
-               <span
-                  >{{ attribute.def }}
-               </span>
+               <span>{{ attribute.def }} </span>
             </div>
             <div class="line">
                <strong>HP</strong>
@@ -113,6 +111,10 @@
                   <strong>Character Power</strong>
                   <span> {{ attribute.cp }} </span>
                </div>
+               <div class="d-flex justify-space-between w-100">
+                  <strong>Attack Range</strong>
+                  <span> {{ characterRange }} </span>
+               </div>
                <div
                   class="d-flex justify-space-between w-100"
                   v-if="pointsToAdd"
@@ -166,6 +168,9 @@ export default {
             Math.abs(statusPoints - this.user.level * GAIN_STATUS_PER_LEVEL)
          );
          return hasPoints;
+      },
+      characterRange() {
+         return this.user.misc.attackRange;
       },
       attrBellowMaxStatus() {
          const MAX_STATUS_POINTS = 200;
