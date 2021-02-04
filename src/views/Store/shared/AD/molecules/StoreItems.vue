@@ -168,7 +168,7 @@ export default {
          return this.filter("legs");
       },
       shields() {
-         return this.filter("shields");
+         return this.filter("shield");
       },
       weapons() {
          return this.filter("weapon");
