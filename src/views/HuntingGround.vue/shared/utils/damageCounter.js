@@ -47,18 +47,16 @@ export default class {
    async animate(damage) {
       await this._createNumberBlocks(damage);
 
-      let avatarGridHeight = Math.floor(this.config.h);
-      let avatarPos = { x: this.avatar.x(), y: this.avatar.y() };
+      let avatarGridHeight = Math.floor(this.config.grid.height);
+      let avatarPos = this.avatar.location();
 
       const BALLON = new Konva.Group({
-         x: Math.floor(avatarPos.x - 20),
-         y: Math.floor(avatarPos.y - ((avatarGridHeight / 2) - 50))
+         x: Math.floor(avatarPos.x),
+         y: Math.floor(avatarPos.y - ((avatarGridHeight / 2) - 100))
       })
 
       this.shapes.numbers.map((number) => BALLON.add(number))
       this.core.layer.add(BALLON)
-
-      let ballonInitialY = BALLON.y();
 
       let anim = new Konva.Animation(function (frame) {
          let timeMax = 350;

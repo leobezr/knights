@@ -45,7 +45,7 @@ export default class {
     */
    _attackIfInRange(self, enemy) {
       const selfAvatar = self.player;
-      const posSelf = { x: selfAvatar.x(), y: selfAvatar.y() };
+      const posSelf = selfAvatar.location();
 
       let spawnMap = enemy.map(creature => {
          return {

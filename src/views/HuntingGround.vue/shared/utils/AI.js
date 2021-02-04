@@ -46,7 +46,7 @@ export default class {
    }
    _trackAndDestroy(self, enemy) {
       const posSelf = { x: self.x(), y: self.y() };
-      const posEnemy = { x: enemy.x(), y: enemy.y() };
+      const posEnemy = { x: enemy.location().x, y: enemy.location().y };
 
       const hypotInX = Math.hypot(posSelf.x, Math.round(posEnemy.x - posSelf.x))
       const hypotInY = Math.hypot(posSelf.y, Math.round(posEnemy.y - posSelf.y))
@@ -56,8 +56,8 @@ export default class {
       const boxOffset = { x: posSelf.x + attackRange, y: posSelf.y + attackRange };
 
       if (this.ticsInIdle >= Math.round(80 - (this.speed / 15))) {
-         self.x(enemy.x() - attackRange);
-         self.y(enemy.y() - attackRange);
+         self.x(enemy.location().x - attackRange);
+         self.y(enemy.location().y - attackRange);
       }
 
       if (hypotInX >= 0 && hypotInX < boxOffset.x) {

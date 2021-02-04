@@ -1,7 +1,7 @@
-import Konva from "konva";
 import Controller from "@/views/HuntingGround.vue/shared/utils/controller.js";
 import HealthBar from "@/views/HuntingGround.vue/shared/utils/healthbar.js";
 import DamageCounter from "@/views/HuntingGround.vue/shared/utils/damageCounter.js";
+import PlayerBody from "@/views/HuntingGround.vue/shared/utils/playerBody.js";
 import { Howl } from "howler";
 
 export default class {
@@ -9,20 +9,17 @@ export default class {
       this.player = null;
 
       this.config = {
-         sprite: props.spritesheet,
-         h: props.spriteProp.height / props.spriteProp.rows,
-         w: props.spriteProp.width / props.spriteProp.cols,
-         attackRange: props.spriteProp.misc.attackRange || 20,
+         attackRange: props.playerProps.misc.attackRange || 20,
          container: props.container,
          layer: props.layer,
-         stage: props.stage
+         stage: props.stage,
+         grid: {
+            width: 0,
+            height: 0
+         },
       }
 
-      this.sprite = {
-         map: props.spriteProp.map
-      }
-
-      const stats = props.spriteProp.stats;
+      const stats = props.playerProps.stats;
 
       this.stats = {
          dead: false,
@@ -32,10 +29,6 @@ export default class {
          def: stats.attributes.def,
          agi: Math.floor(stats.attributes.agi + stats.modifier.agi),
          speed: Math.floor((stats.attributes.agi + stats.modifier.agi) * .065),
-         sound: {
-            attack: props.spriteProp.sound.attack,
-            onHit: props.spriteProp.sound.onHit
-         }
       }
 
       this.actions = {
@@ -51,6 +44,7 @@ export default class {
 
       this.healthBar = null;
       this.damageCounter = null;
+      this.controller = null;
       this.killCounter = 0;
    }
    _dmgCalculator(enemy) {
@@ -70,7 +64,7 @@ export default class {
          let targetAttacked = monster.config.takeDamage(this._dmgCalculator(monster));
 
          var onHit = new Howl({
-            src: [this.stats.sound.onHit],
+            src: [this.player.getSound().onHit],
             volume: 0.1,
          });
          onHit.play();
@@ -127,37 +121,12 @@ export default class {
       }, 600);
    }
    /**
-    * When a monster hits the character, it should take damage
-    * @param {Number} damage
-    */
-   takeDamage(damage) {
-      damage = damage > 0 ? damage : 1;
-
-      if (this.stats.dead) return;
-      let currentHp = Math.floor(this.stats.hp - damage);
-
-      this.damageCounter.animate(damage);
-
-      if (currentHp <= 0) {
-         this.stats.hp = 0;
-      } else {
-         this.stats.hp = currentHp;
-      }
-      this.healthBar.updateHpStatus(this.stats.hp);
-
-      if (this.stats.hp <= 0) {
-         if (!this.stats.dead) {
-            this._suicide();
-         }
-      }
-   }
-   /**
     * Generate attack sound
     * onHit is reserved when hitting an enemy, should not be used when missing
     */
    _attackSound() {
       var attack = new Howl({
-         src: [this.stats.sound.attack],
+         src: [this.player.getSound().attack],
          volume: 0.1,
       });
 
@@ -189,11 +158,11 @@ export default class {
       const attackFn = () => {
          if (this.stats.dead) return;
 
-         const SPEED = this.stats.speed <= 10 ? 10 : this.stats.speed >= 150 ? 150 : this.stats.speed;
+         const SPEED = this.stats.speed <= 10 ? 10 : this.stats.speed >= 900 ? 900 : this.stats.speed;
          const ATTACK_SPEED = Math.round(7 * (1000 / SPEED));
 
          this.player.animation("attacking");
-         this.player.frameRate(SPEED + (SPEED * .1));
+         this.player.frameSpeed(SPEED + (SPEED * .1));
 
          clearInterval(loop);
          loop = setInterval(function () {
@@ -209,7 +178,7 @@ export default class {
       }
       const attackReleaseFn = () => {
          this.player.animation("standing");
-         this.player.frameRate(12);
+         this.player.frameSpeed(12);
 
          clearInterval(loop);
       }
@@ -224,62 +193,62 @@ export default class {
       let containerMaxWidth = this.config.container.offsetWidth;
       let containerMaxHeight = this.config.container.offsetHeight;
 
-      const SPEED = this.stats.speed <= 10 ? 10 : this.stats.speed >= 150 ? 150 : this.stats.speed;
+      const SPEED = this.stats.speed <= 10 ? 10 : this.stats.speed >= 900 ? 900 : this.stats.speed;
 
       this.controller.onUp(() => {
          if (this.stats.dead) return;
-         let playerPosY = this.player.y();
+         let playerPosY = this.player.location().y;
 
-         this.player.frameRate(12);
+         this.player.frameSpeed(12);
          this.player.animation("walkingUp");
 
          if (playerPosY >= 0) {
-            this.player.y(playerPosY - SPEED);
+            this.player.move(null, playerPosY - SPEED);
          } else {
-            this.player.y(0);
+            this.player.move(null, 0);
          }
       })
       this.controller.onDown(() => {
          if (this.stats.dead) return;
-         let playerPosY = this.player.y();
+         let playerPosY = this.player.location().y;
 
-         this.player.frameRate(12);
+         this.player.frameSpeed(12);
          this.player.animation("walkingDown");
 
          if (playerPosY <= (containerMaxHeight - 120)) {
-            this.player.y(playerPosY + SPEED);
+            this.player.move(null, playerPosY + SPEED);
          } else {
-            this.player.y(containerMaxHeight - 120);
+            this.player.move(null, containerMaxHeight - 120);
          }
       })
       this.controller.onRight(() => {
          if (this.stats.dead) return;
-         let playerPosX = this.player.x();
+         let playerPosX = this.player.location().x;
 
-         this.player.frameRate(12);
+         this.player.frameSpeed(12);
          this.player.animation("walkingRight");
 
          if (playerPosX < (containerMaxWidth - 120)) {
-            this.player.x(playerPosX + SPEED);
+            this.player.move(playerPosX + SPEED);
          } else {
-            this.player.x(containerMaxWidth - 120);
+            this.player.move(containerMaxWidth - 120);
          }
       })
       this.controller.onLeft(() => {
          if (this.stats.dead) return;
-         let playerPosX = this.player.x();
+         let playerPosX = this.player.location().x;
 
-         this.player.frameRate(12);
+         this.player.frameSpeed(12);
          this.player.animation("walkingLeft");
 
          if (playerPosX >= 0) {
-            this.player.x(playerPosX - SPEED);
+            this.player.move(playerPosX - SPEED);
          } else {
-            this.player.x(0);
+            this.player.move(0);
          }
       })
       this.controller.onRelease(() => {
-         this.player.frameRate(12);
+         this.player.frameSpeed(12);
          this.player.animation("standing");
       })
    }
@@ -287,39 +256,25 @@ export default class {
     * Trigger player method
     * @returns {Promise}
     */
-   init() {
-      return new Promise(resolve => {
-         const imageObj = new Image();
+   async init() {
+      const BODY = new PlayerBody({
+         gender: "female",
+         vocation: "swordman",
+         color: "default",
+         head: {
+            type: "standard",
+            color: "black"
+         }
+      });
 
-         imageObj.onload = function () {
-            const SPRITE = this.sprite.map;
+      this.player = await BODY.load(this.config.layer);
+      this.config.grid = this.player.config.grid;
 
-            this.player = new Konva.Sprite({
-               x: 50,
-               y: 50,
-               image: imageObj,
-               animation: "standing",
-               animations: {
-                  standing: SPRITE.standing,
-                  attacking: SPRITE.attacking,
-                  walkingLeft: SPRITE.walkingLeft,
-                  walkingUp: SPRITE.walkingUp,
-                  walkingRight: SPRITE.walkingRight,
-                  walkingDown: SPRITE.walkingDown,
-                  die: SPRITE.die,
-               },
-               frameRate: 12,
-               frameIndex: 0
-            });
+      this._setHealthBar();
+      this._setDamageCounter();
+      this._setControles();
 
-            this._setHealthBar();
-            this._setDamageCounter();
-            this._setControles();
-            resolve({ sprite: this.player, config: this });
-         }.bind(this);
-
-         imageObj.src = this.config.sprite;
-      })
+      return { sprite: this.player, config: this };
    }
    /**
     * Vue beforeDestroy lifecycle calls this method and cleans
@@ -332,5 +287,30 @@ export default class {
    resetReward() {
       this.fightLog.enemiesKilled = 0;
       this.fightLog.enemyIdKilled = {};
+   }
+   /**
+    * When a monster hits the character, it should take damage
+    * @param {Number} damage
+    */
+   takeDamage(damage) {
+      damage = damage > 0 ? damage : 1;
+
+      if (this.stats.dead) return;
+      let currentHp = Math.floor(this.stats.hp - damage);
+
+      this.damageCounter.animate(damage);
+
+      if (currentHp <= 0) {
+         this.stats.hp = 0;
+      } else {
+         this.stats.hp = currentHp;
+      }
+      this.healthBar.updateHpStatus(this.stats.hp);
+
+      if (this.stats.hp <= 0) {
+         if (!this.stats.dead) {
+            this._suicide();
+         }
+      }
    }
 }

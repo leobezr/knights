@@ -12,12 +12,14 @@ export default class {
       this.config = {
          id: props.idType,
          sprite: props.spritesheet,
-         h: props.spriteProp.height / props.spriteProp.rows,
-         w: props.spriteProp.width / props.spriteProp.cols,
          attackRange: props.spriteProp.attackRange,
          container: props.container,
          layer: props.layer,
-         stage: props.stage
+         stage: props.stage,
+         grid: {
+            height: props.spriteProp.height / props.spriteProp.rows,
+            width: props.spriteProp.width / props.spriteProp.cols,
+         },
       }
       this.stats = {
          hp: props.spriteProp.health,
@@ -204,8 +206,8 @@ export default class {
          const imageObj = new Image();
 
          imageObj.onload = function () {
-            const spriteH = parseInt(this.config.h);
-            const spriteW = parseInt(this.config.w);
+            const spriteH = parseInt(this.config.grid.height);
+            const spriteW = parseInt(this.config.grid.width);
 
             const spriteOffset = spriteW;
 
@@ -290,6 +292,13 @@ export default class {
                frameRate: 12,
                frameIndex: 0
             });
+
+            this.monster.location = () => {
+               return {
+                  x: this.monster.x(),
+                  y: this.monster.y()
+               }
+            }
 
             this._setHealthBar();
             this._setDamageCounter();

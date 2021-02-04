@@ -46,7 +46,7 @@ export default class {
    }
    _hpBarFollowAvatar() {
       let avatarGridHeight = Math.floor(this.config.h);
-      let avatarPos = { x: this.avatar.x(), y: this.avatar.y() };
+      let avatarPos = this.avatar.location();
 
       this.hpBarGroup = new Konva.Group({
          x: Math.floor(avatarPos.x),
@@ -58,9 +58,9 @@ export default class {
       this.core.layer.add(this.hpBarGroup)
    }
    _stickyGroup() {
-      let avatarPos = { x: this.avatar.x(), y: this.avatar.y() };
+      let avatarPos = this.avatar.location();
 
-      this.hpBarGroup.x(Math.floor(avatarPos.x - 45));
+      this.hpBarGroup.x(Math.floor(avatarPos.x));
       this.hpBarGroup.y(Math.floor((avatarPos.y + 165)));
    }
    _keepLoop() {

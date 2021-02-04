@@ -8,7 +8,7 @@ export default class {
       this.layer = null;
 
       this.config = {
-         player: props.player,
+         playerProps: props.playerProps,
          monsters: props.monsters,
       }
 
@@ -21,24 +21,33 @@ export default class {
          win: props.actions.win,
          lose: props.actions.lose,
       }
-
-      this.eventSetter = props.eventSetter
    }
    /**
     * Add player to map scope
     */
    async _addPlayer() {
       this.arena.player = await new Player({
-         spritesheet: this.config.player.spritesheet,
-         spriteProp: this.config.player,
+         playerProps: this.config.playerProps,
          container: this.stage.container(),
          layer: this.layer,
-         eventSetter: this.eventSetter,
          onScreenUpdate: this._onScreen.bind(this),
          commands: this.commands
       }).init()
 
-      this._updateFrame(this.arena.player.sprite);
+      for (let children in this.arena.player.sprite.getChildren()) {
+         let child = this.arena.player.sprite[children];
+
+         if (child.top || child.middle || child.lower) {
+            for (let headgear in child) {
+               this.layer.add(child[headgear]);
+            }
+         } else {
+            this.layer.add(child);
+         }
+
+      }
+
+      this._updateFrame();
       this.arena.player.sprite.start();
    }
    /**
@@ -56,13 +65,13 @@ export default class {
             container: this.stage.container(),
             layer: this.layer,
             stage: this.stage,
-            eventSetter: this.eventSetter,
             onScreenUpdate: this._onScreen.bind(this),
          }).init()
 
          this.arena.monsters.push(AI);
 
-         this._updateFrame(this.arena.monsters[creature].sprite);
+         this.layer.add(this.arena.monsters[creature].sprite);
+         this._updateFrame();
          this.arena.monsters[creature].sprite.start();
       }
    }
@@ -70,8 +79,7 @@ export default class {
     * Updates Konva frame
     * @param {Object} layer
     */
-   _updateFrame(layer) {
-      this.layer.add(layer)
+   _updateFrame() {
       this.stage.add(this.layer);
       this.layer.draw();
    }

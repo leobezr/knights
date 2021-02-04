@@ -10,7 +10,7 @@
                   v-if="!isFinalRound"
                   class="mr-2"
                   color="primary"
-                  >Go again</v-btn
+                  >Continue</v-btn
                >
                <v-btn
                   class="pink accent-3 white--text"
@@ -37,7 +37,6 @@
 import Canvas from "@/views/HuntingGround.vue/shared/utils/canvas.js";
 import field from "@/views/Maps/maps/field.png";
 import mapConfig from "@/views/Maps/monsters/map-config.js";
-import VocationSprites from "@/views/Maps/monsters/heroes.js";
 import { mapActions } from "vuex";
 import "@/views/HuntingGround.vue/shared/scss/_mapper.scss";
 
@@ -52,6 +51,7 @@ export default {
          sentReward: false,
          round: 1,
          maxRounds: 10,
+         playerProps: {}
       };
    },
    computed: {
@@ -68,9 +68,6 @@ export default {
             enemies.push(CREATURE);
          }
          return enemies;
-      },
-      player() {
-         return VocationSprites.classes.knight;
       },
       mapBackground() {
          const MAP = this.$route.params.hunt;
@@ -92,8 +89,8 @@ export default {
       async getPlayerData() {
          const PERSONA = await this.me();
 
-         this.player.stats = PERSONA;
-         this.player.misc = PERSONA.misc;
+         this.playerProps.stats = PERSONA;
+         this.playerProps.misc = PERSONA.misc;
          this.init();
       },
       backToHuntLobby() {
@@ -116,8 +113,7 @@ export default {
             this.map = new Canvas({
                bg: field,
                monsters: this.monsters,
-               player: this.player,
-               eventSetter: this.setEvent,
+               playerProps: this.playerProps,
                actions: {
                   win: this.winMatch,
                   lose: this.loseMatch,
@@ -140,9 +136,6 @@ export default {
          } else {
             this.map.cleanCache();
          }
-      },
-      setEvent(eventName, event) {
-         this.events.push({ eventName, event });
       },
       winMatch(enemiesDefeated) {
          this.battle = true;
