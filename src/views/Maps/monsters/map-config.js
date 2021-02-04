@@ -54,7 +54,7 @@ export default {
          health: 900,
          def: 250,
          damage: 700,
-         agi: 800,
+         agi: 5000,
          attackRange: 20,
          spritesheet: loki,
          sound: {

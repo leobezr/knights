@@ -14,7 +14,7 @@
             <span>COMPLETE</span>
             <div class="controller">
                <v-btn @click="goAgain" class="mr-2" color="primary"
-                  >Go again</v-btn
+                  >Continue</v-btn
                >
                <v-btn
                   class="pink accent-3 white--text"
