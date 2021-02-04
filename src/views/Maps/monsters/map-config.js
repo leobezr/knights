@@ -13,9 +13,9 @@ export default {
    enemies: {
       poring: {
          id: 10001,
-         health: 100,
+         health: 50,
          def: 0,
-         damage: 15,
+         damage: 6,
          agi: 35,
          spritesheet: poring,
          sound: {
@@ -32,10 +32,10 @@ export default {
       },
       zombie: {
          id: 10002,
-         health: 350,
+         health: 250,
          def: 15,
-         damage: 25,
-         agi: 50,
+         damage: 10,
+         agi: 35,
          spritesheet: zombie,
          sound: {
             attack: sword.monsterAttack,
@@ -52,9 +52,9 @@ export default {
       loki: {
          id: 10003,
          health: 900,
-         def: 250,
-         damage: 700,
-         agi: 5000,
+         def: 150,
+         damage: 200,
+         agi: 800,
          attackRange: 20,
          spritesheet: loki,
          sound: {
