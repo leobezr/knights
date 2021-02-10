@@ -6,6 +6,7 @@ export default {
    get: getItemGallery,
    sell: sellItem,
    buy: buyItem,
+   sellAllInventory
 }
 
 function getItemGallery() {
@@ -17,6 +18,13 @@ function getItemGallery() {
 function sellItem(payload) {
    return Api.POST({
       url: prefix + "sell",
+      body: payload
+   })
+}
+
+function sellAllInventory(payload) {
+   return Api.POST({
+      url: prefix + "sell/inventory",
       body: payload
    })
 }

@@ -7,6 +7,11 @@ export default {
 
          return await dispatch("me");
       },
+      async getBossReward({ dispatch }, battleLog) {
+         await hunt.bossReward(battleLog)
+
+         return await dispatch("me");
+      },
    },
    mutations: {
       updateItemGallery(state, itemList) {
