@@ -14,7 +14,10 @@
             <div class="itemStats" tooltip>
                <div class="containerHeader">
                   <strong class="itemTitle">{{ sprite.name }}</strong>
-                  <small :class="persona.level >= minItemLevel ? 'can' : 'blocked'">Min level: {{ minItemLevel }}</small>
+                  <small
+                     :class="persona.level >= minItemLevel ? 'can' : 'blocked'"
+                     >Min level: {{ minItemLevel }}</small
+                  >
                </div>
                <ul>
                   <li>
@@ -42,6 +45,9 @@
                      <span>{{ stats(sprite.attr.luk) }}</span>
                   </li>
                </ul>
+               <div class="vocationRequired" v-if="sprite.vocationRequired">
+                  <strong>Vocation required: </strong>{{ vocationsCanUseItem(sprite) }}
+               </div>
                <div class="price">
                   <strong>Gold: </strong>
                   <span>{{ stats(itemValue(sprite)).toLocaleString() }}</span>
@@ -98,6 +104,17 @@ export default {
             level++;
          }
          return level;
+      },
+      vocationsCanUseItem() {
+         return (item) => {
+            if (item.vocationRequired) {
+               let vocations = "";
+               for (let vocation in item.vocationRequired) {
+                  vocations += `${item.vocationRequired[vocation]}, `;
+               }
+               return vocations.slice(0, vocations.length - 2);
+            }
+         };
       },
    },
    props: {

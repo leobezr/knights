@@ -1,18 +1,5 @@
 <template>
    <div id="sidebar">
-      <div class="userInfo">
-         <v-tooltip right>
-            <template v-slot:activator="{ on, attrs }">
-               <v-avatar v-bind="attrs" v-on="on">
-                  <img
-                     src="https://cdn.vuetifyjs.com/images/john.jpg"
-                     alt="John"
-                  />
-               </v-avatar>
-            </template>
-            <span>{{ characterName }}</span>
-         </v-tooltip>
-      </div>
       <div class="menu-nav">
          <SidebarLinks :links="sidebarLinks" />
       </div>
