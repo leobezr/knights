@@ -83,11 +83,11 @@ export default {
 
          switch (this.round) {
             case 1:
-               return repeat(CREATURE[0]);
+               return repeat(CREATURE[0], 5);
             case 2:
-               return repeat(CREATURE[1]);
+               return repeat(CREATURE[1], 5);
             case 3:
-               return repeat(CREATURE[2]);
+               return repeat(CREATURE[2], 5);
             case 4:
                this.bossLevel = [
                   ...repeat(CREATURE[0]),
@@ -153,7 +153,7 @@ export default {
                },
             });
          } else {
-            // this.backToHuntLobby();
+            this.backToHuntLobby();
          }
 
          this.map.init();
