@@ -51,6 +51,7 @@ export default class {
       this.damageCounter = null;
       this.controller = null;
       this.killCounter = 0;
+      this.killScript = false;
 
       this.mechanics = {
          isAttacking: false,
@@ -235,6 +236,11 @@ export default class {
 
          clearInterval(loop);
          loop = setInterval(function () {
+            if (this.killScript) {
+               attackReleaseFn.call();
+               return;
+            }
+
             this.mechanics.collisionBox.updateFrame()
 
             this.player.animation("attacking");
@@ -261,6 +267,9 @@ export default class {
 
       this.controller.onClick(attackFn);
       this.controller.onClickRelease(attackReleaseFn);
+   }
+   _stopAttacking() {
+      this.killScript = true;
    }
    /**
     * Movement controller, hotkeys and such
@@ -374,6 +383,7 @@ export default class {
     * Child intervals and loops
     */
    destroyEvents() {
+      this._stopAttacking();
       this.controller.destroyEvents();
       this.healthBar.destroy()
       this.mechanics.collisionBox.destroy()

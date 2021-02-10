@@ -59,9 +59,24 @@ export default class {
    }
    _stickyGroup() {
       let avatarPos = this.avatar.location();
+      let offsetHeight = 0;
+      let offsetWidth = 0;
 
-      this.hpBarGroup.x(Math.floor(avatarPos.x));
-      this.hpBarGroup.y(Math.floor((avatarPos.y + 165)));
+      if (this.avatar.spriteConfig) {
+         switch (this.avatar.monsterSize) {
+            case "large":
+               offsetHeight = this.avatar.spriteConfig.grid.height * .70;
+               offsetWidth = this.avatar.spriteConfig.grid.width * .3;
+               break;
+            case "normal":
+            default:
+               offsetHeight = this.avatar.spriteConfig?.grid?.height * .65;
+         }
+      } else {
+         offsetHeight = this.avatar.config.grid.height * .65;
+      }
+      this.hpBarGroup.x(Math.floor(avatarPos.x + offsetWidth));
+      this.hpBarGroup.y(Math.floor((avatarPos.y + offsetHeight ?? 0)));
    }
    _keepLoop() {
       if (this.script.dead) return;
