@@ -9,6 +9,7 @@
       background: $menu-background;
       color: $menu-color-static;
       height: 100%;
+      padding-top: 30px;
 
       .userInfo {
          display: flex;
@@ -50,9 +51,36 @@
                   transition: all 200ms ease-in;
 
                   &:active {
-                     transform: scale(.9);
+                     transform: scale(0.9);
                      transition: transform 50ms ease-in;
                   }
+               }
+            }
+         }
+      }
+   }
+
+   @media (max-width: 1200px) {
+      & {
+         display: flex;
+         flex-direction: column;
+
+         #sidebar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            width: 100%;
+            padding: 10px 0;
+            height: auto;
+            border-top: solid 1px $input-border-color;
+
+            ul {
+               flex-direction: row;
+               justify-content: space-evenly;
+
+               li {
+                  margin: 0;
                }
             }
          }

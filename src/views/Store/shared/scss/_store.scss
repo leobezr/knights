@@ -12,7 +12,7 @@
          background: rgb(17, 20, 29);
          background: linear-gradient(90deg, rgba(17, 20, 29, 1) 0%, rgba(32, 40, 62, 1) 100%);
          position: absolute;
-         opacity: 0.9;
+         opacity: 0.95;
          transition: all 220ms ease-in;
       }
 
@@ -145,7 +145,7 @@
          list-style: none;
          padding: 0;
          margin: 0;
-         margin-bottom: 20px;
+         margin-bottom: 5px;
 
          li {
             margin: 0 4px 4px 0;
@@ -159,8 +159,87 @@
    }
 
    #cardBody {
-      height: calc(100vh - 30px);
       overflow: auto;
+   }
+
+   .rightContainerWrapper {
+      .upperContainer {
+         display: flex;
+         width: 100%;
+         flex-direction: row;
+         align-items: flex-start;
+
+         .characterItemsContainer {
+            flex: 1;
+         }
+         & > div {
+            display: flex;
+            flex: 3;
+
+            #cardBody {
+               width: 100%;
+            }
+         }
+
+         @media (max-width: 1200px) {
+            & {
+               flex-direction: column;
+
+               & > div {
+                  width: 100%;
+               }
+            }
+         }
+      }
+      #knightGear {
+         display: flex;
+         flex-direction: row;
+         
+         ul {
+            padding-bottom: 50px;
+         }
+      }
+      #characterEquip {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         height: 100%;
+         margin: 20px 0 30px;
+         opacity: 0;
+         animation: showItems 300ms 1 ease-in;
+         animation-fill-mode: forwards;
+
+         & > div {
+            ul {
+               margin: 0;
+               padding: 0;
+               list-style: none;
+               display: flex;
+               flex-direction: row;
+               align-items: center;
+               justify-content: space-around;
+
+               li {
+                  & > * {
+                     margin-bottom: 5px;
+                     margin-right: 5px;
+                  }
+
+                  .slot {
+                     display: flex;
+                     justify-content: center;
+                     align-items: center;
+                     width: 40px;
+                     height: 40px;
+                     padding: 2px;
+                     background: $item-background;
+                     border: solid 2px $item-box-border-color;
+                  }
+               }
+            }
+         }
+      }
    }
 
    #smallMenu {
@@ -187,7 +266,7 @@
             }
 
             #itemSprite {
-               filter: grayscale(.3);
+               filter: grayscale(0.3);
             }
          }
       }

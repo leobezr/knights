@@ -7,8 +7,8 @@ import KnightBuilder from "@/views/KnightBuilder/KnightBuilder.vue";
 import Character from "@/views/Character/Character.vue";
 import Store from "@/views/Store/Store.vue";
 import Hunts from "@/views/Hunt/Hunts.vue";
-import MapReader from "@/views/Maps/MapReader.vue";
-import HuntingGround from "@/views/HuntingGround.vue/HuntingGround.vue";
+import BossFight from "@/views/BossFight/BossFight.vue";
+import HuntingGround from "@/views/HuntingGround/HuntingGround.vue";
 
 Vue.use(VueRouter);
 
@@ -53,15 +53,15 @@ const routes = [
                child: true
             }
          },
-         // {
-         //    path: "hunts/map/:hunt",
-         //    name: "MapReader",
-         //    component: MapReader,
-         //    meta: {
-         //       soundtrack: "hunt",
-         //       child: true
-         //    }
-         // },
+         {
+            path: "hunts/boss/:bossLevel",
+            name: "BossFight",
+            component: BossFight,
+            meta: {
+               soundtrack: "boss",
+               child: true
+            }
+         },
          {
             path: "hunts/map/:hunt",
             name: "HuntingGround",

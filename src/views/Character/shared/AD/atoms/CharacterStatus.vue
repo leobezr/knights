@@ -115,6 +115,10 @@
                   <strong>Attack Range</strong>
                   <span> {{ characterRange }} </span>
                </div>
+               <div class="d-flex justify-space-between w-100">
+                  <strong>Flee</strong>
+                  <span> {{ flee }} </span>
+               </div>
                <div
                   class="d-flex justify-space-between w-100"
                   v-if="pointsToAdd"
@@ -150,6 +154,24 @@ export default {
       },
       mod() {
          return this.user.modifier;
+      },
+      flee() {
+         if (!this.user) return 0;
+
+         let agi = this.user.attributes.agi + this.user.modifier.agi,
+            luk = this.user.attributes.luk + this.user.modifier.luk,
+            itemBonus = 0,
+            mobs = 1;
+
+         return Math.floor(
+            30 +
+               0 +
+               (this.user.level +
+                  Math.floor(agi * 0.05) +
+                  Math.floor(luk * 0.1) / 5 +
+                  itemBonus) *
+                  (1 - (mobs - 2) * 0.2)
+         );
       },
       pointsToAdd() {
          const GAIN_STATUS_PER_LEVEL = 5;

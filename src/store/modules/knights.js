@@ -28,8 +28,7 @@ export default {
       async unequipItem({ dispatch }, props) {
          await knights.unequip({
             id: localStorage.sessionId,
-            slot: props.slot,
-            item: props.item
+            slot: props.slot
          })
 
          dispatch("me");
