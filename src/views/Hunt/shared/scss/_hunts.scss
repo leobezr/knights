@@ -6,6 +6,31 @@
       background-size: cover;
       background-position: center center;
 
+      .containerGrid {
+         padding: 20px;
+
+         .contentGrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(1, 1fr);
+            grid-gap: 20px;
+
+            &[boss-type] {
+               grid-template-columns: repeat(2, 1fr);
+               grid-template-rows: repeat(1, 1fr);
+               
+               .huntingOptions {
+                  grid-template-columns: repeat(4, 1fr);
+               }
+            }
+         }
+         .theme--dark.v-tabs-items {
+            background: rgba(26, 32, 48, 0.5);
+            padding: 20px;
+            border-radius: 0 0 5px 5px;
+         }
+      }
+
       &:before {
          content: "";
          display: block;
@@ -18,17 +43,39 @@
          transition: all 220ms ease-in;
       }
 
-      .huntingOptions {
-         display: grid;
-         grid-template-columns: repeat(8, 1fr);
-         grid-gap: 15px;
-         padding: 20px 15px;
+      .groupLevel {
+         display: flex;
+         color: #fff;
+         position: relative;
+         flex-direction: column;
 
-         .controller {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex: 1;
+         .huntingOptions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 5px;
+            transform: scale(0.99);
+            transition: all 200ms ease-in;
+
+            &:not([permission]) {
+               opacity: 0.3;
+               filter: grayscale(0.7) blur(4px);
+               pointer-events: none;
+            }
+
+            &:hover {
+               transform: scale(1);
+            }
+
+            #cardBody {
+               margin: 0;
+            }
+
+            .controller {
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               flex: 1;
+            }
          }
       }
       .monsterCanvas {
@@ -55,7 +102,7 @@
                padding: 5px;
                margin: 7px;
                display: inline-block;
-               background: rgba(25, 27, 29, .5);
+               background: rgba(25, 27, 29, 0.5);
                border-radius: 3px;
                line-height: 1em;
                text-shadow: -1px 1px 2px #000, 1px 1px 3px #000, 1px -1px 0 #000, -1px -1px 0 #000;
@@ -69,7 +116,7 @@
                display: flex;
                justify-content: center;
                align-items: center;
-               min-height: 150px;
+               height: 150px;
 
                img {
                   height: auto;
