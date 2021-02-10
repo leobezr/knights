@@ -137,7 +137,7 @@ export default {
          sound: {
             attack: sword.fast,
          },
-         attackRange: 50,
+         attackRange: 80,
          rows: 7,
          cols: 8,
          width: 4400,
