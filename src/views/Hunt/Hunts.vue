@@ -4,7 +4,6 @@
          <div class="containerGrid">
             <v-tabs
                v-model="tab"
-               background-color="deep-purple darken-4"
                align-with-title
                dark
             >
