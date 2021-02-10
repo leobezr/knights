@@ -1,0 +1,67 @@
+@import "@/shared/scss/variable.scss";
+
+#characterExpBar {
+   position: absolute;
+   left: 5px;
+   top: 2px;
+   z-index: 1001;
+   width: 330px;
+   color: #fff;
+   border-radius: 5px;
+   line-height: 1em;
+   letter-spacing: 0.06em;
+   font-size: 13px;
+   filter: drop-shadow(1px 1px 4px black);
+
+   .boxContainer {
+      .boxHeader {
+         background: #1a2030;
+         padding: 5px 10px;
+         display: flex;
+         border-radius: 5px 5px 0 0;
+      }
+      .boxContent {
+         display: flex;
+         min-height: 100px;
+         width: 100%;
+         font-size: 13px;
+         padding: 10px;
+         color: #fff;
+         line-height: 1em;
+         border-radius: 0 0 5px 5px;
+         background: rgba(0, 0, 0, 0.5);
+         border: solid 1px $input-border-color;
+         flex-direction: column;
+         grid-row-gap: 20px;
+
+         strong {
+            color: $primary;
+         }
+
+         .upperContent {
+            width: 100%;
+            display: flex;
+            grid-gap: 20px;
+            justify-content: space-between;
+
+            .characterData {
+               display: flex;
+               flex-direction: column;
+               grid-row-gap: 5px;
+            }
+         }
+         .middleContent {
+            width: 100%;
+            display: flex;
+            grid-gap: 20px;
+            justify-content: space-between;
+
+            .level {
+               display: flex;
+               flex-direction: column;
+               grid-row-gap: 5px;
+            }
+         }
+      }
+   }
+}
