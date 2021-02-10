@@ -45,8 +45,15 @@
                      <span>{{ stats(sprite.attr.luk) }}</span>
                   </li>
                </ul>
+               <ul v-if="attackRange(sprite)">
+                  <li>
+                     <strong>Extra Range:</strong>
+                     <span>{{ stats(attackRange(sprite)) }}</span>
+                  </li>
+               </ul>
                <div class="vocationRequired" v-if="sprite.vocationRequired">
-                  <strong>Vocation required: </strong>{{ vocationsCanUseItem(sprite) }}
+                  <strong>Vocation required: </strong
+                  >{{ vocationsCanUseItem(sprite) }}
                </div>
                <div class="price">
                   <strong>Gold: </strong>
@@ -78,6 +85,9 @@ export default {
          return (value) => {
             return value ?? 0;
          };
+      },
+      attackRange() {
+         return (item) => item.misc?.attackRange || 0;
       },
       itemValue() {
          return (item) => {
