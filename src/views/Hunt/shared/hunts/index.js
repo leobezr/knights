@@ -169,7 +169,7 @@ export default {
          ...levels["15-30"],
          {
             label: "Goblin Leader",
-            name: "goblin-leaderr",
+            name: "goblin-leader",
             sprite: GoblinLeader,
             level: 30,
             bg: FieldFullMoon,
