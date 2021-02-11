@@ -1,5 +1,6 @@
 import WindEffct from "@/views/HuntingGround/shared/sprites/effects/wind-blow-big.png"
 import ArrowSprite from "@/views/HuntingGround/shared/sprites/effects/arrow.png";
+import clamp from "@/shared/utils/clamp.js";
 import Konva from "konva";
 
 export default class {
@@ -7,7 +8,8 @@ export default class {
       this.profile = {
          vocation: props.vocation,
          player: props.player,
-         playerRange: props.playerRange
+         playerRange: props.playerRange,
+         radiusRange: props.playerRange + 300
       }
 
       this.box = null;
@@ -66,7 +68,7 @@ export default class {
    async _archerEffect() {
       this.events.archerMouseMove = {
          name: "mousemove",
-         fb: e => {
+         fn: e => {
             this.events.mousePosition = {
                x: e.screenX,
                y: e.screenY
@@ -76,7 +78,7 @@ export default class {
       let playPos = this.profile.player.location();
 
       let canvas = await this._findCanvas();
-      canvas.addEventListener(this.events.archerMouseMove.name, this.events.archerMouseMove.fb);
+      canvas.addEventListener(this.events.archerMouseMove.name, this.events.archerMouseMove.fn);
 
       let arrowSprite = new Image();
       arrowSprite.src = ArrowSprite;
@@ -84,22 +86,26 @@ export default class {
       let collisionBox = new Konva.Rect({
          x: playPos.x / 2,
          y: playPos.y / 2,
-         width: 200,
-         height: 200,
+         width: 150,
+         height: 150,
          strokeWidth: 4,
       })
       this.spriteController.arrow = new Konva.Image({
-         x: collisionBox.x() + 200,
-         y: collisionBox.y() + 125,
-         width: 200,
-         height: 44,
-         image: arrowSprite
+         x: playPos.x + (this.profile.player.body.width() / 2) - 72,
+         y: playPos.y + (this.profile.player.body.height() / 2) - 48,
+         width: 150,
+         height: 150,
+         image: arrowSprite,
+         offset: {
+            x: 75,
+            y: 75
+         }
       })
       this.box = new Konva.Group({
          x: playPos.x / 2,
          y: playPos.y / 2,
-         width: 200,
-         height: 200
+         width: 150,
+         height: 150
       })
 
       this.box.add(collisionBox);
@@ -110,6 +116,7 @@ export default class {
    }
    _fixArrowAngle() {
       let playPos = this.profile.player.location();
+
       let trueClickPositionX = this.events.mousePosition.x - 150;
       let trueClickPositionY = this.events.mousePosition.y - 180;
 
@@ -120,31 +127,26 @@ export default class {
    }
    _archerUpdateBoxPosition() {
       if (this.events.mousePosition) {
-         this._fixArrowAngle()
-         let trueClickPositionX = this.events.mousePosition.x - 150;
-         let trueClickPositionY = this.events.mousePosition.y - 180;
+         this._fixArrowAngle();
+
+         let clickX = this.events.mousePosition.x - 150;
+         let clickY = this.events.mousePosition.y - 180;
 
          let playerPosition = this.profile.player.location();
-         let posX = playerPosition.x;
-         let posY = playerPosition.y;
+         let playerX = playerPosition.x;
+         let playerY = playerPosition.y;
 
-         let radiusAttackRange = 300 + this.profile.playerRange;
+         let radius = this.profile.radiusRange - 80;
 
-         let radii = Math.sqrt(Math.pow((trueClickPositionX - posX), 2) + Math.pow((trueClickPositionY - posY), 2));
+         let clampPos = clamp(clickX, clickY, playerX, playerY, radius);
 
-         if (radii < radiusAttackRange) {
-            this._sendArrow(posX, posY, trueClickPositionX, trueClickPositionY);
-         } else {
-            this.box.x((100 + this.profile.playerRange) * -1);
-            this.box.y((100 + this.profile.playerRange) * -1);
-         }
-
+         this._sendArrow(playerX, playerY, clampPos.x, clampPos.y);
          this.animated();
       }
    }
    _sendArrow(playerX, playerY, targetX, targetY) {
       this.box.x(playerX); this.box.y(playerY);
-      this.box.to({ x: targetX, y: targetY, duration: .03 });
+      this.box.to({ x: targetX, y: targetY, duration: .05 });
 
       let counter = 0;
       let checkArrowPosition = setInterval(function () {
