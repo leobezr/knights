@@ -7,7 +7,8 @@ export default class {
       this.profile = {
          vocation: props.vocation,
          player: props.player,
-         playerRange: props.playerRange
+         playerRange: props.playerRange,
+         radiusRange: props.playerRange + 300
       }
 
       this.box = null;
@@ -66,7 +67,7 @@ export default class {
    async _archerEffect() {
       this.events.archerMouseMove = {
          name: "mousemove",
-         fb: e => {
+         fn: e => {
             this.events.mousePosition = {
                x: e.screenX,
                y: e.screenY
@@ -76,7 +77,7 @@ export default class {
       let playPos = this.profile.player.location();
 
       let canvas = await this._findCanvas();
-      canvas.addEventListener(this.events.archerMouseMove.name, this.events.archerMouseMove.fb);
+      canvas.addEventListener(this.events.archerMouseMove.name, this.events.archerMouseMove.fn);
 
       let arrowSprite = new Image();
       arrowSprite.src = ArrowSprite;
@@ -128,7 +129,7 @@ export default class {
          let posX = playerPosition.x;
          let posY = playerPosition.y;
 
-         let radiusAttackRange = 300 + this.profile.playerRange;
+         let radiusAttackRange = this.profile.radiusRange;
 
          let radii = Math.sqrt(Math.pow((trueClickPositionX - posX), 2) + Math.pow((trueClickPositionY - posY), 2));
 
