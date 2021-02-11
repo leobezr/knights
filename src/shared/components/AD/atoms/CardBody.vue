@@ -1,8 +1,11 @@
 <template>
    <!-- Normal Card -->
    <div id="cardBody" v-if="!modal">
-      <div class="card-header" v-if="title">
+      <div class="card-header" v-if="title && !customTitle">
          <h3>{{ title }}</h3>
+      </div>
+      <div v-else-if="customTitle">
+         <slot name="custom-title" />
       </div>
       <div class="card-content">
          <slot name="content" />
@@ -30,6 +33,10 @@ export default {
          default: false,
       },
       modal: {
+         type: Boolean,
+         default: false,
+      },
+      "custom-title": {
          type: Boolean,
          default: false,
       },

@@ -1,4 +1,10 @@
 #knightGear {
+    height: auto;
+    max-height: 520px;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
     &.inventory {
         ul {
             display: flex;

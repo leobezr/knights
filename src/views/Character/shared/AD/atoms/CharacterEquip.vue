@@ -2,21 +2,34 @@
    <div id="characterEquip">
       <div class="characterHead">
          <ul>
-            <li @contextmenu="(e) => unequip(e, equips['headgear-top'], 'headgear-top')">
+            <li
+               @contextmenu="
+                  (e) => unequip(e, equips['headgear-top'], 'headgear-top')
+               "
+            >
                <ItemSprite
                   :sprite="equips['headgear-top']"
                   v-if="equips['headgear-top']"
                />
                <span class="slot" v-else></span>
             </li>
-            <li @contextmenu="(e) => unequip(e, equips['headgear-middle'], 'headgear-middle')">
+            <li
+               @contextmenu="
+                  (e) =>
+                     unequip(e, equips['headgear-middle'], 'headgear-middle')
+               "
+            >
                <ItemSprite
                   :sprite="equips['headgear-middle']"
                   v-if="equips['headgear-middle']"
                />
                <span class="slot" v-else></span>
             </li>
-            <li @contextmenu="(e) => unequip(e, equips['headgear-lower'], 'headgear-lower')">
+            <li
+               @contextmenu="
+                  (e) => unequip(e, equips['headgear-lower'], 'headgear-lower')
+               "
+            >
                <ItemSprite
                   :sprite="equips['headgear-lower']"
                   v-if="equips['headgear-lower']"
@@ -51,8 +64,13 @@
       </div>
       <div class="characterBottom">
          <ul>
-            <li @contextmenu="(e) => unequip(e, equips.decoration, 'decoration')">
-               <ItemSprite :sprite="equips.decoration" v-if="equips.decoration" />
+            <li
+               @contextmenu="(e) => unequip(e, equips.decoration, 'decoration')"
+            >
+               <ItemSprite
+                  :sprite="equips.decoration"
+                  v-if="equips.decoration"
+               />
                <span class="slot" v-else></span>
             </li>
             <li @contextmenu="(e) => unequip(e, equips.footgear, 'footgear')">
@@ -67,28 +85,44 @@
       </div>
       <div class="characterMisc">
          <ul>
-            <li @contextmenu="(e) => unequip(e, equips.accessory_1, 'accessory_1')">
+            <li
+               @contextmenu="
+                  (e) => unequip(e, equips.accessory_1, 'accessory_1')
+               "
+            >
                <ItemSprite
                   :sprite="equips.accessory_1"
                   v-if="equips.accessory_1"
                />
                <span class="slot" v-else></span>
             </li>
-            <li @contextmenu="(e) => unequip(e, equips.accessory_2, 'accessory_2')">
+            <li
+               @contextmenu="
+                  (e) => unequip(e, equips.accessory_2, 'accessory_2')
+               "
+            >
                <ItemSprite
                   :sprite="equips.accessory_2"
                   v-if="equips.accessory_2"
                />
                <span class="slot" v-else></span>
             </li>
-            <li @contextmenu="(e) => unequip(e, equips.accessory_3, 'accessory_3')">
+            <li
+               @contextmenu="
+                  (e) => unequip(e, equips.accessory_3, 'accessory_3')
+               "
+            >
                <ItemSprite
                   :sprite="equips.accessory_3"
                   v-if="equips.accessory_3"
                />
                <span class="slot" v-else></span>
             </li>
-            <li @contextmenu="(e) => unequip(e, equips.accessory_4, 'accessory_4')">
+            <li
+               @contextmenu="
+                  (e) => unequip(e, equips.accessory_4, 'accessory_4')
+               "
+            >
                <ItemSprite
                   :sprite="equips.accessory_4"
                   v-if="equips.accessory_4"
@@ -131,8 +165,16 @@ export default {
          e.preventDefault();
 
          if (item && slot) {
-            this.unequipItem({ item, slot });
+            if (!this.blockEquipInteraction) {
+               this.unequipItem({ item, slot });
+            }
          }
+      },
+   },
+   props: {
+      "block-equip-interaction": {
+         type: Boolean,
+         default: false,
       },
    },
    watch: {

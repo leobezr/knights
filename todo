@@ -6,46 +6,51 @@ INTERFACE
    - HUNTING GROUNDS
       - more grinding levels
          - Level 1 ~ 15
-            - Poring
-            - Drops
-            - Arc Angeling
+            - Poring @done
+            - Drops @done
+            - Arc Angeling @done
          - Level 15 ~ 30
-            - Zumbi
-            - Orc
-            - Goblin
+            - Dokebi
+            - Baby Orc
+            - Goblin Dagger
          - Level 30 ~ 45
-            - Acidus (Blue)
-            - Acidus (Yellow)
-            - Agav
+            - Deleter
+            - Deleter (Sky)
+            - Metal Dragon
          - Level 45 ~ 70
-            - Angry Penguin
-            - Baphomet Jr.
-            - Bloody Murderer
-         - Level 70 ~ 100
             - Bongun
-            - Loki
-            - Daehyon
+            - Munak
+            - Hyegun
+         - Level 70 ~ 100
+            - Acidus (Yellow)
+            - Ferus (Red)
+            - Hydrolancer
       - Quest
          - Level 15
-            - Poring
-            - Drops
-            - Arc Angeling
-            - King Poring
+            - Poring @done
+            - Drops @done
+            - Arc Angeling @done
+            - King Poring @done
          - Level 30
             - Zumbi
-            - Orc
+            - Baby Orc
             - Goblin
-            - Geffen Mage 01
+            - Goblin Leader
+         - Level 45
+            - Deleter
+            - Deleter (Sky)
+            - Metal Dragon
+            - Harpy
          - Level 70
             - Bongun
-            - Loki
-            - Daehyon
-            - Geffen Mage 03
+            - Munak
+            - Hyegun
+            - Necromancer
          - Level 100
-            - Bongun
-            - Loki
-            - Daehyon
-            - Geffen Mage 08
+            - Acidus (Yellow
+            - Ferus (Red)
+            - Hydrolancer
+            - Detardeurus
       - stage
          - 5 level game
          - boss
@@ -53,10 +58,10 @@ INTERFACE
 ACTIONS
    - EQUIPS
       - rebalance
-         - helmets too strong
-         - accessories useless
-         - weapons too strong
-         - end game too strong
+         - helmets too strong @done
+         - accessories useless @done
+         - weapons too strong @done
+         - end game too strong @done
          - end game at lvl 300, not 120
    - SESSION
       - proper session
@@ -74,8 +79,8 @@ LOGIC
    - item ratios @done
 
 Leon Feedbacks
-- 3 inimigos, muito pouco
-- Mais conteúdo
+- 3 inimigos, muito pouco @done
+- Mais conteúdo @done
 - Adicionar história (quests, fases)
    - Liberar inimigos depois de matar vencer uma quest.
 - ARENA
@@ -87,23 +92,23 @@ Leon Feedbacks
    - Rever DEF @done
    - Rever level @done
 - SPRITE
-   - Adicionar novas classes, tipo arqueiro
+   - Adicionar novas classes, tipo arqueiro @done
    - Adicionar spell
 
 Chicao Feedbacks
-- Itens muito forte no level 33
-- Arma mais forte que a maioria dos itens
-- Chapeu e bota winged mt forte
-- Acessorio fraco
-- Demorou mt pra chegar no loki
-   - Diminuir o grind logo de inicio
+- Itens muito forte no level 33 @done
+- Arma mais forte que a maioria dos itens @done
+- Chapeu e bota winged mt forte @done
+- Acessorio fraco @done
+- Demorou mt pra chegar no loki @done
+   - Diminuir o grind logo de inicio @done
 - Muito dinheiro com honra 500 @done
 
 Brunao
-- Recompensa no final da luta
-- Go again pra Continue
-- Shopping, mostrar inventário
-- Level dentro da partida
+- Recompensa no final da luta @done
+- Go again pra Continue @done
+- Shopping, mostrar inventário @done
+- Level dentro da partida @done
    - Exibir exp
    - Com barra
 - SISTEMA GOTCHYA

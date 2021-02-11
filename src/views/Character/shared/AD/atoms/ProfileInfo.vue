@@ -13,16 +13,6 @@
             readonly
          />
          <v-text-field
-            label="Job"
-            dark
-            outlined
-            :value="data.job"
-            dense
-            hide-details
-            color="primary"
-            readonly
-         />
-         <v-text-field
             label="Vocation"
             dark
             outlined

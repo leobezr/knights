@@ -1,67 +1,63 @@
 <template>
    <div id="hunts">
       <div class="landscape" :style="backgroundImage">
-         <div class="huntingOptions">
-            <CardBody v-for="(monster, index) in monsterList" :key="index">
-               <template v-slot:content>
-                  <div class="monsterCanvas">
-                     <MonsterHunt :monster-data="monster" />
-                  </div>
-                  <div class="monsterBadge">{{ monster.name }}</div>
-                  <div class="monsterLoot"></div>
-                  <div class="controller">
-                     <v-btn
-                        class="deep-orange accent-4 white--text"
-                        @click="sendToMap(monster)"
-                     >
-                        <v-icon left>mdi-sword</v-icon> Fight
-                     </v-btn>
-                  </div>
-               </template>
-            </CardBody>
-            <Rewards />
+         <div class="containerGrid">
+            <v-tabs
+               v-model="tab"
+               align-with-title
+               dark
+            >
+               <v-tabs-slider color="primary"></v-tabs-slider>
+               <v-tab> Hunts </v-tab>
+               <v-tab> Boss Fight </v-tab>
+            </v-tabs>
+
+            <v-tabs-items dark v-model="tab">
+               <v-tab-item>
+                  <NormalLevelGrid :user-data="userData" />
+               </v-tab-item>
+               <v-tab-item>
+                  <BossLevelGrid :user-data="userData" />
+               </v-tab-item>
+            </v-tabs-items>
          </div>
       </div>
+      <Rewards />
    </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
 import bgImage from "@/shared/img/dungeon.jpg";
-import CardBody from "@/shared/components/AD/atoms/CardBody.vue";
-import MonsterHunt from "@/views/Hunt/shared/AD/atoms/MonsterHunt.vue";
 import Rewards from "@/views/Hunt/shared/AD/molecules/Rewards.vue";
-import Hunts from "@/views/Hunt/shared/hunts";
+import NormalLevelGrid from "@/views/Hunt/shared/AD/organisms/NormalLevelGrid.vue";
+import BossLevelGrid from "@/views/Hunt/shared/AD/organisms/BossLevelGrid.vue";
 import "@/views/Hunt/shared/scss/_hunts.scss";
 
 export default {
    name: "Hunts",
    data() {
       return {
-         monsterList: [...Hunts],
+         tab: null,
+         userInfo: null,
       };
    },
    computed: {
       backgroundImage() {
          return `background-image: url(${bgImage});`;
       },
+      userData() {
+         return this.userInfo ?? false;
+      },
    },
    components: {
-      CardBody,
-      MonsterHunt,
       Rewards,
+      NormalLevelGrid,
+      BossLevelGrid,
    },
    methods: {
       ...mapActions(["me"]),
 
-      sendToMap(monster) {
-         this.$router
-            .push({
-               name: "HuntingGround",
-               params: { hunt: monster.name.toLowerCase() },
-            })
-            .catch((e) => {});
-      },
       checkRewards() {
          const rewards = sessionStorage.length
             ? JSON.parse(sessionStorage.reward)
@@ -72,7 +68,7 @@ export default {
          }
       },
       init() {
-         this.me();
+         this.me().then((user) => (this.userInfo = user));
          this.checkRewards();
       },
    },

@@ -22,6 +22,13 @@ export default {
          })
 
          dispatch("me");
+      },
+      async sellAllInventory({ dispatch }) {
+         await items.sellAllInventory({
+            id: localStorage.sessionId,
+         })
+
+         dispatch("me");
       }
    },
    mutations: {

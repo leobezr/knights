@@ -3,6 +3,7 @@ import loginTheme from "@/shared/sounds/songs/login.mp3";
 import defaultTheme from "@/shared/sounds/songs/payon.mp3";
 import shopTheme from "@/shared/sounds/songs/shop.mp3";
 import huntTheme from "@/shared/sounds/hunt/default.mp3";
+import bossTheme from "@/shared/sounds/boss/bossTheme.mp3";
 
 // Sound Effects
 import swordSlashSlow from "@/shared/sounds/battle/sword/sword-1-slow.mp3";
@@ -30,6 +31,7 @@ const song = {
    default: defaultTheme,
    shop: shopTheme,
    hunt: huntTheme,
+   boss: bossTheme
 }
 
 const shop = {
