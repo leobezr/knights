@@ -1,11 +1,14 @@
 import Konva from "konva";
+import vocationMechanics from "@/shared/mechanics/vocationMechanics.js";
+import Store from "@/store"
 
 export default class {
    constructor(props) {
 
       this.layer = props.layer
       this.player = props.player
-      this.attackRange = props.attackRange + 300
+      this.vocation = Store.getters.persona?.vocation;
+      this.attackRange = vocationMechanics[this.vocation].baseRange + props.attackRange
 
       this.circle = null;
 
