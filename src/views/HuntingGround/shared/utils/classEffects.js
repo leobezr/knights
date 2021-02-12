@@ -1,4 +1,4 @@
-import WindEffct from "@/views/HuntingGround/shared/sprites/effects/wind-blow-big.png"
+import vocationMechanics from "@/shared/mechanics/vocationMechanics.js";
 import ArrowSprite from "@/views/HuntingGround/shared/sprites/effects/arrow.png";
 import clamp from "@/shared/utils/clamp.js";
 import Konva from "konva";
@@ -9,7 +9,7 @@ export default class {
          vocation: props.vocation,
          player: props.player,
          playerRange: props.playerRange,
-         radiusRange: props.playerRange + 300
+         radiusRange: vocationMechanics[props.vocation].baseRange + props.playerRange
       }
 
       this.box = null;
@@ -61,11 +61,7 @@ export default class {
          }, 100);
       })
    }
-   /**
-    *
-    * Archer effects
-    */
-   async _archerEffect() {
+   async _addMouseEvent() {
       this.events.archerMouseMove = {
          name: "mousemove",
          fn: e => {
@@ -75,10 +71,21 @@ export default class {
             }
          }
       }
-      let playPos = this.profile.player.location();
-
       let canvas = await this._findCanvas();
       canvas.addEventListener(this.events.archerMouseMove.name, this.events.archerMouseMove.fn);
+      return;
+   }
+   /**
+    *
+    * Archer effects
+    *
+    * The archer throws a collision box at the directed point
+    * It is limited to archer range
+    */
+   async _archerEffect() {
+      await this._addMouseEvent();
+
+      let playPos = this.profile.player.location();
 
       let arrowSprite = new Image();
       arrowSprite.src = ArrowSprite;
@@ -160,57 +167,78 @@ export default class {
    /**
     *
     * Knight effects
+    *
+    * The knight has an area hit of 1x3
+    * It should change direction based on XY direction relative to the player position
+    *
+    * MousePosX < PlayerX = Left
+    * MousePosX > PlayerX = Right
+    * and so on...
     */
-   _knightEffect() {
+   async _knightEffect() {
+      await this._addMouseEvent();
+
       let playPos = this.profile.player.location();
-      let collisionBoxWidth = 100 + this.profile.playerRange;
+      this.box = new Konva.Circle({
+         x: playPos.x,
+         y: playPos.y,
+         fill: "rgba(32, 0, 0, .25)",
+         stroke: "rgba(0,0,0, .4)",
+         radius: 20,
+         offset: {
+            x: -70,
+            y: -80
+         }
+      })
 
-      let spriteFrameWidth = 225;
-      let maxGridCount = Math.round(collisionBoxWidth / spriteFrameWidth);
-      let gridSize = spriteFrameWidth * maxGridCount;
+      this.animationReady = true;
 
-      const windBlow = new Image();
+      this._knightUpdateBoxPosition();
+      this.animated(false);
+   }
+   _getSwordDirection() {
+      if (!this.events.mousePosition) return;
+      this.box.opacity(0);
 
-      windBlow.onload = function () {
-         this.box = new Konva.Sprite({
-            x: playPos.x,
-            y: playPos.y,
-            width: collisionBoxWidth,
-            image: windBlow,
-            height: 680,
-            animation: "effect",
-            animations: {
-               effect: [
-                  0, 0, gridSize, 480,
-                  225, 0, gridSize, 480,
-                  450, 0, gridSize, 480,
-                  675, 0, gridSize, 480,
-               ],
-            },
-            frameRate: 12,
-            frameIndex: 0
-         })
+      let mouseX = this.events.mousePosition.x - 150;
+      let mouseY = this.events.mousePosition.y - 180;
 
-         this.animationReady = true;
+      let playerX = this.profile.player.location().x + (this.profile.player.body.width() / 2) - 70;
+      let playerY = this.profile.player.location().y + (this.profile.player.body.height() / 2) - 40;
 
-         this._knightUpdateBoxPosition();
-         this.animated(false);
-      }.bind(this);
+      let radius = this.profile.radiusRange;
+      console.log(radius);
 
-      windBlow.src = WindEffct;
+      let distance = ((playerX - mouseX) * (playerX - mouseX) + (playerY - mouseY) * (playerY - mouseY));
+      let area = radius * radius
+
+      if (distance <= area) {
+         this.box.opacity(1);
+         return { x: mouseX, y: mouseY }
+      }
+
+      return { x: 0, y: 0 }
    }
    _knightUpdateBoxPosition() {
       if (!this.animationReady) return;
 
+      let swordDir = this._getSwordDirection();
+      if (!swordDir) return;
+
       let playPos = this.profile.player.location();
-      let collisionBoxWidth = 100 + this.profile.playerRange - 50;
 
       this.box.fillPatternRepeat('repeat-x');
-      this.box.x(playPos.x - collisionBoxWidth);
-      this.box.y(playPos.y - 60);
+      this.box.x(playPos.x);
+      this.box.y(playPos.y);
 
+      this.box.to({ x: swordDir.x, y: swordDir.y, duration: 0 })
       this.animated();
    }
+   /**
+    * Public Method, append to Konva layer
+    * @param {*} layer - Konva layer
+    * @param {*} cb - callback
+    */
    appendTo(layer, cb) {
       const BUFFER = setInterval(function () {
          if (!this.animationReady) return;
@@ -227,12 +255,24 @@ export default class {
          clearInterval(BUFFER);
       }.bind(this))
    }
+
+   /**
+    * Public Method, animate box sprite
+    * when true, box visible
+    * when false, box invisible
+    * @param {*} bool
+    */
    animated(bool) {
       bool = bool ?? true;
       if (this.profile.vocation == "archer");
 
       this.box.visible(bool);
    }
+
+   /**
+    * Public Method, removes all events stored (called before destroying)
+    * name: eventName, fn: eventFunction
+    */
    destroy() {
       if (Object.values(this.events).length) {
          for (let event in this.events) {
@@ -240,11 +280,20 @@ export default class {
          }
       }
    }
+
+   /**
+    * Public Method, frame speed setter
+    * 12 is default
+    * @param {*} num
+    */
    frameSpeed(num) {
       if (!this.animationReady) return;
 
       this.box.frameRate(num);
    }
+   /**
+    * Public Method, draw image
+    */
    updateFrame() {
       this._drawFrame();
    }
