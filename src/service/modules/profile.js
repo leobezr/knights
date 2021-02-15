@@ -11,6 +11,6 @@ export default {
 
 function meInfo() {
    return Api.GET({
-      url: prefix + localStorage.sessionId
+      url: prefix + "login/"
    })
 }

@@ -23,7 +23,6 @@
 <script>
 import { mapActions } from "vuex";
 import bgImage from "@/shared/img/blacksmith.jpg";
-import TabOptions from "@/views/KnightBuilder/components/TabOptions.vue";
 import ProfileData from "@/views/Character/shared/AD/organisms/ProfileData.vue";
 import KnightGear from "@/views/Character/shared/AD/organisms/KnightGear.vue";
 import "@/views/Character/shared/scss/_character.scss";
@@ -41,7 +40,6 @@ export default {
     },
   },
   components: {
-    TabOptions,
     ProfileData,
     KnightGear
   },
@@ -59,7 +57,7 @@ export default {
       const ROUTE = this.$route;
 
       if (ROUTE?.params?.id) {
-        localStorage.sessionId = ROUTE.params.id;
+        localStorage.userToken = ROUTE.params.id;
       }
     },
   },

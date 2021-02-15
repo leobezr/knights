@@ -14,7 +14,7 @@ import Sidebar from "@/shared/components/AD/molecules/Sidebar.vue";
 export default {
    data() {
       return {
-         sessionId: null,
+         userToken: null,
       };
    },
    components: {
@@ -29,22 +29,20 @@ export default {
    },
    methods: {
       verifyAuth() {
-         this.sessionId = Session.fetchSession();
+         this.userToken = Session.fetchSession();
 
          if (!this.shouldRedirect) {
             return;
          }
 
-         if (this.sessionId) {
+         if (this.userToken) {
             this.$router
-               .push({ name: "Character", params: { id: this.sessionId } })
+               .push({ name: "Character", params: { id: this.userToken } })
                .catch((e) => {});
          } else {
             Session.clear();
 
-            this.$router
-               .push({ name: "KnightBuilder", params: { id: this.sessionId } })
-               .catch((e) => {});
+            this.$router.push({ name: "Login" }).catch((e) => {});
          }
       },
    },

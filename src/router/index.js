@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 
 import Authenticated from "@/views/Authenticated.vue";
 
-import KnightBuilder from "@/views/KnightBuilder/KnightBuilder.vue";
+import Login from "@/views/Login/Login.vue"
 import Character from "@/views/Character/Character.vue";
 import Store from "@/views/Store/Store.vue";
 import Hunts from "@/views/Hunt/Hunts.vue";
@@ -14,9 +14,9 @@ Vue.use(VueRouter);
 
 const routes = [
    {
-      path: '/',
-      name: 'KnightBuilder',
-      component: KnightBuilder,
+      path: '/:request',
+      name: 'Login',
+      component: Login,
       meta: {
          soundtrack: "login",
       }
@@ -27,7 +27,7 @@ const routes = [
       component: Authenticated,
       children: [
          {
-            path: "character/:id",
+            path: "character/",
             name: "Character",
             component: Character,
             meta: {

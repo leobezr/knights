@@ -31,8 +31,8 @@
 <script>
 import { mapGetters } from "vuex";
 
-import femaleSprites from "@/views/KnightBuilder/sprite/female/femaleExport.js";
-import maleSprites from "@/views/KnightBuilder/sprite/male/maleExport.js";
+import femaleSprites from "@/shared/utils/sprite/female/femaleExport.js";
+import maleSprites from "@/shared/utils/sprite/male/maleExport.js";
 
 import "@/shared/scss/_sprite.scss";
 

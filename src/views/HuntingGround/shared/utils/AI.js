@@ -55,11 +55,6 @@ export default class {
 
       const boxOffset = { x: posSelf.x + attackRange, y: posSelf.y + attackRange };
 
-      if (this.ticsInIdle >= Math.round(80 - (this.speed / 15))) {
-         self.x(enemy.location().x - attackRange);
-         self.y(enemy.location().y - attackRange);
-      }
-
       if (hypotInX >= 0 && hypotInX < boxOffset.x) {
          if (hypotInY >= 0 && hypotInY < boxOffset.y) {
             this._onClick.call();

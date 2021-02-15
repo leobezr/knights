@@ -4,15 +4,8 @@ import HTTP from "./http";
 const exposeHeader = props => {
    return props.header ? { ...props } : {}
 };
-const token = () => {
-   let id = localStorage.sessionId;
-
-   if (id) {
-      return id
-   } else {
-      return null
-   }
-};
+const token = () => localStorage.userToken || null;
+const charToken = () => localStorage.charToken || null
 
 class Api {
    constructor(options) {
@@ -42,12 +35,20 @@ class Api {
          headers: { ...customHeader(), ...exposeHeader(props) },
       })
    }
+   DELETE(props) {
+      return Axios({
+         url: this.server + props.url,
+         method: "DELETE",
+         headers: { ...customHeader(), ...exposeHeader(props) },
+      })
+   }
 }
 
 const customHeader = () => {
    return {
       "Access-Control-Allow-Origin": "*",
-      "Requester": token()
+      "Authorization": token(),
+      "CharAuth": charToken()
    }
 }
 
