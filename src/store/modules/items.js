@@ -4,7 +4,6 @@ export default {
    actions: {
       async getItemsGallery({ commit }) {
          const ITEM_LIST = await items.get();
-
          commit("updateItemGallery", ITEM_LIST.data);
       },
       async buyItemFromStore({ dispatch }, item) {
@@ -33,7 +32,13 @@ export default {
    },
    mutations: {
       updateItemGallery(state, itemList) {
-         state.gallery = itemList;
+         state.gallery = {};
+
+         for (let equip in itemList) {
+            if (Array.isArray(itemList[equip])) {
+               state.gallery[equip] = itemList[equip];
+            }
+         }
       }
    },
    state: {
