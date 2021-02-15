@@ -41,7 +41,6 @@ export default {
             });
          }
 
-         return;
          this.soundtrack.play();
       },
    },
