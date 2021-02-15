@@ -116,7 +116,7 @@ export default {
       },
       "arc-angeling": {
          id: 10003,
-         health: 350,
+         health: 180,
          def: 50,
          damage: 40,
          agi: 80,
