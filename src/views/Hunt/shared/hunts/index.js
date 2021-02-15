@@ -30,14 +30,6 @@ import Munak from "@/views/Hunt/shared/img/monsters/munak.gif";
 import Hyegun from "@/views/Hunt/shared/img/monsters/hyegun.gif";
 import Necromancer from "@/views/Hunt/shared/img/monsters/necromancer.gif";
 
-import Zombie from "@/views/Hunt/shared/img/monsters/zombie.gif";
-import Snake from "@/views/Hunt/shared/img/monsters/snake.gif";
-import Arclouze from "@/views/Hunt/shared/img/monsters/arclouze.gif";
-import Skeleton from "@/views/Hunt/shared/img/monsters/skeleton.gif";
-import Penguin from "@/views/Hunt/shared/img/monsters/penguin.gif";
-import Atroce from "@/views/Hunt/shared/img/monsters/atroce.gif";
-import Loki from "@/views/Hunt/shared/img/monsters/loki.gif";
-
 const levels = {
    "0-15": [
       {

@@ -60,6 +60,21 @@
                display: flex;
                flex-direction: column;
                grid-row-gap: 5px;
+               width: 100%;
+
+               span:first-child {
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  justify-content: space-between;
+
+                  strong ~ * {
+                     width: 190px;  
+                  }
+               }
+               strong {
+                  margin-right: 3px;
+               }
             }
          }
       }

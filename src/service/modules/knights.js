@@ -10,7 +10,9 @@ export default {
    unequip: unequipItem,
    discardItem: discardItem,
    addPoint: addAttrPoint,
-   getReward
+   getReward,
+   add,
+   login
 }
 
 function createKnights(payload) {
@@ -21,6 +23,19 @@ function createKnights(payload) {
       body: {
          ...KnightFactory({ ...payload })
       }
+   })
+}
+
+function login() {
+   return Api.GET({
+      url: prefix + "login/",
+   })
+}
+
+function add(payload) {
+   return Api.POST({
+      url: prefix + "add/",
+      body: payload
    })
 }
 

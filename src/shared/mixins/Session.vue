@@ -17,10 +17,10 @@ export default {
                .then(() => this.validatePage())
                .catch((e) => {
                   Session.clear();
-                  this.$router.push({ name: "KnightBuilder" }).catch((e) => {});
+                  this.$router.push({ name: "Login" }).catch((e) => {});
                });
          } else {
-            this.$router.push({ name: "KnightBuilder" }).catch((e) => {});
+            this.$router.push({ name: "Login" }).catch((e) => {});
          }
       },
       validatePage() {

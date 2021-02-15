@@ -1,8 +1,10 @@
 import Controller from "@/views/HuntingGround/shared/utils/controller.js";
 import HealthBar from "@/views/HuntingGround/shared/utils/healthbar.js";
+import CharacterRange from "@/views/HuntingGround/shared/utils/characterRange.js";
 import DamageCounter from "@/views/HuntingGround/shared/utils/damageCounter.js";
 import PlayerBody from "@/views/HuntingGround/shared/utils/playerBody.js";
 import ClassEffects from "@/views/HuntingGround/shared/utils/classEffects.js";
+import vocationMechanics from "@/shared/mechanics/vocationMechanics.js";
 import { Howl } from "howler";
 
 export default class {
@@ -57,6 +59,8 @@ export default class {
          isAttacking: false,
          collisionBox: null,
       }
+
+      this.circle = null;
    }
    _generateVocationAttackEffect() {
       this.mechanics.collisionBox = new ClassEffects({
@@ -78,8 +82,14 @@ export default class {
    }
    _attackAllCreatures(list) {
       if (this.stats.dead) return;
+      let creatureInRange = list.filter(creature => creature.config.stats.hp > 0);
+      if (!creatureInRange) return;
 
-      for (let monster of list) {
+      for (let attackTime = 0; attackTime < vocationMechanics[this.config.vocation].maxTargets; attackTime++) {
+         let monster = creatureInRange[attackTime];
+
+         if (!monster) break;
+
          this.player.animation("attacking");
          let targetAttacked = monster.config.takeDamage(this._dmgCalculator(monster));
 
@@ -102,6 +112,7 @@ export default class {
             this.fightLog.enemyIdKilled[monster.config.config.id] += targetAttacked;
          }
       }
+
 
       let arenaParticipant = this.actions.updateMapPlayers()
 
@@ -200,13 +211,14 @@ export default class {
     */
    async _setControles() {
       this._generateVocationAttackEffect();
+      this._generateCircle();
 
       this.mechanics.collisionBox.appendTo(this.config.layer, function () {
          this.controller = new Controller({
             updateMapPlayers: this.actions.updateMapPlayers,
             attackRange: this.config.attackRange,
             updateCollision: this._updateCollision.bind(this),
-            collisionBox: this.mechanics.collisionBox
+            collisionBox: this.mechanics.collisionBox,
          });
 
          this._movementController();
@@ -215,6 +227,13 @@ export default class {
    }
    _updateCollision(collisionList) {
       this.collision = collisionList
+   }
+   _generateCircle() {
+      this.circle = new CharacterRange({
+         layer: this.config.layer,
+         attackRange: this.config.attackRange,
+         player: this.player
+      })
    }
    /**
     * Attack handler
@@ -259,7 +278,7 @@ export default class {
          this.mechanics.isAttacking = false;
 
          this.player.animation("standing");
-         this.player.frameSpeed(12);
+         this.player.frameSpeed(14);
          this.mechanics.collisionBox.animated(false);
 
          clearInterval(loop);
@@ -287,7 +306,7 @@ export default class {
          if (this.mechanics.isAttacking) {
             this.player.frameSpeed(SPEED + (SPEED * .1));
          } else {
-            this.player.frameSpeed(12);
+            this.player.frameSpeed(14);
             this.player.animation("walkingUp");
          }
 
@@ -296,6 +315,7 @@ export default class {
          } else {
             this.player.move(null, 0);
          }
+         this.circle.updatePosition();
       })
       this.controller.onDown(() => {
          if (this.stats.dead) return;
@@ -304,7 +324,7 @@ export default class {
          if (this.mechanics.isAttacking) {
             this.player.frameSpeed(SPEED + (SPEED * .1));
          } else {
-            this.player.frameSpeed(12);
+            this.player.frameSpeed(14);
             this.player.animation("walkingDown");
          }
 
@@ -313,6 +333,7 @@ export default class {
          } else {
             this.player.move(null, containerMaxHeight - 120);
          }
+         this.circle.updatePosition();
       })
       this.controller.onRight(() => {
          if (this.stats.dead) return;
@@ -321,7 +342,7 @@ export default class {
          if (this.mechanics.isAttacking) {
             this.player.frameSpeed(SPEED + (SPEED * .1));
          } else {
-            this.player.frameSpeed(12);
+            this.player.frameSpeed(14);
             this.player.animation("walkingRight");
          }
 
@@ -330,6 +351,7 @@ export default class {
          } else {
             this.player.move(containerMaxWidth - 120);
          }
+         this.circle.updatePosition();
       })
       this.controller.onLeft(() => {
          if (this.stats.dead) return;
@@ -339,7 +361,7 @@ export default class {
          if (this.mechanics.isAttacking) {
             this.player.frameSpeed(SPEED + (SPEED * .1) / 2);
          } else {
-            this.player.frameSpeed(12);
+            this.player.frameSpeed(14);
             this.player.animation("walkingLeft");
          }
 
@@ -348,9 +370,10 @@ export default class {
          } else {
             this.player.move(0);
          }
+         this.circle.updatePosition();
       })
       this.controller.onRelease(() => {
-         this.player.frameSpeed(12);
+         this.player.frameSpeed(14);
          this.player.animation("standing");
       })
    }
@@ -405,8 +428,6 @@ export default class {
 
       let fleeChance = 30 + skillBonus + (baseLevel + Math.floor(agi * .05) + Math.floor(luk * .1) / 5 + itemBonus) * (1 - ((mobs - 2) * .2))
       let hitChance = (80 - ((damage + (damage / 3)) - fleeChance));
-
-      console.log({ fleeChance, hitChance, damage, mobs })
 
       const RNG = () => Math.random() * 100;
 

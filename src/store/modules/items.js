@@ -4,12 +4,11 @@ export default {
    actions: {
       async getItemsGallery({ commit }) {
          const ITEM_LIST = await items.get();
-
          commit("updateItemGallery", ITEM_LIST.data);
       },
       async buyItemFromStore({ dispatch }, item) {
          await items.buy({
-            id: localStorage.sessionId,
+            id: localStorage.userToken,
             item
          })
 
@@ -17,7 +16,7 @@ export default {
       },
       async sellInventoryItem({ dispatch }, item) {
          await items.sell({
-            id: localStorage.sessionId,
+            id: localStorage.userToken,
             item
          })
 
@@ -25,7 +24,7 @@ export default {
       },
       async sellAllInventory({ dispatch }) {
          await items.sellAllInventory({
-            id: localStorage.sessionId,
+            id: localStorage.userToken,
          })
 
          dispatch("me");
@@ -33,7 +32,13 @@ export default {
    },
    mutations: {
       updateItemGallery(state, itemList) {
-         state.gallery = itemList;
+         state.gallery = {};
+
+         for (let equip in itemList) {
+            if (Array.isArray(itemList[equip])) {
+               state.gallery[equip] = itemList[equip];
+            }
+         }
       }
    },
    state: {

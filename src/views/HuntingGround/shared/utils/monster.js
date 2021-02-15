@@ -110,7 +110,7 @@ export default class {
          }
       }
       const attackReleaseFn = () => {
-         this.monster.frameSpeed(12);
+         this.monster.frameSpeed(14);
       }
 
       this.AI.onClick(attackFn);
@@ -147,7 +147,7 @@ export default class {
          if (this.stats.hp == 0) return;
          let playerPosY = this.monster.location().y;
 
-         this.monster.frameSpeed(12);
+         this.monster.frameSpeed(14);
          this.monster.animation("walkingUp");
 
          if (playerPosY >= 0) {
@@ -160,7 +160,7 @@ export default class {
          if (this.stats.hp == 0) return;
          let playerPosY = this.monster.location().y;
 
-         this.monster.frameSpeed(12);
+         this.monster.frameSpeed(14);
          this.monster.animation("walkingDown");
 
          if (playerPosY <= (containerMaxHeight - 120)) {
@@ -173,7 +173,7 @@ export default class {
          if (this.stats.hp == 0) return;
          let playerPosX = this.monster.location().x;
 
-         this.monster.frameSpeed(12);
+         this.monster.frameSpeed(14);
          this.monster.animation("walkingRight");
 
          if (playerPosX < (containerMaxWidth - 120)) {
@@ -186,7 +186,7 @@ export default class {
          if (this.stats.hp == 0) return;
          let playerPosX = this.monster.location().x;
 
-         this.monster.frameSpeed(12);
+         this.monster.frameSpeed(14);
          this.monster.animation("walkingLeft");
 
          if (playerPosX >= 0) {
@@ -196,7 +196,7 @@ export default class {
          }
       })
       this.AI.onRelease(() => {
-         this.monster.frameSpeed(12);
+         this.monster.frameSpeed(14);
       })
    }
    async init() {

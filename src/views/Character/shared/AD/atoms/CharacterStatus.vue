@@ -135,6 +135,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import ModifierStats from "@/views/Character/shared/AD/atoms/ModifierStats.vue";
+import vocationMechanics from "@/shared/mechanics/vocationMechanics.js";
 
 export default {
    name: "CharacterStatus",
@@ -143,6 +144,7 @@ export default {
    },
    data() {
       return {
+         MAX_STATUS_POINTS: 300,
          user: null,
       };
    },
@@ -192,14 +194,15 @@ export default {
          return hasPoints;
       },
       characterRange() {
-         return this.user.misc.attackRange;
+         return (
+            this.user.misc.attackRange +
+            vocationMechanics[this.user.vocation].baseRange
+         );
       },
       attrBellowMaxStatus() {
-         const MAX_STATUS_POINTS = 200;
-
          return (statusKey) => {
             if (this.user.attributes) {
-               return this.user.attributes[statusKey] < MAX_STATUS_POINTS;
+               return this.user.attributes[statusKey] < this.MAX_STATUS_POINTS;
             } else {
                false;
             }

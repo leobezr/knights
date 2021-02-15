@@ -17,8 +17,20 @@
             </div>
             <div class="middleContent">
                <div class="level">
-                  <span><strong>Exp</strong> {{ user.experience }}</span>
-                  <span><strong>Exp Gained</strong> {{ expGained }}</span>
+                  <span
+                     ><strong>Exp: </strong> {{ user.experience }}
+                     <v-progress-linear
+                        :value="nextLevelExp"
+                        color="blue-grey darken-4"
+                        disabled
+                        height="18"
+                     >
+                        <template v-slot:default="{ value }">
+                           <strong>{{ Math.ceil(value) }}% </strong>
+                        </template>
+                     </v-progress-linear></span
+                  >
+                  <span><strong>Exp Gained: </strong> {{ expGained }}</span>
                   <span><strong>Character Lv.</strong> {{ user.level }}</span>
                </div>
             </div>
@@ -59,6 +71,23 @@ export default {
       },
       expGained() {
          return this.user.experience - this.totalExpStarted;
+      },
+      nextLevelExp() {
+         const levelExp = (level) =>
+            Math.round((50 * Math.pow(level, 3)) / 3) -
+            Math.round(100 * Math.pow(level, 2)) +
+            Math.round((850 * Math.pow(level, 1)) / 3) -
+            200;
+
+         let currentLevel = this.user.level;
+         let currentLevelExp = levelExp(currentLevel);
+
+         let nextLevel = currentLevel + 1;
+         let nextLevelExp = levelExp(nextLevel);
+
+         let expGap = nextLevelExp - currentLevelExp;
+
+         return ((this.user.experience - currentLevelExp) / expGap) * 100;
       },
    },
    methods: {

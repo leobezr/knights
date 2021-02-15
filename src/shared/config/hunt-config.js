@@ -116,7 +116,7 @@ export default {
       },
       "arc-angeling": {
          id: 10003,
-         health: 350,
+         health: 180,
          def: 50,
          damage: 40,
          agi: 80,
@@ -248,14 +248,21 @@ export default {
          agi: 80,
          spritesheet: goblinLeader,
          sound: {
-            attack: sword.punch,
-            onHit: null,
+            attack: sword.fast,
          },
          attackRange: 80,
          rows: 7,
          cols: 8,
          width: 2400,
          height: 1732,
+         name: "Goblin Leader",
+         field: field,
+         size: "normal",
+         map: creatureMap.normal,
+         grid: {
+            width: 300,
+            height: 247,
+         },
       },
 
       // Lv. 30~50
@@ -326,7 +333,7 @@ export default {
          width: 2400,
          height: 1732,
          name: "Metal Dragon",
-         field: field,
+         field: fieldAfternoon,
          size: "normal",
          map: creatureMap.normal,
          grid: {

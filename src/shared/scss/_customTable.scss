@@ -1,0 +1,82 @@
+@import "@/shared/scss/variable.scss";
+
+#customTable {
+   font-size: 13px;
+
+   .customTableHeader {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      background: $table-header-background;
+      padding: 14px 16px;
+      line-height: 1em;
+
+      & > .customTableRow {
+         display: flex;
+         flex: 1;
+         color: $primary;
+
+         span {
+            font-weight: 600;
+            text-align: center;
+         }
+
+         & > span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+         }
+      }
+   }
+   .customTableBody {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      transition: all 300ms ease-in;
+      line-height: 1em;
+      border: solid 1px $table-border-color;
+      max-height: 300px;
+      overflow: auto;
+
+      .customTableRow {
+         display: flex;
+         flex-direction: row;
+         width: 100%;
+         padding: 0 16px;
+         background: $table-background;
+
+         &:not(:last-child) {
+            border-bottom: solid 1px $table-border-color;
+         }
+
+         &:hover {
+            background: $table-active-background;
+         }
+
+         span {
+            font-weight: 300;
+            text-align: center;
+         }
+
+         & > span {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+         }
+      }
+      .customTableNoContent {
+         background: $table-background;
+         padding: 0 16px;
+         display: flex;
+         width: 100%;
+         justify-content: center;
+         align-items: center;
+         height: 40px;
+      }
+   }
+}
