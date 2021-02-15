@@ -9,7 +9,7 @@ export default {
       },
       async buyItemFromStore({ dispatch }, item) {
          await items.buy({
-            id: localStorage.sessionId,
+            id: localStorage.userToken,
             item
          })
 
@@ -17,7 +17,7 @@ export default {
       },
       async sellInventoryItem({ dispatch }, item) {
          await items.sell({
-            id: localStorage.sessionId,
+            id: localStorage.userToken,
             item
          })
 
@@ -25,7 +25,7 @@ export default {
       },
       async sellAllInventory({ dispatch }) {
          await items.sellAllInventory({
-            id: localStorage.sessionId,
+            id: localStorage.userToken,
          })
 
          dispatch("me");
