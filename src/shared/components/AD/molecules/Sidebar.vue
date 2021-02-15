@@ -15,7 +15,7 @@ export default {
    name: "Sidebar",
    data() {
       return {
-         sessionId: null,
+         userToken: null,
       };
    },
    components: {
@@ -37,13 +37,13 @@ export default {
                icon: "mdi-face-woman-shimmer-outline",
                link: "Character",
                params: {
-                  id: this.sessionId,
+                  id: this.userToken,
                },
                label: "Profile",
             },
             { icon: "mdi-treasure-chest", link: "Store", label: "Store" },
             { icon: "mdi-ghost", link: "Hunts", label: "Hunts" },
-            { icon: "mdi-sword-cross", link: "HuntingGround", label: "Arena" },
+            // { icon: "mdi-sword-cross", link: "HuntingGround", label: "Arena" },
             {
                icon: "mdi-logout-variant",
                action: this.signout,
@@ -56,13 +56,13 @@ export default {
       signout() {
          localStorage.clear();
 
-         this.$router.push({ name: "KnightBuilder" }).catch(() => {});
+         this.$router.push({ name: "Login" }).catch(() => {});
       },
    },
    watch: {
       $route: {
          handler() {
-            this.sessionId = localStorage.sessionId;
+            this.userToken = localStorage.userToken;
          },
       },
    },
