@@ -2,18 +2,18 @@ export default new function () {
    this.session = null;
 
    this._storeLocalSession = (id) => {
-      const SESSION_ID = id;
+      const CHAR_TOKEN = id;
 
-      localStorage.sessionId = SESSION_ID;
+      localStorage.charToken = CHAR_TOKEN;
    }
    this._storeLocalData = (name, prop) => {
       localStorage.setItem(name, JSON.stringify(prop));
    }
    this._readLocalSession = () => {
-      const SESSION_ID = localStorage.sessionId;
+      const CHAR_TOKEN = localStorage.charToken;
 
-      if (SESSION_ID) {
-         this.session = SESSION_ID
+      if (CHAR_TOKEN) {
+         this.session = CHAR_TOKEN
       } else {
          this.session = null;
       }
