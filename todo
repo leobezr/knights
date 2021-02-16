@@ -1,22 +1,6 @@
 INTERFACE
-   - CREATE ACCOUNT
-      - create account
-      - manage account session
-      - swap characters
    - HUNTING GROUNDS
       - more grinding levels
-         - Level 1 ~ 15
-            - Poring @done
-            - Drops @done
-            - Arc Angeling @done
-         - Level 15 ~ 30
-            - Dokebi
-            - Baby Orc
-            - Goblin Dagger
-         - Level 30 ~ 45
-            - Deleter
-            - Deleter (Sky)
-            - Metal Dragon
          - Level 45 ~ 70
             - Bongun
             - Munak
@@ -26,11 +10,6 @@ INTERFACE
             - Ferus (Red)
             - Hydrolancer
       - Quest
-         - Level 15
-            - Poring @done
-            - Drops @done
-            - Arc Angeling @done
-            - King Poring @done
          - Level 30
             - Zumbi
             - Baby Orc
@@ -51,66 +30,32 @@ INTERFACE
             - Ferus (Red)
             - Hydrolancer
             - Detardeurus
-      - stage
-         - 5 level game
-         - boss
-         - unlock next mission
 ACTIONS
    - EQUIPS
       - rebalance
-         - helmets too strong @done
-         - accessories useless @done
-         - weapons too strong @done
-         - end game too strong @done
          - end game at lvl 300, not 120
-   - SESSION
-      - proper session
    - SERVER CONVERSATION
       - websocket
 LOGIC
    - stamina ?
    - spells ?
-   - level system @done
-   - store logic @done
-   - drop logic @done
    - trainer logic
    - pvp logic
-   - hunt logic @done
-   - item ratios @done
-
-Leon Feedbacks
-- 3 inimigos, muito pouco @done
-- Mais conteúdo @done
-- Adicionar história (quests, fases)
-   - Liberar inimigos depois de matar vencer uma quest.
 - ARENA
    - Podia ser dividido em 3 partes
       - Enfrenta jogadores offline (ganha honra com limite, perde pouca honra quando perde)
       - Enfrenta jogadores ao vivo (ganha mais honra / perde mais honra)
-- STATS
-   - Diminuir atributos, tipo AGI @done
-   - Rever DEF @done
-   - Rever level @done
 - SPRITE
-   - Adicionar novas classes, tipo arqueiro @done
    - Adicionar spell
-
-Chicao Feedbacks
-- Itens muito forte no level 33 @done
-- Arma mais forte que a maioria dos itens @done
-- Chapeu e bota winged mt forte @done
-- Acessorio fraco @done
-- Demorou mt pra chegar no loki @done
-   - Diminuir o grind logo de inicio @done
-- Muito dinheiro com honra 500 @done
-
-Brunao
-- Recompensa no final da luta @done
-- Go again pra Continue @done
-- Shopping, mostrar inventário @done
-- Level dentro da partida @done
-   - Exibir exp
-   - Com barra
-- SISTEMA GOTCHYA
-   - Colocar personagens (sprits) como cartas
-      - Uma conta pode usar vários tipos de personagens
+- TOPBAR
+   - Config sound/music
+- MISSION
+   - Daily missions
+   - Dayle rewards
+   - Class evolution
+- ITEMS
+   - Refine items
+   - Add non-equippables
+   - Add usuable items
+- CHEST
+   - Chest system between accounts

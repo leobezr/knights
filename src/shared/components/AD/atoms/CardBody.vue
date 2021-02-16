@@ -14,8 +14,10 @@
    <!-- Modal Card -->
    <div v-else id="cardBodyModal">
       <div id="cardBody">
-         <div class="card-header" v-if="title">
-            <h3>{{ title }}</h3>
+         <div class="card-header" v-if="title || customTitle">
+            <slot name="custom-title">
+               <h3>{{ title }}</h3>
+            </slot>
          </div>
          <div class="card-content">
             <slot name="content" />

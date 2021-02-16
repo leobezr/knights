@@ -1,0 +1,12 @@
+@import "src/shared/scss/variable.scss";
+
+#topbar {
+   .wrapTopbarContent {
+      color: #fff;
+      padding: 3px 10px;
+      display: flex !important;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+   }
+}

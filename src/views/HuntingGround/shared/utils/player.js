@@ -5,7 +5,7 @@ import DamageCounter from "@/views/HuntingGround/shared/utils/damageCounter.js";
 import PlayerBody from "@/views/HuntingGround/shared/utils/playerBody.js";
 import ClassEffects from "@/views/HuntingGround/shared/utils/classEffects.js";
 import vocationMechanics from "@/shared/mechanics/vocationMechanics.js";
-import { Howl } from "howler";
+import SoundEffect from "@/views/HuntingGround/shared/utils/soundEffects.js";
 
 export default class {
    constructor(props) {
@@ -94,13 +94,10 @@ export default class {
          let targetAttacked = monster.config.takeDamage(this._dmgCalculator(monster));
 
          if (!monster.config.stats.dead) {
-            var onHit = new Howl({
-               src: [this.player.getSound().onHit],
-               volume: 0.1,
-            });
+            var onHit = new SoundEffect(this.player.getSound().onHit)
 
             onHit.play();
-            setTimeout(() => onHit.unload(), 800);
+            setTimeout(() => onHit.destroy(), 800);
          }
 
          if (!this.fightLog.enemyIdKilled[monster.config.config.id]) {
@@ -198,13 +195,10 @@ export default class {
     * onHit is reserved when hitting an enemy, should not be used when missing
     */
    _attackSound() {
-      var attack = new Howl({
-         src: [this.player.getSound().attack],
-         volume: 0.1,
-      });
+      var attack = new SoundEffect(this.player.getSound().attack)
 
       attack.play();
-      setTimeout(() => attack.unload(), 800);
+      setTimeout(() => attack.destroy(), 800);
    }
    /**
     * Call Controller
