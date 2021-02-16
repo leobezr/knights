@@ -2,7 +2,7 @@ import AI from "@/views/HuntingGround/shared/utils/AI.js";
 import HealthBar from "@/views/HuntingGround/shared/utils/healthbar.js";
 import DamageCounter from "@/views/HuntingGround/shared/utils/damageCounter.js";
 import MonsterBody from "@/views/HuntingGround/shared/utils/monsterBody.js";
-import { Howl } from "howler";
+import SoundEffect from "@/views/HuntingGround/shared/utils/soundEffects.js";
 
 export default class {
    constructor(props) {
@@ -48,22 +48,16 @@ export default class {
     * onHit sound is reserved for when hitting an enemy
     */
    _attackSound() {
-      var attack = new Howl({
-         src: [this.stats.sound.attack],
-         volume: 0.1,
-      });
+      var attack = new SoundEffect(this.stats.sound.attack);
 
       attack.play();
-      setTimeout(() => attack.unload(), 800);
+      setTimeout(() => attack.destroy(), 800);
 
       if (this.stats.sound.onHit) {
-         var onHit = new Howl({
-            src: [this.stats.sound.onHit],
-            volume: 0.1,
-         });
+         var onHit = new SoundEffect(this.stats.sound.onHit);
 
          onHit.play();
-         setTimeout(() => onHit.unload(), 800);
+         setTimeout(() => onHit.destroy(), 800);
       }
    }
    _suicide() {

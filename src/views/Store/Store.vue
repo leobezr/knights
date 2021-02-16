@@ -62,8 +62,8 @@ import GoldPlaceholder from "@/views/Character/shared/AD/atoms/GoldPlaceholder.v
 import StoreItems from "@/views/Store/shared/AD/molecules/StoreItems.vue";
 import CharacterItems from "@/views/Character/shared/AD/atoms/CharacterEquip.vue";
 import CharacterChest from "@/views/Character/shared/AD/molecules/CharacterChest.vue";
+import SoundEffect from "@/views/HuntingGround/shared/utils/soundEffects.js";
 import { shop } from "@/shared/utils/soundPack.js";
-import { Howl } from "howler";
 import "@/views/Store/shared/scss/_store.scss";
 
 export default {
@@ -90,10 +90,7 @@ export default {
          this.me();
       },
       playSound() {
-         const sellSound = new Howl({
-            src: [shop.sellItem],
-            volume: 0.1,
-         });
+         const sellSound = new SoundEffect(shop.sellItem);
 
          sellSound.play();
       },

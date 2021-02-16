@@ -109,8 +109,8 @@ import ItemSprite from "@/shared/components/AD/atoms/ItemSprite.vue";
 import SmallMenu from "@/shared/components/AD/atoms/SmallMenu.vue";
 import itemValueIdentifier from "@/shared/utils/itemValueIdentifier.js";
 import levelRestriction from "@/shared/utils/levelRestriction.js";
+import SoundEffect from "@/views/HuntingGround/shared/utils/soundEffects.js";
 import { shop } from "@/shared/utils/soundPack.js";
-import { Howl } from "howler";
 
 export default {
    name: "StoreItem",
@@ -208,11 +208,7 @@ export default {
       },
       buyItem(item) {
          this.buyItemFromStore(item);
-
-         const buySound = new Howl({
-            src: [shop.buyItem],
-            volume: 0.1,
-         });
+         const buySound = new SoundEffect(shop.buyItem);
 
          buySound.play();
       },
