@@ -9,6 +9,9 @@
     margin: 10px;
     position: relative;
 
+    animation: cardBodyPop 500ms 1;
+    animation-fill-mode: forwards;
+
     .card-header {
         padding: 10px;
         border-bottom: solid 1px #2e3442;
@@ -40,9 +43,54 @@
     }
 
     #cardBody {
+        animation: cardBodyModalPop 500ms 1;
+        animation-fill-mode: forwards;
+
         .card-content {
             min-height: 120px;
             min-width: 450px;
         }
+    }
+}
+
+@keyframes cardBodyModalPop {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(30px);
+    }
+    25% {
+        opacity: 1;
+        transform: translateY(-30px);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(15px);
+    }
+    75% {
+        opacity: 1;
+        transform: translateY(-15px);
+    }
+    75% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardBodyPop {
+    0% {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    75% {
+        opacity: 1;
+        transform: translateY(-15px);
+    }
+    75% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
