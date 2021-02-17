@@ -1,0 +1,38 @@
+@import "@/shared/scss/variable.scss";
+
+.socket {
+   .card-content {
+      height: 100%;
+   }
+
+   #socketChat {
+      height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .chatContent {
+         display: flex;
+         flex-direction: column;
+         max-height: 160px;
+         overflow: auto;
+         font-size: 15px;
+
+         .userName {
+            color: #c63eee;
+         }
+
+         .self {
+            .userName {
+               color: $primary;
+            }
+         }
+         .system {
+            opacity: 0.65;
+            color: #969696;
+            font-size: 14px;
+            font-weight: 400;
+         }
+      }
+   }
+}
