@@ -45,8 +45,12 @@
                      <span>{{ stats(sprite.attr.luk) }}</span>
                   </li>
                </ul>
-               <ul v-if="attackRange(sprite)">
-                  <li>
+               <ul v-if="attackRange(sprite) || lifeSteal(sprite)">
+                  <li v-if="lifeSteal(sprite)">
+                     <strong>Life Steal:</strong>
+                     <span>{{ stats(lifeSteal(sprite)) }}%</span>
+                  </li>
+                  <li v-if="attackRange(sprite)">
                      <strong>Extra Range:</strong>
                      <span>{{ stats(attackRange(sprite)) }}</span>
                   </li>
@@ -88,6 +92,9 @@ export default {
       },
       attackRange() {
          return (item) => item.misc?.attackRange || 0;
+      },
+      lifeSteal() {
+         return (item) => item.misc?.lifeSteal || 0;
       },
       itemValue() {
          return (item) => {
