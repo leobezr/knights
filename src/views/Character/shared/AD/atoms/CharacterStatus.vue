@@ -113,7 +113,14 @@
                </div>
                <div class="d-flex justify-space-between w-100">
                   <strong>Attack Range</strong>
-                  <span> {{ characterRange }} </span>
+                  <span> {{ characterMisc.attackRange }} </span>
+               </div>
+               <div
+                  class="d-flex justify-space-between w-100"
+                  v-if="characterMisc.lifeSteal"
+               >
+                  <strong>Life Steal</strong>
+                  <span> {{ characterMisc.lifeSteal }}% </span>
                </div>
                <div class="d-flex justify-space-between w-100">
                   <strong>Flee</strong>
@@ -193,11 +200,16 @@ export default {
          );
          return hasPoints;
       },
-      characterRange() {
-         return (
+      characterMisc() {
+         const attackRange =
             this.user.misc.attackRange +
-            vocationMechanics[this.user.vocation].baseRange
-         );
+            vocationMechanics[this.user.vocation].baseRange;
+         const lifeSteal = this.user.misc.lifeSteal;
+
+         return {
+            attackRange,
+            lifeSteal,
+         };
       },
       attrBellowMaxStatus() {
          return (statusKey) => {
