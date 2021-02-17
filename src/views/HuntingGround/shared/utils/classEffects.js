@@ -207,7 +207,6 @@ export default class {
       let playerY = this.profile.player.location().y + (this.profile.player.body.height() / 2) - 40;
 
       let radius = this.profile.radiusRange;
-      console.log(radius);
 
       let distance = ((playerX - mouseX) * (playerX - mouseX) + (playerY - mouseY) * (playerY - mouseY));
       let area = radius * radius

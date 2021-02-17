@@ -13,6 +13,7 @@ export default class {
 
       this.config = {
          attackRange: props.playerProps.misc.attackRange || 20,
+         lifeSteal: props.playerProps.misc.lifeSteal || 0,
          container: props.container,
          layer: props.layer,
          stage: props.stage,
@@ -80,11 +81,30 @@ export default class {
 
       return damage;
    }
+   _applyLifeSteal(damage) {
+      if (!this.config.lifeSteal) return;
+
+      let currentHp = this.stats.hp;
+
+      let lifeStealPercent = this.config.lifeSteal * .01;
+      let lifeStolen = Math.round(damage * lifeStealPercent);
+
+      currentHp += lifeStolen;
+
+      if (currentHp > this.stats.maxHp) {
+         currentHp = this.stats.maxHp;
+      }
+
+      this.stats.hp = currentHp;
+      this.healthBar.updateHpStatus(this.stats.hp);
+      this.damageCounter.animate(lifeStolen, "heal");
+   }
    _attackAllCreatures(list) {
       if (this.stats.dead) return;
       let creatureInRange = list.filter(creature => creature.config.stats.hp > 0);
       if (!creatureInRange) return;
 
+      let totalLifeSteal = 0;
       for (let attackTime = 0; attackTime < vocationMechanics[this.config.vocation].maxTargets; attackTime++) {
          let monster = creatureInRange[attackTime];
 
@@ -104,11 +124,13 @@ export default class {
             this.fightLog.enemyIdKilled[monster.config.config.id] = 0;
          }
 
-         if (targetAttacked) {
-            this.fightLog.enemiesKilled += targetAttacked;
-            this.fightLog.enemyIdKilled[monster.config.config.id] += targetAttacked;
+         if (targetAttacked.dead) {
+            this.fightLog.enemiesKilled += 1;
+            this.fightLog.enemyIdKilled[monster.config.config.id] += 1;
          }
+         totalLifeSteal += targetAttacked.damage;
       }
+      this._applyLifeSteal(totalLifeSteal);
 
 
       let arenaParticipant = this.actions.updateMapPlayers()
@@ -450,8 +472,10 @@ export default class {
                this._suicide();
             }
          }
+         return damage
       } else {
          this.damageCounter.animate(0, "player");
+         return 0
       }
    }
 }

@@ -231,10 +231,10 @@ export default class {
       if (this.stats.hp <= 0) {
          if (!this.stats.dead) {
             this._suicide();
-            return 1;
+            return { dead: true, damage };
          }
       }
-      return 0;
+      return { dead: false, damage };
    }
    destroyEvents() {
       this.AI.destroyEvents();
