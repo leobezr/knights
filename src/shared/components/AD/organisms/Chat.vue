@@ -23,7 +23,7 @@
                dense
                hide-details
                color="primary"
-               placeholder="Write to chat."
+               placeholder="Start chatting."
             />
          </v-form>
       </div>
