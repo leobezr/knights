@@ -2,11 +2,7 @@
    <div id="hunts">
       <div class="landscape" :style="backgroundImage">
          <div class="containerGrid">
-            <v-tabs
-               v-model="tab"
-               align-with-title
-               dark
-            >
+            <v-tabs v-model="tab" align-with-title dark>
                <v-tabs-slider color="primary"></v-tabs-slider>
                <v-tab> Hunts </v-tab>
                <v-tab> Boss Fight </v-tab>
@@ -56,7 +52,7 @@ export default {
       BossLevelGrid,
    },
    methods: {
-      ...mapActions(["me"]),
+      ...mapActions(["me", "getHuntLevels", "getBossLevels"]),
 
       checkRewards() {
          const rewards = sessionStorage.length
@@ -67,9 +63,12 @@ export default {
             sessionStorage.clear();
          }
       },
-      init() {
+      async init() {
          this.me().then((user) => (this.userInfo = user));
          this.checkRewards();
+
+         await this.getHuntLevels();
+         await this.getBossLevels();
       },
    },
    created() {

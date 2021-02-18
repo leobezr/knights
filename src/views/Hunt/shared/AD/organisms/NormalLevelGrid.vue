@@ -1,6 +1,6 @@
 <template>
    <div class="contentGrid">
-      <div class="groupLevel" v-for="(group, i) of monsterLevels" :key="i">
+      <div class="groupLevel" v-for="(group, i) of huntLevels" :key="i">
          <h3>
             {{ groupLevel(group) }}
             <v-tooltip
@@ -20,13 +20,13 @@
             </v-tooltip>
          </h3>
          <div class="huntingOptions" :permission="canAcessLevel(group)">
-            <CardBody v-for="(monster, index) in group" :key="index">
+            <CardBody v-for="(monster, index) in group.monsters" :key="index">
                <template v-slot:content>
                   <div class="monsterCanvas">
                      <MonsterHunt :monster-data="monster" />
                   </div>
                   <div class="monsterBadge">
-                     {{ monster.label }}
+                     {{ monster.name }}
                   </div>
                   <div class="monsterLoot"></div>
                   <div class="controller">
@@ -46,37 +46,32 @@
 </template>
 
 <script>
-import Hunts from "@/views/Hunt/shared/hunts";
+import { mapState } from "vuex";
 import CardBody from "@/shared/components/AD/atoms/CardBody.vue";
 import MonsterHunt from "@/views/Hunt/shared/AD/atoms/MonsterHunt.vue";
 
 export default {
    name: "normalLevelGrid",
-   data() {
-      return {
-         monsterList: Hunts,
-      };
-   },
    components: {
       CardBody,
       MonsterHunt,
    },
    computed: {
-      monsterLevels() {
-         return this.monsterList.normalLevel;
-      },
+      ...mapState({
+         huntLevels: (store) => store.Hunt.huntLevels,
+      }),
+
       groupLevel() {
          return (group) => {
-            let keyIndex = 0;
-            let getValue = (v) => Object.values(v);
+            let keyName = null;
 
-            for (let i = 0; i < getValue(this.monsterLevels).length; i++) {
-               if (getValue(this.monsterLevels)[i] == group) {
-                  keyIndex = i;
+            for (let hunt in this.huntLevels) {
+               if (this.huntLevels[hunt] == group) {
+                  keyName = hunt;
                   break;
                }
             }
-            return Object.keys(this.monsterLevels)[keyIndex];
+            return keyName || "0-15";
          };
       },
       canAcessLevel() {
@@ -96,7 +91,7 @@ export default {
          this.$router
             .push({
                name: "HuntingGround",
-               params: { hunt: monster.name.toLowerCase() },
+               params: { hunt: monster.relatedId },
             })
             .catch((e) => {});
       },

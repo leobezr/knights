@@ -1,6 +1,6 @@
 <template>
    <div class="contentGrid" boss-type>
-      <div class="groupLevel" v-for="(group, i) of monsterLevels" :key="i">
+      <div class="groupLevel" v-for="(group, i) of bossLevels" :key="i">
          <h3>
             {{ groupLevel(group) }}
             <v-tooltip
@@ -20,13 +20,13 @@
             </v-tooltip>
          </h3>
          <div class="huntingOptions" :permission="canAcessLevel(group)">
-            <CardBody v-for="(monster, index) in group" :key="index">
+            <CardBody v-for="(monster, index) in group.challenge" :key="index">
                <template v-slot:content>
                   <div class="monsterCanvas">
                      <MonsterHunt :monster-data="monster" />
                   </div>
                   <div class="monsterBadge">
-                     {{ monster.label }}
+                     {{ monster.name }}
                   </div>
                   <div class="monsterLoot"></div>
                </template>
@@ -46,37 +46,32 @@
 </template>
 
 <script>
-import Hunts from "@/views/Hunt/shared/hunts";
+import { mapState } from "vuex";
 import CardBody from "@/shared/components/AD/atoms/CardBody.vue";
 import MonsterHunt from "@/views/Hunt/shared/AD/atoms/MonsterHunt.vue";
 
 export default {
-   name: "normalLevelGrid",
-   data() {
-      return {
-         monsterList: Hunts,
-      };
-   },
+   name: "BossLevelGrid",
    components: {
       CardBody,
       MonsterHunt,
    },
    computed: {
-      monsterLevels() {
-         return this.monsterList.bossLevel;
-      },
+      ...mapState({
+         bossLevels: (store) => store.Hunt.bossLevels,
+      }),
+
       groupLevel() {
          return (group) => {
-            let keyIndex = 0;
-            let getValue = (v) => Object.values(v);
+            let keyName = null;
 
-            for (let i = 0; i < getValue(this.monsterLevels).length; i++) {
-               if (getValue(this.monsterLevels)[i] == group) {
-                  keyIndex = i;
+            for (let hunt in this.bossLevels) {
+               if (this.bossLevels[hunt] == group) {
+                  keyName = hunt;
                   break;
                }
             }
-            return Object.keys(this.monsterLevels)[keyIndex];
+            return keyName || "0-15";
          };
       },
       canAcessLevel() {

@@ -6,7 +6,7 @@
       </span>
       <figure class="monsterWrap">
          <img
-            :src="monsterData.sprite"
+            :src="serverPublicAddress + monsterData.gif"
             :style="`transform: scale(${monsterData.scale})`"
             :alt="monsterData.name"
          />
@@ -19,7 +19,10 @@ export default {
    name: "MonsterHunt",
    computed: {
       backgroundImage() {
-         return `background-image: url(${this.monsterData.bg});`;
+         return `background-image: url(${this.serverPublicAddress + this.monsterData.thumb});`;
+      },
+      serverPublicAddress() {
+         return process.env.VUE_APP_PUBLIC;
       },
    },
    props: {
