@@ -2,6 +2,7 @@ import { hunt } from "@/service/endpoints.js";
 
 export default {
    actions: {
+      // Hunt Related Actions
       async getReward({ dispatch }, battleId) {
          await hunt.reward(battleId)
 
@@ -19,6 +20,20 @@ export default {
       async getBossLevels({ commit }) {
          let bosses = await hunt.bosses();
          commit("updateBossLevels", bosses.data);
+      },
+
+      // Party Related Actions
+      async createParty({ dispatch }) {
+         await hunt.createParty();
+         return await dispatch("me");
+      },
+      async joinParty({ dispatch }, partyId) {
+         await hunt.joinParty({ id: partyId });
+         return await dispatch("me");
+      },
+      async removeParty({ dispatch }, playerId) {
+         await hunt.removeParty({ id: playerId });
+         return await dispatch("me");
       }
    },
    mutations: {
