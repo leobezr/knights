@@ -40,6 +40,7 @@ class Api {
          url: this.server + props.url,
          method: "DELETE",
          headers: { ...customHeader(), ...exposeHeader(props) },
+         data: props.body,
       })
    }
 }
