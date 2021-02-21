@@ -56,6 +56,7 @@ export default {
       signout() {
          localStorage.clear();
 
+         this.$socket.emit("forceDisconnect");
          this.$router.push({ name: "Login" }).catch(() => {});
       },
    },
