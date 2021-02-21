@@ -1,0 +1,107 @@
+@import "@/shared/scss/variable.scss";
+
+#partyMembers {
+   position: fixed;
+   right: 0;
+   bottom: 0;
+   z-index: 1000;
+   width: 250px;
+   color: #fff;
+
+   .partyBalloonHeader {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      background: $menu-active-background;
+      color: $primary;
+      line-height: 1em;
+      padding: 8px 10px;
+      border-radius: 5px 5px 0 0;
+      font-size: 14px;
+   }
+   .partyBallonMembers {
+      background: $menu-active-background-alpha;
+      height: 200px;
+      padding: 8px 10px;
+
+      ul {
+         list-style: none;
+         display: block;
+         width: 100%;
+         padding: 0;
+         font-size: 13px;
+         font-weight: 300;
+         max-height: 130px;
+         overflow: auto;
+         padding: 5px;
+
+         li {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            margin-bottom: 0.5em;
+            justify-content: space-between;
+
+            span {
+               display: flex;
+               align-items: center;
+
+               i.mdi-crown-outline {
+                  margin-left: 5px;
+               }
+            }
+
+            & > span {
+               &:first-of-type {
+                  &:before {
+                     content: "";
+                     border-radius: 50%;
+                     width: 8px;
+                     height: 8px;
+                     background: $success;
+                     display: flex;
+                     margin-right: .5em;
+                     justify-content: center;
+                     align-items: center;
+                     line-height: 1em;
+                  }
+               }
+            }
+
+            &:not([online]) {
+               & > span {
+                  opacity: 0.4;
+                  &:first-of-type {
+                     &:before {
+                        background: transparent;
+                        border: solid 1px $error;
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   #partyInvite {
+      .partyInviteContent {
+         font-weight: 300;
+         height: 100px;
+
+         .msg {
+            height: calc(100% - 36px);
+
+            strong {
+               color: $primary;
+               font-weight: bold;
+            }
+         }
+         .controller {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+         }
+      }
+   }
+}
