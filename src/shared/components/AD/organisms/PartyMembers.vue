@@ -25,7 +25,7 @@
                :online="member.online"
             >
                <span>
-                  {{ member.nickname }}
+                  {{ member.nickname }} <strong class="level">[<span>{{ member.level }}</span>]</strong>
                   <v-icon color="amber accent-4" v-if="member.leader" small
                      >mdi-crown-outline</v-icon
                   >
@@ -49,13 +49,15 @@
             </li>
          </ul>
       </div>
-      <PartyInvite ref="PartyInvite" :refresh-members="refreshMembers" />
+      <BattleStarting />
+      <PartyInvite ref="PartyInvite" :refresh-members="refreshMembers"/>
    </div>
 </template>
 
 <script>
 import "@/shared/scss/_partyMembers.scss";
 import PartyInvite from "@/shared/components/AD/molecules/PartyInvite.vue";
+import BattleStarting from "@/shared/components/AD/molecules/BattleStarting.vue";
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -68,6 +70,7 @@ export default {
    },
    components: {
       PartyInvite,
+      BattleStarting
    },
    computed: {
       ...mapState({
@@ -98,26 +101,6 @@ export default {
                return v?.length >= 4;
             },
          ];
-      },
-   },
-   sockets: {
-      async partyRemoved(member) {
-         if (member.userRemoved.identifier == this.persona.characterId) {
-            await this.$socket.emit("partyRemoved", {
-               member,
-               persona: this.persona,
-            });
-         }
-         this.init();
-      },
-      partyInvite(data) {
-         this.$refs.PartyInvite.invited(data);
-      },
-      partyMembers(data) {
-         this.membersInParty = data ? data.members : [];
-      },
-      partyUpdated() {
-         this.init();
       },
    },
    methods: {
@@ -158,6 +141,26 @@ export default {
 
             this.$refs.PlayerInvite.reset();
          }
+      },
+   },
+   sockets: {
+      async partyRemoved(member) {
+         if (member.userRemoved.identifier == this.persona.characterId) {
+            await this.$socket.emit("partyRemoved", {
+               member,
+               persona: this.persona,
+            });
+         }
+         this.init();
+      },
+      partyInvite(data) {
+         this.$refs.PartyInvite.invited(data);
+      },
+      partyMembers(data) {
+         this.membersInParty = data ? data.members : [];
+      },
+      partyUpdated() {
+         this.init();
       },
    },
    watch: {

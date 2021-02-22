@@ -46,6 +46,8 @@ export default {
          this.modalViewState = false;
       },
       invited(player) {
+         if (this.$route.name == "Hunts") return;
+
          this.modalViewState = true;
          this.inviter = player;
       },
@@ -53,6 +55,8 @@ export default {
          await this.joinParty(this.inviter.battleSession.party);
          this.refreshMembers();
          this.closeModal();
+
+         this.$router.push({ name: "Hunts" }).catch((e) => {});
       },
    },
    props: {
