@@ -1,11 +1,66 @@
 @import "src/shared/scss/variable.scss";
 
+[battleGrounds] {
+   &.loadingRoom {
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      .sheet {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         width: 100%;
+         height: 100%;
+         background-size: cover;
+         background-position: center center;
+
+         &:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: rgb(17, 20, 29);
+            background: linear-gradient(90deg, rgba(17, 20, 29, 1) 0%, rgba(32, 40, 62, 1) 100%);
+            opacity: 0.95;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+         }
+
+         & > div {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: #fff;
+
+            h3 {
+               margin-bottom: 15px;
+            }
+         }
+      }
+   }
+}
 #huntingGround {
    position: relative;
-   
+
    #konvaWrapper {
+      width: calc(100vw - 80);
+      height: 100vh;
+      overflow: auto;
       background-size: cover;
       background-position: center center;
+
+      canvas {
+         width: calc(1920px - 80px);
+         height: 1080px;
+      }
 
       &.loser {
          filter: brightness(0.05);

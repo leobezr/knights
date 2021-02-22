@@ -1,5 +1,22 @@
 <template>
-   <div id="huntingGround">
+   <div
+      class="loadingRoom"
+      battleGrounds
+      v-if="!clientClear"
+      :style="battleFieldBackground"
+   >
+      <div class="sheet">
+         <div class="msg">
+            <h3>Game is loading, please wait.</h3>
+            <v-progress-linear
+               :value="clientsReadyPercent"
+               color="primary"
+               height="10"
+            />
+         </div>
+      </div>
+   </div>
+   <div id="huntingGround" v-else>
       <div id="konvaWrapper" :class="canvasState" :style="mapBackground"></div>
       <div class="expInfo">
          <ExpBar :map-data="map" />
@@ -38,11 +55,23 @@
 </template>
 
 <script>
+import arenaBackgroundLoading from "@/shared/img/battlefield.jpg";
 import Canvas from "@/views/HuntingGround/shared/utils/canvas.js";
 import huntConfig from "@/shared/config/hunt-config.js";
 import ExpBar from "@/views/HuntingGround/shared/AD/atoms/ExpBar.vue";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import "@/views/HuntingGround/shared/scss/_mapper.scss";
+
+/**
+ * @TODO
+ * 1. Clean every that the server doesn't need to use, that is, stats.
+ * 2. Hunting config doesn't need to exist, since every logic and company logic will be in the backend.
+ * 3. Rounds will be managed by the server aswell.
+ *
+ * @REMOVED
+ *
+ *
+ */
 
 export default {
    name: "HuntingGround",
@@ -56,12 +85,21 @@ export default {
          round: 1,
          maxRounds: 10,
          playerProps: {},
+
+         spectate: false,
+         clientClear: false,
+         arenaBackground: null,
+         clientsReadyPercent: 0,
       };
    },
    components: {
       ExpBar,
    },
    computed: {
+      ...mapState({
+         persona: (store) => store.Knights.persona,
+      }),
+
       isFinalRound() {
          return this.round >= this.maxRounds;
       },
@@ -77,11 +115,10 @@ export default {
          return enemies;
       },
       mapBackground() {
-         const MAP = this.$route.params.hunt;
-
-         if (MAP) {
-            return `background-image: url(${huntConfig.enemies[MAP].field});`;
+         if (this.arenaBackground) {
+            return `background-image: url(${this.arenaBackground});`;
          }
+         return "";
       },
       canvasState() {
          if (this.battle != null) {
@@ -89,9 +126,13 @@ export default {
          }
          return false;
       },
+
+      battleFieldBackground() {
+         return `background-image: url(${arenaBackgroundLoading});`;
+      },
    },
    methods: {
-      ...mapActions(["me", "getReward"]),
+      ...mapActions(["me", "getReward", "requestBattleAnimations"]),
 
       async getPlayerData() {
          const PERSONA = await this.me();
@@ -100,7 +141,7 @@ export default {
          this.playerProps.misc = PERSONA.misc;
          this.playerProps.vocation = PERSONA.vocation;
          this.playerProps.gender = PERSONA.gender;
-         this.init();
+         // this.init();
       },
       backToHuntLobby() {
          this.$router.push({ name: "Hunts" }).catch((e) => {});
@@ -159,6 +200,71 @@ export default {
                .finally(() => (this.levelLoading = false));
          }
       },
+
+      /**
+       * @NEW
+       * New methods
+       */
+      async validateRoomId() {
+         await this.me();
+         const battleId = this.$route.params.hunt;
+
+         if (this.persona.battleSession.id != battleId) {
+            this.spectate = true;
+         }
+
+         try {
+            const battleData = await this.requestBattleAnimations(battleId);
+            let huntingGrounds = battleData.data.huntingGrounds;
+            let path = process.env.VUE_APP_PUBLIC + huntingGrounds.path;
+
+            this.startImageLoading({
+               arena: process.env.VUE_APP_PUBLIC + huntingGrounds.arena,
+               spritesheet: path + huntingGrounds.sprite.spritesheet,
+            });
+         } catch (err) {
+            setTimeout(
+               () => this.$router.push({ name: "Hunts" }).catch((e) => {}),
+               100
+            );
+
+            throw Error(err);
+         }
+      },
+      clientReady() {
+         this.$socket.emit("clientReady", this.persona);
+      },
+      startImageLoading(pack) {
+         const arenaBg = new Image();
+         const spritesheet = new Image();
+
+         let imageReady = 0;
+
+         arenaBg.onload = () => {
+            this.arenaBackground = pack.arena;
+            imageReady++;
+            if (imageReady == 2) {
+               this.clientReady();
+            }
+         };
+         spritesheet.onload = () => {
+            imageReady++;
+            if (imageReady == 2) {
+               this.clientReady();
+            }
+         };
+
+         arenaBg.src = pack.arena;
+         spritesheet.src = pack.spritesheet;
+      },
+   },
+   sockets: {
+      clientBattleReady() {
+         this.clientClear = true;
+      },
+      clientBattlePercent(percent) {
+         this.clientsReadyPercent = percent;
+      },
    },
    beforeDestroy() {
       this.sendDestroySignal();
@@ -166,6 +272,9 @@ export default {
    },
    mounted() {
       this.getPlayerData();
+   },
+   created() {
+      this.validateRoomId();
    },
 };
 </script>
