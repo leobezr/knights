@@ -1,28 +1,28 @@
 import Api from "@/service/api";
 
-const prefix = "hunt/";
+const battlePrefix = "hunt/";
 const partyPrefix = "party/"
 
 function getRewards(payload) {
    return Api.POST({
-      url: prefix + "reward/",
+      url: battlePrefix + "reward/",
       body: payload
    })
 }
 function bossReward(payload) {
    return Api.POST({
-      url: prefix + "reward/boss/",
+      url: battlePrefix + "reward/boss/",
       body: payload
    })
 }
 function huntLevels() {
    return Api.GET({
-      url: prefix + "levels",
+      url: battlePrefix + "levels",
    })
 }
 function bosses() {
    return Api.GET({
-      url: prefix + "bosses",
+      url: battlePrefix + "bosses",
    })
 }
 function createParty() {
@@ -42,6 +42,18 @@ function removeParty(payload) {
       body: payload
    })
 }
+function partyBattle(payload) {
+   return Api.POST({
+      url: battlePrefix + "battle/",
+      body: payload
+   })
+}
+function startBattle(payload) {
+   return Api.POST({
+      url: battlePrefix + "startBattle/",
+      body: payload
+   })
+}
 
 export default {
    reward: getRewards,
@@ -50,5 +62,7 @@ export default {
    bosses,
    joinParty,
    createParty,
-   removeParty
+   removeParty,
+   partyBattle,
+   startBattle
 }
