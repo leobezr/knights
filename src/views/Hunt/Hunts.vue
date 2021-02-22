@@ -13,7 +13,7 @@
                   <NormalLevelGrid :user-data="userData" />
                </v-tab-item>
                <v-tab-item>
-                  <BossLevelGrid :user-data="userData" />
+                  <BossLevelGrid />
                </v-tab-item>
             </v-tabs-items>
          </div>

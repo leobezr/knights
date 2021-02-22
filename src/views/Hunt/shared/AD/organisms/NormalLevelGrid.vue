@@ -29,15 +29,24 @@
                      {{ monster.name }}
                   </div>
                   <div class="monsterLoot"></div>
-                  <div class="controller">
-                     <v-btn
-                        v-if="canAcessLevel(group)"
-                        class="deep-orange accent-4 white--text"
-                        @click="sendToMap(monster)"
+                  <v-tooltip bottom color="secondary">
+                     <template v-slot:activator="{ on, attrs }">
+                        <div class="controller" v-bind="attrs" v-on="on">
+                           <v-btn
+                              v-if="canAcessLevel(group)"
+                              :disabled="!hasLevelFor(monster.level).result"
+                              :loading="playerGeneratedBattle"
+                              class="deep-orange accent-4 white--text"
+                              @click="battle(monster)"
+                           >
+                              <v-icon left>mdi-sword</v-icon> Fight
+                           </v-btn>
+                        </div>
+                     </template>
+                     <span
+                        >Min Lv. {{ hasLevelFor(monster.level).minLevel }}</span
                      >
-                        <v-icon left>mdi-sword</v-icon> Fight
-                     </v-btn>
-                  </div>
+                  </v-tooltip>
                </template>
             </CardBody>
          </div>
@@ -46,12 +55,19 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import CardBody from "@/shared/components/AD/atoms/CardBody.vue";
 import MonsterHunt from "@/views/Hunt/shared/AD/atoms/MonsterHunt.vue";
+import partyRules from "@/rules/partyRules.js";
 
 export default {
    name: "normalLevelGrid",
+   data() {
+      return {
+         playerGeneratedBattle: false,
+         party: [],
+      };
+   },
    components: {
       CardBody,
       MonsterHunt,
@@ -59,6 +75,7 @@ export default {
    computed: {
       ...mapState({
          huntLevels: (store) => store.Hunt.huntLevels,
+         persona: (store) => store.Knights.persona,
       }),
 
       groupLevel() {
@@ -76,8 +93,8 @@ export default {
       },
       canAcessLevel() {
          return (group) => {
-            if (this.userData) {
-               let permission = this.userData.unlocked.hunt;
+            if (this.persona) {
+               let permission = this.persona.unlocked.hunt;
                let level = this.groupLevel(group);
 
                return permission.includes(level);
@@ -85,21 +102,52 @@ export default {
             return false;
          };
       },
-   },
-   methods: {
-      sendToMap(monster) {
-         this.$router
-            .push({
-               name: "HuntingGround",
-               params: { hunt: monster.relatedId },
-            })
-            .catch((e) => {});
+      hasLevelFor() {
+         return (huntLevel) => {
+            let allMembersAreEligible = false;
+            let party = this.party?.members;
+
+            if (party && party.length) {
+               for (let member in party) {
+                  member = party[member];
+                  let hasLevel = partyRules.canHuntMonster(
+                     member.level,
+                     huntLevel
+                  ).result;
+
+                  if (!hasLevel) {
+                     allMembersAreEligible = false;
+                     break;
+                  } else {
+                     allMembersAreEligible = true;
+                  }
+               }
+            }
+            return {
+               result: allMembersAreEligible,
+               minLevel: partyRules.canHuntMonster(
+                  this.persona?.level,
+                  huntLevel
+               ).minLevel,
+            };
+         };
       },
    },
-   props: {
-      "user-data": {
-         type: [Object, Boolean],
-         required: true,
+   methods: {
+      ...mapActions(["generateBattleSession"]),
+
+      async battle(monster) {
+         this.playerGeneratedBattle = true;
+         this.$socket.emit("battleGenerated", this.persona);
+
+         await this.generateBattleSession(monster.relatedId);
+
+         this.playerGeneratedBattle = false;
+      },
+   },
+   sockets: {
+      partyMembers(members) {
+         this.party = members;
       },
    },
 };
