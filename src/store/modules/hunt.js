@@ -3,6 +3,12 @@ import { hunt } from "@/service/endpoints.js";
 export default {
    actions: {
       // Hunt Related Actions
+      /**
+       * @deprecated
+       * These functions rely on client-side processing, which isn't ideal for a game
+       * They're being removed since version 0.7.0
+       */
+
       async getReward({ dispatch }, battleId) {
          await hunt.reward(battleId)
 
@@ -22,7 +28,11 @@ export default {
          commit("updateBossLevels", bosses.data);
       },
 
-      // Party Related Actions
+      /**
+       * @PARTY
+       * These functions are party related functions
+       * Since party is really only related to hunting, it's here.
+       */
       async createParty({ dispatch }) {
          await hunt.createParty();
          return await dispatch("me");
@@ -34,6 +44,21 @@ export default {
       async removeParty({ dispatch }, playerId) {
          await hunt.removeParty({ id: playerId });
          return await dispatch("me");
+      },
+
+      /**
+       * @BATTLE
+       * Client side will alert the server of a battle and push all client members to the room,
+       * the client can update the server on every player joining the room, and leaving it, but it shouldn't generate an ID for each player.
+       *
+       * That issue will be handed by the server. Client just needs to alert the server who's joining the room.
+       */
+      async generateBattleSession({ }, creatureId) {
+         const BATTLE_ID = await hunt.partyBattle({ monster: creatureId })
+         return BATTLE_ID.data;
+      },
+      async requestBattleAnimations({ }, battleId) {
+         return await hunt.startBattle({ session: battleId });
       }
    },
    mutations: {
